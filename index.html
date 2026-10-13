@@ -98,7 +98,8 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-  import { getDatabase, ref, onValue, runTransaction, push, set } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
   const MEMBERS = ["Raghav","Ritish","Navneet","Akash","Satnam","Vaibhav","Sourab","Abhi"];
   const STARTER = {
@@ -306,6 +307,9 @@
     if(!config.apiKey||!config.databaseURL||!config.projectId||!config.appId){banner("Firebase config must include apiKey, databaseURL, projectId and appId.","error");return;}
     try{
       const app=initializeApp(config);
+      const auth=getAuth(app);
+      // Sign in anonymously so database rules can require an authenticated session.
+      await signInAnonymously(auth);
       database=getDatabase(app);
       dbRef=ref(database,"milkTurnOrganizer/state");
       if(unsubscribe)unsubscribe();
