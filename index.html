@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b52">
+  <title>Milk Turn Organizer</title>
+  <style>
+    :root{--green:#176b52;--green2:#e7f4ee;--ink:#17231f;--muted:#64716b;--line:#e2e9e5;--bg:#f5f8f6;--card:#fff;--red:#a23b3b;--amber:#936313;--shadow:0 12px 30px rgba(20,50,38,.07)}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 15px;font-weight:700;transition:transform .08s,opacity .15s}button:active{transform:scale(.985)}button:disabled{opacity:.45;cursor:not-allowed}
+    .wrap{max-width:1000px;margin:auto;padding:22px 16px 56px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{height:48px;width:48px;border-radius:16px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:25px}.eyebrow{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.brand h1{font-size:23px;line-height:1.1;margin:3px 0 0}.status{font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 10px;white-space:nowrap}
+    .notice{display:none;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:14px}.notice.show{display:block}.notice.info{background:#eef4ff;color:#234e8a}.notice.error{background:#fff0f0;color:#8d2929}.notice.good{background:#e7f4ee;color:#176b52}
+    .grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);min-width:0}.hero{background:linear-gradient(140deg,#176b52,#0f4b3a);color:#fff;border:0;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:200px;height:200px;border:35px solid rgba(255,255,255,.08);border-radius:50%;right:-65px;top:-70px}.hero .eyebrow{color:#d1e9dd}.hero h2{font-size:clamp(30px,5vw,42px);margin:8px 0 5px;line-height:1.1}.hero p{margin:0;color:#d9eee5}.hero-top{position:relative;z-index:1}.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}.primary{background:#fff;color:var(--green)}.secondary{background:var(--green2);color:var(--green)}.plain{background:#f0f3f1;color:var(--ink)}.danger{background:#fff0f0;color:var(--red)}.dark-secondary{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.25)}
+    h3{margin:0 0 14px;font-size:18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.sub{color:var(--muted);font-size:13px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-weight:700;font-size:13px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #d7e0db;border-radius:11px;background:#fff;color:var(--ink);outline-color:var(--green)}.field textarea{resize:vertical;min-height:86px}.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.member-list{display:grid;gap:8px}.member{display:flex;align-items:center;gap:11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px}.num{width:31px;height:31px;flex:0 0 31px;border-radius:10px;background:#f0f4f1;color:var(--muted);display:grid;place-items:center;font-weight:800;font-size:13px}.member.current{border-color:#7fbba2;background:#f0faf4}.member.current .num{background:var(--green);color:white}.member-name{font-weight:700;flex:1}.tag{font-size:11px;font-weight:800;padding:5px 8px;border-radius:99px;background:#eef2ef;color:#5d6b63}.tag.next{background:#d9f0e3;color:#176b52}.tag.done{background:#e6f4ec;color:#176b52}.tag.skipped{background:#fff0d5;color:#80580d}.tag.pending{background:#eaf0ff;color:#355d9a}
+    .tabs{display:flex;gap:6px;margin:18px 0 14px;overflow:auto;padding-bottom:2px}.tab{background:transparent;color:var(--muted);padding:10px 13px;white-space:nowrap}.tab.active{background:var(--green2);color:var(--green)}.panel{display:none}.panel.active{display:block}.history{display:grid;gap:10px}.event{padding:13px;border:1px solid var(--line);border-radius:13px}.event-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.event strong{display:block}.event p{margin:5px 0 0;color:var(--muted);font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #ccd8d1;border-radius:14px}.request{padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px}.request p{margin:5px 0;color:var(--muted);font-size:14px}.mini-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.small{padding:8px 10px;font-size:13px}.foot{color:var(--muted);font-size:12px;text-align:center;margin:22px 0}.hidden{display:none!important}.cyclebar{height:7px;border-radius:99px;background:#e8eeea;overflow:hidden;margin:9px 0 5px}.cyclebar span{display:block;height:100%;background:var(--green);width:0;transition:width .25s}.modal-backdrop{position:fixed;inset:0;background:rgba(11,25,19,.48);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}.modal-backdrop.open{display:flex}.modal{width:min(100%,450px);background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 70px #0003}.modal h3{font-size:21px}.modal p{color:var(--muted);margin-top:-6px}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#152820;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:30;transition:.2s;max-width:calc(100% - 28px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}.wrap{padding:16px 12px 40px}.card{padding:17px;border-radius:17px}.top{align-items:flex-start}.brand h1{font-size:20px}.status{max-width:130px;white-space:normal;text-align:center}.hero-actions button{flex:1 1 135px}.tabs{margin-top:14px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo">🥛</div><div><div class="eyebrow">Shared household</div><h1>Milk Turn Organizer</h1></div></div>
+    <div class="status" id="connectionStatus">Demo mode · This device only</div>
+  </header>
+  <div id="notice" class="notice"></div>
+  <main>
+    <section class="grid">
+      <article class="card hero">
+        <div class="hero-top">
+          <div class="eyebrow">Up next</div>
+          <h2 id="nextName">Vaibhav</h2>
+          <p id="nextCaption">Satnam's turn is recorded as completed.</p>
+          <div class="cyclebar"><span id="cycleProgress"></span></div>
+          <div class="sub" style="color:#d9eee5" id="cycleCaption">5 of 8 members accounted for in this cycle</div>
+        </div>
+        <div class="hero-actions">
+          <button class="primary" id="doneBtn">✓ Mark as Done</button>
+          <button class="dark-secondary" id="exchangeBtn">⇄ Exchange Turn</button>
+          <button class="dark-secondary" id="skipBtn">↷ Skip Turn</button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="section-head"><h3>Choose your name</h3><span class="tag">Names only</span></div>
+        <div class="field"><label for="currentUser">I am</label><select id="currentUser"></select></div>
+        <p class="sub">Select your name to make a request or respond to an exchange. The next person can complete or skip the active turn.</p>
+        <div id="myRequests"></div>
+      </article>
+    </section>
+    <section class="card" style="margin-top:16px">
+      <div class="section-head"><h3>Rotation order</h3><span class="sub">No dates</span></div>
+      <div id="rotationList" class="member-list"></div>
+    </section>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="activity">Activity history</button>
+      <button class="tab" data-tab="exchanges">Exchange requests <span id="pendingCount"></span></button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+    <section class="card panel active" id="panel-activity">
+      <div class="section-head"><h3>Shared activity</h3><span class="sub" id="historyCount"></span></div>
+      <div class="history" id="historyList"></div>
+    </section>
+    <section class="card panel" id="panel-exchanges">
+      <h3>Exchange requests</h3>
+      <p class="sub">A request only changes the rotation after the selected recipient accepts it.</p>
+      <div id="exchangeList"></div>
+    </section>
+    <section class="card panel" id="panel-settings">
+      <h3>Setup & cycle</h3>
+      <p class="sub">The starter begins with Satnam's turn completed, so Vaibhav is next. Connect Firebase to share changes across devices.</p>
+      <div class="field"><label for="firebaseConfig">Firebase web app config (optional)</label><textarea id="firebaseConfig" spellcheck="false">{
+  "apiKey": "AIzaSyDQQWZKKhPBO99WW7FrvQEMSfxeqFXIxws",
+  "authDomain": "milk-organizer.firebaseapp.com",
+  "databaseURL": "https://milk-organizer-default-rtdb.firebaseio.com",
+  "projectId": "milk-organizer",
+  "storageBucket": "milk-organizer.firebasestorage.app",
+  "messagingSenderId": "94257237797",
+  "appId": "1:94257237797:web:ffee36f6cbedf3ba21d4cc",
+  "measurementId": "G-QDTS5B947F"
+}</textarea></div>
+      <div class="form-actions"><button class="secondary" id="connectBtn">Connect Firebase</button><button class="plain" id="exportBtn">Export activity JSON</button></div>
+      <div class="field"><label for="resetConfirm">Reset demo data</label><input id="resetConfirm" placeholder='Type RESET to restore starter state'></div>
+      <button class="danger" id="resetBtn">Reset rotation</button>
+      <p class="sub" style="margin-top:14px">Security note: choosing a name is not identity verification. For real shared use, configure Firebase Authentication and restrictive Realtime Database rules. Never use open database write rules in a public app.</p>
+    </section>
+  </main>
+  <div class="foot">Milk Turn Organizer · Mobile friendly · No dates in the rotation</div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Confirm action</h3><p id="modalDescription"></p>
+    <div id="modalFields"></div>
+    <div class="form-actions"><button class="plain" id="modalCancel">Cancel</button><button class="secondary" id="modalConfirm">Confirm</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getDatabase, ref, onValue, runTransaction, push, set } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+  const MEMBERS = ["Raghav","Ritish","Navneet","Akash","Satnam","Vaibhav","Sourab","Abhi"];
+  const STARTER = {
+    order: [...MEMBERS],
+    nextIndex: 5,
+    cycleSeen: ["Raghav","Ritish","Navneet","Akash","Satnam"],
+    history: [{
+      id:"starter-satnam",
+      type:"completed",
+      member:"Satnam",
+      detail:"Starter setup: milk was already ordered.",
+      at: Date.now(),
+      cycle:1
+    }],
+    requests: {},
+    cycle:1,
+    version:1
+  };
+  const $ = id => document.getElementById(id);
+  let state = structuredClone(STARTER);
+  let database = null;
+  let dbRef = null;
+  let unsubscribe = null;
+  let mode = "demo";
+  let busy = false;
+  let modalAction = null;
+  let toastTimer;
+
+  function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+  function normalize(s){
+    if(!s || !Array.isArray(s.order) || s.order.length !== MEMBERS.length) return clone(STARTER);
+    return {...clone(STARTER), ...s, requests:s.requests||{}, history:Array.isArray(s.history)?s.history:[], cycleSeen:Array.isArray(s.cycleSeen)?s.cycleSeen:[]};
+  }
+  function currentName(s=state){ return s.order[s.nextIndex % s.order.length]; }
+  function selectedName(){ return $("currentUser").value; }
+  function notify(message){ $("toast").textContent=message; $("toast").classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2800); }
+  function banner(message,type="info"){ const el=$("notice");el.textContent=message;el.className=`notice show ${type}`; }
+  function clearBanner(){ $("notice").className="notice"; }
+  function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function addEvent(s, type, member, detail, extra={}){
+    s.history = Array.isArray(s.history)?s.history:[];
+    s.history.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),type,member,detail,at:Date.now(),cycle:s.cycle||1,...extra});
+    if(s.history.length>500) s.history=s.history.slice(0,500);
+  }
+  function cycleAdvance(s, person, type, reason=""){
+    if(!s.cycleSeen.includes(person)) s.cycleSeen.push(person);
+    addEvent(s,type,person,type==="skipped" ? `Skipped their turn. Reason: ${reason}` : "Marked the milk turn as completed.");
+    if(s.cycleSeen.length >= s.order.length && s.order.every(n=>s.cycleSeen.includes(n))){
+      const completedCycle=s.cycle||1;
+      addEvent(s,"cycle-reset","Household",`Cycle ${completedCycle} complete. Progress reset; activity history retained.`,{completedCycle});
+      s.cycle=(completedCycle+1);
+      s.cycleSeen=[];
+      s.nextIndex=0;
+    }else{
+      // Advance to the next slot in the current rotation.
+      s.nextIndex=(s.nextIndex+1)%s.order.length;
+    }
+    s.version=(s.version||0)+1;
+  }
+  function render(){
+    const next=currentName();
+    $("nextName").textContent=next;
+    $("nextCaption").textContent=`Cycle ${state.cycle||1} · ${state.cycleSeen.length} of ${state.order.length} members accounted for`;
+    $("cycleProgress").style.width=`${Math.min(100,(state.cycleSeen.length/state.order.length)*100)}%`;
+    $("cycleCaption").textContent=`${state.cycleSeen.length} of ${state.order.length} members accounted for in this cycle`;
+    $("doneBtn").disabled=busy || selectedName()!==next;
+    $("skipBtn").disabled=busy || selectedName()!==next;
+    $("exchangeBtn").disabled=busy;
+    $("connectionStatus").textContent=mode==="firebase"?"Connected · Shared live data":"Demo mode · This device only";
+    $("rotationList").innerHTML=state.order.map((name,i)=>{
+      const isNext=i===state.nextIndex;
+      const seen=state.cycleSeen.includes(name);
+      return `<div class="member ${isNext?"current":""}"><div class="num">${i+1}</div><div class="member-name">${escapeHtml(name)}</div>${isNext?'<span class="tag next">Next</span>':seen?'<span class="tag done">Accounted</span>':'<span class="tag">Waiting</span>'}</div>`;
+    }).join("");
+    const pending=Object.entries(state.requests||{}).filter(([,r])=>r.status==="pending");
+    $("pendingCount").textContent=pending.length?`(${pending.length})`:"";
+    $("historyCount").textContent=`${state.history.length} events`;
+    $("historyList").innerHTML=state.history.length?state.history.map(eventHtml).join(""):'<div class="empty">No activity yet.</div>';
+    $("exchangeList").innerHTML=pending.length?pending.map(([id,r])=>requestHtml(id,r,true)).join(""):'<div class="empty">No pending exchange requests.</div>';
+    renderMyRequests();
+    $("doneBtn").textContent=selectedName()===next?"✓ Mark as Done":`Waiting for ${next}`;
+    $("skipBtn").textContent=selectedName()===next?"↷ Skip Turn":`Only ${next} can skip`;
+  }
+  function eventHtml(e){
+    let label=e.type==="completed"?"Completed":e.type==="skipped"?"Skipped":e.type==="exchange-requested"?"Exchange requested":e.type==="exchange-accepted"?"Exchange accepted":e.type==="exchange-declined"?"Exchange declined":e.type==="cycle-reset"?"Cycle complete":"Update";
+    let tag=e.type==="skipped"?"skipped":e.type==="completed"?"done":e.type.includes("exchange")?"pending":"";
+    return `<article class="event"><div class="event-top"><div><strong>${escapeHtml(e.member||"Household")}</strong><p>${escapeHtml(e.detail||label)}</p></div><span class="tag ${tag}">${label}</span></div></article>`;
+  }
+  function requestHtml(id,r,showDecision){
+    const mine=selectedName()===r.to;
+    const actions=showDecision&&r.status==="pending"&&mine
+      ?`<div class="mini-actions"><button class="secondary small" data-action="accept" data-id="${escapeHtml(id)}">Accept</button><button class="plain small" data-action="decline" data-id="${escapeHtml(id)}">Decline</button></div>`
+      :`<div class="sub">Status: ${escapeHtml(r.status)}</div>`;
+    return `<article class="request"><div class="event-top"><strong>${escapeHtml(r.from)} ⇄ ${escapeHtml(r.to)}</strong><span class="tag ${r.status==="pending"?"pending":""}">${escapeHtml(r.status)}</span></div><p>${escapeHtml(r.detail||"Swap positions in the rotation.")}</p>${actions}</article>`;
+  }
+  function renderMyRequests(){
+    const incoming=Object.entries(state.requests||{}).filter(([,r])=>r.status==="pending"&&r.to===selectedName());
+    $("myRequests").innerHTML=incoming.length?`<div style="margin-top:12px"><strong>Needs your response</strong>${incoming.map(([id,r])=>requestHtml(id,r,true)).join("")}</div>`:"";
+  }
+  function persist(mutator, successMessage){
+    if(busy)return;
+    busy=true;render();
+    const finish=()=>{busy=false;render();};
+    if(mode==="firebase"&&dbRef){
+      runTransaction(dbRef, current=>{
+        const s=normalize(current);
+        mutator(s);
+        return s;
+      }).then(result=>{
+        if(!result.committed)notify("No changes were saved.");
+        else if(successMessage)notify(successMessage);
+      }).catch(err=>{banner(`Could not save: ${err.message}. Check Firebase configuration and database rules.`,"error");})
+        .finally(finish);
+    }else{
+      try{const s=normalize(state);mutator(s);state=s;render();if(successMessage)notify(successMessage);}
+      catch(err){banner(err.message||"Action could not be completed.","error");}
+      finally{finish();}
+    }
+  }
+  function ensureCurrent(s, actor){
+    if(actor!==currentName(s)) throw new Error(`It is currently ${currentName(s)}'s turn.`);
+  }
+  function markDone(){
+    const actor=selectedName();
+    persist(s=>{ensureCurrent(s,actor);cycleAdvance(s,actor,"completed");},`${actor}'s turn completed.`);
+  }
+  function openModal(title,description,fields,action,label="Confirm"){
+    $("modalTitle").textContent=title;$("modalDescription").textContent=description;$("modalFields").innerHTML=fields;
+    $("modalConfirm").textContent=label;modalAction=action;$("modalBackdrop").classList.add("open");
+  }
+  function closeModal(){$("modalBackdrop").classList.remove("open");modalAction=null;}
+  $("modalCancel").addEventListener("click",closeModal);
+  $("modalBackdrop").addEventListener("click",e=>{if(e.target===$("modalBackdrop"))closeModal();});
+  $("modalConfirm").addEventListener("click",async()=>{if(!modalAction)return;const fn=modalAction;closeModal();await fn();});
+  $("doneBtn").addEventListener("click",()=>{
+    if(selectedName()!==currentName()){notify(`Only ${currentName()} can complete the active turn.`);return;}
+    openModal("Mark turn as done?",`Confirm that ${currentName()} has bought the milk. The next person will be updated for everyone.`, "", markDone,"Mark as Done");
+  });
+  $("skipBtn").addEventListener("click",()=>{
+    const actor=selectedName();
+    if(actor!==currentName()){notify(`Only ${currentName()} can skip the active turn.`);return;}
+    openModal("Skip this turn?",`This will record ${actor}'s turn as skipped and move to the next person. A reason is required.`,`<div class="field"><label for="skipReason">Reason for skipping</label><textarea id="skipReason" maxlength="240" required placeholder="e.g. Out of town"></textarea></div>`,()=>{
+      const reason=$("skipReason")?.value?.trim();
+      if(!reason){notify("Please enter a reason.");return;}
+      persist(s=>{ensureCurrent(s,actor);cycleAdvance(s,actor,"skipped",reason);},`${actor}'s skip was recorded.`);
+    },"Skip Turn");
+  });
+  $("exchangeBtn").addEventListener("click",()=>{
+    const actor=selectedName();
+    const options=MEMBERS.filter(n=>n!==actor).map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("");
+    openModal("Request an exchange","Choose the roommate whose position you want to exchange with. They must accept before the rotation changes.",`<div class="field"><label for="exchangeTo">Exchange with</label><select id="exchangeTo">${options}</select></div><p class="sub">The accepted request swaps the two names' positions in the full rotation.</p>`,()=>{
+      const to=$("exchangeTo")?.value;
+      if(!to||to===actor){notify("Choose another person.");return;}
+      persist(s=>{
+        const duplicate=Object.values(s.requests||{}).some(r=>r.status==="pending"&&((r.from===actor&&r.to===to)||(r.from===to&&r.to===actor)));
+        if(duplicate)throw new Error("A pending exchange already exists between these members.");
+        const id=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random();
+        s.requests=s.requests||{};
+        s.requests[id]={from:actor,to,status:"pending",detail:`${actor} requested to swap positions with ${to}.`,createdAt:Date.now()};
+        addEvent(s,"exchange-requested",actor,`Requested an exchange with ${to}.`,{to,requestId:id});
+      },`Exchange request sent to ${to}.`);
+    },"Request Exchange");
+  });
+  async function decideExchange(id, decision){
+    const actor=selectedName();
+    persist(s=>{
+      const r=s.requests?.[id];
+      if(!r||r.status!=="pending")throw new Error("This request is no longer pending.");
+      if(r.to!==actor)throw new Error("Only the selected recipient can respond to this request.");
+      if(r.from===actor)throw new Error("You cannot approve your own exchange.");
+      r.status=decision;r.respondedAt=Date.now();r.respondedBy=actor;
+      if(decision==="accepted"){
+        const a=s.order.indexOf(r.from),b=s.order.indexOf(r.to);
+        if(a<0||b<0)throw new Error("Member not found in rotation.");
+        [s.order[a],s.order[b]]=[s.order[b],s.order[a]];
+        addEvent(s,"exchange-accepted",actor,`${r.from} and ${r.to} accepted an exchange. Their positions in the rotation were swapped.`,{from:r.from,to:r.to,requestId:id});
+        s.version=(s.version||0)+1;
+      }else addEvent(s,"exchange-declined",actor,`${actor} declined ${r.from}'s exchange request.`,{from:r.from,to:r.to,requestId:id});
+    },decision==="accepted"?"Exchange accepted; rotation updated.":"Exchange declined.");
+  }
+  document.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-action]");if(!btn)return;
+    decideExchange(btn.dataset.id,btn.dataset.action==="accept"?"accepted":"declined");
+  });
+  $("currentUser").innerHTML=MEMBERS.map(n=>`<option value="${n}">${n}</option>`).join("");
+  $("currentUser").value="Satnam";
+  $("currentUser").addEventListener("change",render);
+  document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===btn));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===`panel-${btn.dataset.tab}`));
+  }));
+  $("resetBtn").addEventListener("click",()=>{
+    if($("resetConfirm").value.trim()!=="RESET"){notify("Type RESET first to confirm.");return;}
+    if(mode==="firebase"){notify("For shared data, use an admin-only reset operation in your Firebase backend.");return;}
+    state=clone(STARTER);$("resetConfirm").value="";render();notify("Demo rotation reset to starter state.");
+  });
+  $("exportBtn").addEventListener("click",()=>{
+    const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="milk-turn-activity.json";a.click();URL.revokeObjectURL(url);
+  });
+  $("connectBtn").addEventListener("click",async()=>{
+    let config;
+    try{config=JSON.parse($("firebaseConfig").value.trim());}
+    catch{banner("Paste a valid Firebase web app config JSON object first.","error");return;}
+    if(!config.apiKey||!config.databaseURL||!config.projectId||!config.appId){banner("Firebase config must include apiKey, databaseURL, projectId and appId.","error");return;}
+    try{
+      const app=initializeApp(config);
+      database=getDatabase(app);
+      dbRef=ref(database,"milkTurnOrganizer/state");
+      if(unsubscribe)unsubscribe();
+      unsubscribe=onValue(dbRef,snap=>{
+        if(!snap.exists()){
+          // First setup only: seed the shared database with the starter state.
+          runTransaction(dbRef,current=>current===null?clone(STARTER):current)
+            .catch(err=>banner(`Could not initialize Firebase state: ${err.message}`,"error"));
+        }else state=normalize(snap.val());
+        mode="firebase";clearBanner();render();
+      },err=>banner(`Firebase read failed: ${err.message}. Check Realtime Database rules.`,"error"));
+      mode="firebase";$("connectionStatus").textContent="Connecting…";
+      banner("Connecting to Firebase. Confirm your database rules allow authenticated, authorized access.","info");
+    }catch(err){banner(`Firebase connection failed: ${err.message}`,"error");}
+  });
+  render();
+  if(!location.protocol.startsWith("http"))banner("To use Firebase, open this file through a web server or GitHub Pages. Demo mode works locally in this browser only.","info");
+</script>
+</body>
+</html>
