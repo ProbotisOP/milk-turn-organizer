@@ -63,7 +63,7 @@ function handleGarbageReminder(data) {
   const nextWed = getNextDayOfWeek(3); // 3 = Wednesday
   const dateStr = nextWed.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
-  const subject = "🗑️ Household Reminder: Your Garbage Duty is this Wednesday (" + dateStr + ")";
+  const subject = "[Garbage Day] Household Reminder: Your turn is this Wednesday (" + dateStr + ")";
   const body = 
 `Hi ${person},
 
@@ -103,7 +103,7 @@ function handleCleaningReminder(data) {
   const nextSun = getNextDayOfWeek(0); // 0 = Sunday
   const dateStr = nextSun.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
-  const subject = "🧹 Household Reminder: Your Cleaning Duty is this Sunday (" + dateStr + ")";
+  const subject = "[Cleaning Duty] Household Reminder: Your turn is this Sunday (" + dateStr + ")";
   const body = 
 `Hi ${person},
 
@@ -131,22 +131,25 @@ function handleSendEmail(section, person, email, customMessage) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  let subject = "📢 Household Turn Reminder: " + (section || "Turn Duty");
+  const secLower = String(section || "").toLowerCase();
+  let subject = "[Household Turn] Reminder for " + (person || "Roommate");
   let body = `Hi ${person || "Roommate"},\n\nFriendly reminder: You have an upcoming turn for ${section || "household duty"}.\n\n${customMessage || "Please check the household web app to view details or mark your turn as done."}\n\nThanks!\nHousehold Organizer (Satnam)`;
 
-  if (section === "Milk Turn" || section === "milk") {
-    subject = "🥛 Household Reminder: It is your turn to buy Milk!";
+  if (secLower.includes("milk")) {
+    subject = "[Milk Turn] Household Reminder: It is your turn to buy Milk!";
     body = `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer (Satnam)`;
-  } else if (section === "Garbage Day" || section === "garbage") {
-    subject = "🗑️ Household Reminder: Garbage Day Duty this week!";
+  } else if (secLower.includes("garbage")) {
+    subject = "[Garbage Day] Household Reminder: Your Garbage Duty is this week!";
     body = `Hi ${person},\n\nFriendly reminder: It's your turn for Garbage Day duty this week (every Wednesday)!\nPlease remember to pull the bins out.\n\nThanks!\nHousehold Organizer (Satnam)`;
-  } else if (section === "Cleaning Duty" || section === "cleaning") {
-    subject = "🧹 Household Reminder: Cleaning Duty turn!";
+  } else if (secLower.includes("cleaning")) {
+    subject = "[Cleaning Duty] Household Reminder: Cleaning Duty this weekend!";
     body = `Hi ${person},\n\nFriendly reminder: You are scheduled for house cleaning duty this weekend!\n\nThanks!\nHousehold Organizer (Satnam)`;
   }
 
-  Logger.log("Sending email to " + email + " for section: " + section);
-  GmailApp.sendEmail(email, subject, body);
+  Logger.log("Sending email to " + email + " with subject: " + subject);
+  GmailApp.sendEmail(email, subject, body, {
+    name: "Household Organizer"
+  });
 
   return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Email sent to " + email }))
     .setMimeType(ContentService.MimeType.JSON);
@@ -209,7 +212,7 @@ function getEmailsForPerson(person, emails) {
   const result = [];
   if (emails[person]) result.push(emails[person]);
   
-  if (person.includes("&")) {
+  if (person && person.includes("&")) {
     const parts = person.split("&").map(p => p.trim());
     for (const p of parts) {
       if (emails[p] && !result.includes(emails[p])) {
@@ -224,7 +227,9 @@ function sendToAll(emailList, subject, body) {
   emailList.forEach(email => {
     try {
       Logger.log("Sending email to: " + email);
-      GmailApp.sendEmail(email, subject, body);
+      GmailApp.sendEmail(email, subject, body, {
+        name: "Household Organizer"
+      });
     } catch (err) {
       Logger.log("Failed to send email to " + email + ": " + err);
     }
