@@ -1,52 +1,116 @@
-# Milk Turn Organizer — setup guide
+# 🏡 Household Turn Organizer — Setup & Guide
 
-This is a phone-friendly website for the household members Raghav, Ritish, Navneet, Akash, Satnam, Vaibhav, Sourab, and Abhi. It displays no duty dates. The turn is tracked as a sequence. Everyone can open the same website on Android or iPhone.
+A unified mobile-first household manager for **Raghav, Ritish, Navneet, Japesh, Akash, Satnam, Vaibhav, Sourab, and Abhi**.
 
-## What you need
-- A Google account
-- A free Firebase project
-- A GitHub account for free static hosting
+---
 
-## 1. Create the shared database
-1. Open https://console.firebase.google.com/ and create a project (for example `milk-turn-household`).
-2. In **Build → Realtime Database**, create a database. Choose a nearby region and start in locked mode.
-3. In **Build → Authentication → Sign-in method**, enable **Anonymous** sign-in.
-4. In **Project settings → General**, register a Web app and copy the Firebase configuration.
-5. Open `index.html` and replace the five `PASTE_...` values in `firebaseConfig` with the values from Firebase. Use the exact `databaseURL` Firebase shows you; database URLs can vary by region.
+## 🌟 Key Features & Updates
 
-## 2. Database rules
-For the prototype to work, users must be signed in anonymously. In Realtime Database → Rules, use this basic rule:
+1. **🔐 Admin Password Protection (`4042admin`):**
+   - Switching to **Satnam** or **Sourab** in the dropdown requires the admin password: `4042admin`.
+   - If incorrect or cancelled, access is blocked and the user is reverted to a roommate profile.
+   - Admin privileges unlock the **⚙️ Admin & Backend** panel and turn override controls.
+   - Includes a quick **Lock** button in the header pill to lock the admin session on shared devices.
+
+2. **📡 Live DB Connection Status Badge:**
+   - Prominently displayed in the top header:
+     - 🟢 **Live Cloud Sync (Connected):** Realtime multi-device database active.
+     - 🟡 **Connecting to Firebase…:** Initializing anonymous auth and cloud handshake.
+     - 🔴 **Offline / Local Mode:** Graceful local fallback if offline.
+   - Admin panel includes a **Force Resync with Database** button to refresh live state.
+
+3. **☁️ End-to-End Database Storage:**
+   - **Milk Turn:** Rotation order, next index, cycle count, cycle history.
+   - **Cleaning Duty:** Weekly cleaning schedule (Navneet & Japesh excluded).
+   - **Garbage Day:** Wednesday collection rotation (Navneet & Japesh paired).
+   - **Roommate Emails:** Saved in `/milkTurnOrganizer/state/emails` on first name selection.
+   - **Exchange Requests & History:** Swaps, completions, skips, and activity logs are all synchronized in real-time across everyone's devices.
+
+4. **👥 Navneet & Japesh Pairing:**
+   - Paired together as **Navneet & Japesh** for **Milk Turn** and **Garbage Day**.
+   - Excluded from the **Cleaning Duty** table.
+
+5. **📧 2-Day Advance Personal Gmail Reminders:**
+   - Automation script in `automation/Code.gs` runs for free in Satnam's Google Account.
+   - **Garbage Day:** Reminders sent every **Monday** morning (2 days before Wednesday collection).
+   - **Cleaning Duty:** Reminders sent every **Friday** morning (2 days before Sunday cleaning).
+
+---
+
+## 🚀 How to Deploy to GitHub Pages (Ready to Deploy!)
+
+The project is **100% ready for GitHub Pages**. It is a zero-build, static web app using CDN-hosted Firebase modules.
+
+### Steps to Deploy:
+1. **Commit and push your changes to GitHub:**
+   ```bash
+   git add .
+   git commit -m "Add admin password, 3 sections, live DB status and email automation"
+   git push origin main
+   ```
+2. **Enable GitHub Pages:**
+   - Go to your repository on GitHub.
+   - Click **Settings** (top tab) &rarr; **Pages** (left sidebar).
+   - Under **Build and deployment**:
+     - **Source:** Select `Deploy from a branch`.
+     - **Branch:** Select `main` and folder `/(root)`.
+   - Click **Save**.
+3. **Open the live link:**
+   - In 1–2 minutes, GitHub will show: `"Your site is live at https://<username>.github.io/<repo-name>/"`.
+   - Share this exact link with all roommates!
+
+---
+
+## 🛠️ Step-by-Step Personal Gmail Automation Setup
+
+You do not need to pay for any server. Google Apps Script runs directly inside your Google Account for free and sends emails from your personal `@gmail.com` address.
+
+### Step 1: Open Google Apps Script
+1. Go to [script.google.com](https://script.google.com/) and log in with your personal Google account.
+2. Click **New project** (name it `Household Duty Reminders`).
+
+### Step 2: Paste the Automation Code
+1. Open the file `automation/Code.gs` in this repository.
+2. Copy the entire content and paste it into the Apps Script editor (replacing `myFunction`).
+3. Click **Save** (💾).
+
+### Step 3: Test and Authorize
+1. In the toolbar, select the function `sendDailyReminders`.
+2. Click **Run**.
+3. Google will ask for permission to access Gmail and fetch external URLs (Firebase).
+4. Click **Review permissions** &rarr; select your Google account &rarr; click **Advanced** &rarr; **Go to Household Duty Reminders (unsafe)** &rarr; **Allow**.
+
+### Step 4: Set the Daily Schedule Trigger
+1. On the left sidebar of Apps Script, click the clock icon (⏱️ **Triggers**).
+2. Click **Add Trigger** (bottom right).
+3. Configure the trigger:
+   - **Choose which function to run:** `sendDailyReminders`
+   - **Select event source:** `Time-driven`
+   - **Select type of time based trigger:** `Day timer`
+   - **Select time of day:** `8am to 9am` (or your preferred morning hour).
+4. Click **Save**.
+
+---
+
+## 🔒 Firebase Realtime Database Rules
+
+In the Firebase Console under **Realtime Database &rarr; Rules**, verify your rules:
 
 ```json
 {
   "rules": {
-    "households": {
-      "shared-household": {
-        ".read": "auth != null",
-        ".write": "auth != null"
-      }
+    "milkTurnOrganizer": {
+      ".read": true,
+      ".write": "auth != null"
     }
   }
 }
 ```
+*(Anonymous authentication is pre-configured in `index.html`, allowing seamless multi-device syncing while securing the database).*
 
-**Security limitation:** anonymous authentication prevents unauthenticated database access, but anyone who can open the public website can sign in anonymously and can potentially modify shared data or impersonate a name. This is acceptable only for a low-stakes household prototype. For stronger protection, add real sign-in or a server-side API that validates member identity and swap approvals. Do not put passwords, financial information, or other sensitive data in this app.
+---
 
-## 3. Publish on GitHub Pages
-1. Create a GitHub repository, e.g. `milk-turn-organizer`.
-2. Upload `index.html` to the repository root. `SETUP.md` is optional to publish.
-3. In repository **Settings → Pages**, select **Deploy from a branch**, choose `main` and `/(root)`, and save.
-4. Wait for GitHub Pages to publish the website. Open the URL shown in Pages settings on a phone.
-5. Share that same URL with all household members.
+## 📱 Adding to Phone Home Screen
 
-## 4. Use on phones
-- **iPhone:** open the link in Safari → Share → Add to Home Screen.
-- **Android:** open the link in Chrome → menu → Add to Home screen (or Install app if offered).
-
-## Behavior and limitations
-- Initial sequence: Raghav → Ritish → Navneet → Akash → Satnam → Vaibhav → Sourab → Abhi.
-- The person shown as next can mark the turn completed or pass it. Completing advances the rotation.
-- A swap request is pending until the selected recipient opens the app using their name and accepts or declines. Acceptance swaps the two names' positions in the rotation.
-- The activity history is shared and retained in the database.
-- No dates are displayed. There is no automated notification system in this version.
-- This is a starter implementation, not a managed or audited production service. Review Firebase usage and security before relying on it.
+- **iPhone (Safari):** Open web app &rarr; Tap Share icon &rarr; Tap **Add to Home Screen**.
+- **Android (Chrome):** Open web app &rarr; Tap 3-dot menu &rarr; Tap **Add to Home screen** / **Install app**.

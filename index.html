@@ -2,331 +2,1812 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#176b52">
-  <title>Milk Turn Organizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <title>Household Turn Organizer — Milk, Cleaning & Garbage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--green:#176b52;--green2:#e7f4ee;--ink:#17231f;--muted:#64716b;--line:#e2e9e5;--bg:#f5f8f6;--card:#fff;--red:#a23b3b;--amber:#936313;--shadow:0 12px 30px rgba(20,50,38,.07)}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 15px;font-weight:700;transition:transform .08s,opacity .15s}button:active{transform:scale(.985)}button:disabled{opacity:.45;cursor:not-allowed}
-    .wrap{max-width:1000px;margin:auto;padding:22px 16px 56px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{height:48px;width:48px;border-radius:16px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:25px}.eyebrow{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.brand h1{font-size:23px;line-height:1.1;margin:3px 0 0}.status{font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 10px;white-space:nowrap}
-    .notice{display:none;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:14px}.notice.show{display:block}.notice.info{background:#eef4ff;color:#234e8a}.notice.error{background:#fff0f0;color:#8d2929}.notice.good{background:#e7f4ee;color:#176b52}
-    .grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);min-width:0}.hero{background:linear-gradient(140deg,#176b52,#0f4b3a);color:#fff;border:0;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:200px;height:200px;border:35px solid rgba(255,255,255,.08);border-radius:50%;right:-65px;top:-70px}.hero .eyebrow{color:#d1e9dd}.hero h2{font-size:clamp(30px,5vw,42px);margin:8px 0 5px;line-height:1.1}.hero p{margin:0;color:#d9eee5}.hero-top{position:relative;z-index:1}.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}.primary{background:#fff;color:var(--green)}.secondary{background:var(--green2);color:var(--green)}.plain{background:#f0f3f1;color:var(--ink)}.danger{background:#fff0f0;color:var(--red)}.dark-secondary{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.25)}
-    h3{margin:0 0 14px;font-size:18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.sub{color:var(--muted);font-size:13px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-weight:700;font-size:13px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #d7e0db;border-radius:11px;background:#fff;color:var(--ink);outline-color:var(--green)}.field textarea{resize:vertical;min-height:86px}.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.member-list{display:grid;gap:8px}.member{display:flex;align-items:center;gap:11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px}.num{width:31px;height:31px;flex:0 0 31px;border-radius:10px;background:#f0f4f1;color:var(--muted);display:grid;place-items:center;font-weight:800;font-size:13px}.member.current{border-color:#7fbba2;background:#f0faf4}.member.current .num{background:var(--green);color:white}.member-name{font-weight:700;flex:1}.tag{font-size:11px;font-weight:800;padding:5px 8px;border-radius:99px;background:#eef2ef;color:#5d6b63}.tag.next{background:#d9f0e3;color:#176b52}.tag.done{background:#e6f4ec;color:#176b52}.tag.skipped{background:#fff0d5;color:#80580d}.tag.pending{background:#eaf0ff;color:#355d9a}
-    .tabs{display:flex;gap:6px;margin:18px 0 14px;overflow:auto;padding-bottom:2px}.tab{background:transparent;color:var(--muted);padding:10px 13px;white-space:nowrap}.tab.active{background:var(--green2);color:var(--green)}.panel{display:none}.panel.active{display:block}.history{display:grid;gap:10px}.event{padding:13px;border:1px solid var(--line);border-radius:13px}.event-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.event strong{display:block}.event p{margin:5px 0 0;color:var(--muted);font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #ccd8d1;border-radius:14px}.request{padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px}.request p{margin:5px 0;color:var(--muted);font-size:14px}.mini-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.small{padding:8px 10px;font-size:13px}.foot{color:var(--muted);font-size:12px;text-align:center;margin:22px 0}.hidden{display:none!important}.cyclebar{height:7px;border-radius:99px;background:#e8eeea;overflow:hidden;margin:9px 0 5px}.cyclebar span{display:block;height:100%;background:var(--green);width:0;transition:width .25s}.modal-backdrop{position:fixed;inset:0;background:rgba(11,25,19,.48);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}.modal-backdrop.open{display:flex}.modal{width:min(100%,450px);background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 70px #0003}.modal h3{font-size:21px}.modal p{color:var(--muted);margin-top:-6px}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#152820;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:30;transition:.2s;max-width:calc(100% - 28px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
-    @media(max-width:760px){.grid{grid-template-columns:1fr}.wrap{padding:16px 12px 40px}.card{padding:17px;border-radius:17px}.top{align-items:flex-start}.brand h1{font-size:20px}.status{max-width:130px;white-space:normal;text-align:center}.hero-actions button{flex:1 1 135px}.tabs{margin-top:14px}}
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --card-border: #e2e8f0;
+      --ink: #0f172a;
+      --ink-muted: #64748b;
+      --ink-subtle: #94a3b8;
+      
+      --milk-primary: #059669;
+      --milk-gradient: linear-gradient(135deg, #059669 0%, #065f46 100%);
+      --milk-light: #ecfdf5;
+      
+      --cleaning-primary: #4f46e5;
+      --cleaning-gradient: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      --cleaning-light: #eef2ff;
+      
+      --garbage-primary: #d97706;
+      --garbage-gradient: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+      --garbage-light: #fffbeb;
+      
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --success: #10b981;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
+      --shadow-md: 0 4px 20px -2px rgba(15,23,42,0.08);
+      --shadow-lg: 0 10px 30px -4px rgba(15,23,42,0.12);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      font-weight: 700;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button:active { transform: scale(0.98); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    /* Header & Live DB Badge */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: #0f172a;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-info h1 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .db-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      cursor: default;
+      transition: all 0.2s ease;
+    }
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
+      animation: pulseDot 2s infinite;
+    }
+    .live-dot.connecting {
+      background: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245,158,11,0.25);
+    }
+    .live-dot.offline {
+      background: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.25);
+      animation: none;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.92); }
+    }
+    .db-status-text {
+      color: var(--ink);
+    }
+
+    /* Profile Selector Card */
+    .user-select-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .user-select-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #e2e8f0;
+      color: var(--ink);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+    .user-select-info label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .custom-select-wrap select {
+      border: 1px solid var(--card-border);
+      background: var(--bg);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      outline: none;
+      cursor: pointer;
+    }
+    .user-email-meta {
+      font-size: 12px;
+      color: var(--ink-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .user-email-meta a {
+      color: var(--cleaning-primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .user-email-meta a:hover { text-decoration: underline; }
+    .admin-pill {
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lock-admin-btn {
+      background: #fee2e2;
+      color: #ef4444;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    /* Section Switcher Tabs */
+    .section-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: var(--radius-md);
+    }
+    .section-tab {
+      background: transparent;
+      color: var(--ink-muted);
+      padding: 12px 8px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .section-tab.active {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(15,23,42,0.08);
+    }
+    .section-tab .tab-icon { font-size: 17px; }
+
+    /* Hero Card */
+    .hero-card {
+      border-radius: var(--radius-lg);
+      padding: 26px 24px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 22px;
+      transition: background 0.3s ease;
+    }
+    .hero-card.milk-theme { background: var(--milk-gradient); }
+    .hero-card.cleaning-theme { background: var(--cleaning-gradient); }
+    .hero-card.garbage-theme { background: var(--garbage-gradient); }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border: 45px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      right: -80px;
+      top: -90px;
+      pointer-events: none;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .hero-name {
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .hero-details {
+      font-size: 14px;
+      opacity: 0.92;
+      max-width: 580px;
+      margin-bottom: 18px;
+    }
+    .hero-highlight {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-btn-primary {
+      background: #ffffff;
+      color: var(--ink);
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .hero-btn-primary:hover { background: #f8fafc; }
+    .hero-btn-glass {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+    }
+    .hero-btn-glass:hover { background: rgba(255, 255, 255, 0.24); }
+
+    /* Content Cards & Tabs */
+    .content-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .card-head h2, .card-head h3 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .card-head .meta {
+      font-size: 12px;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    /* Rotation Queue List */
+    .queue-list {
+      display: grid;
+      gap: 10px;
+    }
+    .queue-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      transition: all 0.15s ease;
+    }
+    .queue-item.current {
+      border-color: #93c5fd;
+      background: #f0f7ff;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.1);
+    }
+    .queue-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .queue-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      color: var(--ink-muted);
+      font-weight: 800;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .queue-item.current .queue-num {
+      background: var(--ink);
+      color: #ffffff;
+    }
+    .queue-title {
+      font-weight: 700;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .queue-sub {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 99px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .badge.active { background: #dbeafe; color: #1e40af; }
+    .badge.next { background: #dcfce7; color: #166534; }
+    .badge.done { background: #f1f5f9; color: #64748b; }
+    .badge.upcoming { background: #fef3c7; color: #92400e; }
+
+    /* Secondary Nav Tabs */
+    .sub-tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .sub-tab-btn {
+      background: transparent;
+      border: 0;
+      color: var(--ink-muted);
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+    .sub-tab-btn.active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* History & Exchange Requests */
+    .history-card {
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: #ffffff;
+    }
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .history-card strong { font-size: 14px; }
+    .history-card p {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+    .history-time { font-size: 11px; color: var(--ink-subtle); }
+
+    .request-box {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    /* Admin & Backend Panels */
+    .admin-panel {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .admin-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    .admin-card h4 {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-field {
+      margin-bottom: 12px;
+    }
+    .admin-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+    }
+    .admin-field input, .admin-field select, .admin-field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      outline-color: var(--ink);
+    }
+    .email-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .email-table th, .email-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .email-table th { font-weight: 700; color: var(--ink-muted); font-size: 11px; text-transform: uppercase; }
+
+    /* Modals & Backdrop */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: min(100%, 480px);
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.94); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .modal p { font-size: 14px; color: var(--ink-muted); margin-bottom: 16px; }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .empty-state {
+      padding: 24px;
+      text-align: center;
+      color: var(--ink-muted);
+      font-size: 14px;
+      border: 1px dashed var(--card-border);
+      border-radius: var(--radius-md);
+    }
+
+    /* Guide Callout */
+    .guide-callout {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #166534;
+    }
+    .guide-callout h4 { font-weight: 800; margin-bottom: 4px; }
+    .guide-callout ol { margin-left: 18px; margin-top: 6px; display: grid; gap: 4px; }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 14px 12px; }
+      .hero-card { padding: 20px 18px; border-radius: var(--radius-md); }
+      .hero-name { font-size: 30px; }
+      .hero-actions button { width: 100%; }
+      .section-tab { font-size: 12px; padding: 10px 4px; }
+      .user-select-card { flex-direction: column; align-items: stretch; }
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="brand"><div class="logo">🥛</div><div><div class="eyebrow">Shared household</div><h1>Milk Turn Organizer</h1></div></div>
-    <div class="status" id="connectionStatus">Demo mode · This device only</div>
-  </header>
-  <div id="notice" class="notice"></div>
-  <main>
-    <section class="grid">
-      <article class="card hero">
-        <div class="hero-top">
-          <div class="eyebrow">Up next</div>
-          <h2 id="nextName">Vaibhav</h2>
-          <p id="nextCaption">Satnam's turn is recorded as completed.</p>
-          <div class="cyclebar"><span id="cycleProgress"></span></div>
-          <div class="sub" style="color:#d9eee5" id="cycleCaption">5 of 8 members accounted for in this cycle</div>
-        </div>
-        <div class="hero-actions">
-          <button class="primary" id="doneBtn">✓ Mark as Done</button>
-          <button class="dark-secondary" id="exchangeBtn">⇄ Exchange Turn</button>
-          <button class="dark-secondary" id="skipBtn">↷ Skip Turn</button>
-        </div>
-      </article>
-      <article class="card">
-        <div class="section-head"><h3>Choose your name</h3><span class="tag">Names only</span></div>
-        <div class="field"><label for="currentUser">I am</label><select id="currentUser"></select></div>
-        <p class="sub">Select your name to make a request or respond to an exchange. The next person can complete or skip the active turn.</p>
-        <div id="myRequests"></div>
-      </article>
-    </section>
-    <section class="card" style="margin-top:16px">
-      <div class="section-head"><h3>Rotation order</h3><span class="sub">No dates</span></div>
-      <div id="rotationList" class="member-list"></div>
-    </section>
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-tab="activity">Activity history</button>
-      <button class="tab" data-tab="exchanges">Exchange requests <span id="pendingCount"></span></button>
-      <button class="tab" data-tab="settings">Settings</button>
-    </div>
-    <section class="card panel active" id="panel-activity">
-      <div class="section-head"><h3>Shared activity</h3><span class="sub" id="historyCount"></span></div>
-      <div class="history" id="historyList"></div>
-    </section>
-    <section class="card panel" id="panel-exchanges">
-      <h3>Exchange requests</h3>
-      <p class="sub">A request only changes the rotation after the selected recipient accepts it.</p>
-      <div id="exchangeList"></div>
-    </section>
-    <section class="card panel" id="panel-settings">
-      <h3>Setup & cycle</h3>
-      <p class="sub">The starter begins with Satnam's turn completed, so Vaibhav is next. Connect Firebase to share changes across devices.</p>
-      <div class="field"><label for="firebaseConfig">Firebase web app config (optional)</label><textarea id="firebaseConfig" spellcheck="false">{
-  "apiKey": "AIzaSyDQQWZKKhPBO99WW7FrvQEMSfxeqFXIxws",
-  "authDomain": "milk-organizer.firebaseapp.com",
-  "databaseURL": "https://milk-organizer-default-rtdb.firebaseio.com",
-  "projectId": "milk-organizer",
-  "storageBucket": "milk-organizer.firebasestorage.app",
-  "messagingSenderId": "94257237797",
-  "appId": "1:94257237797:web:ffee36f6cbedf3ba21d4cc",
-  "measurementId": "G-QDTS5B947F"
-}</textarea></div>
-      <div class="form-actions"><button class="secondary" id="connectBtn">Connect Firebase</button><button class="plain" id="exportBtn">Export activity JSON</button></div>
-      <div class="field"><label for="resetConfirm">Reset demo data</label><input id="resetConfirm" placeholder='Type RESET to restore starter state'></div>
-      <button class="danger" id="resetBtn">Reset rotation</button>
-      <p class="sub" style="margin-top:14px">Security note: choosing a name is not identity verification. For real shared use, configure Firebase Authentication and restrictive Realtime Database rules. Never use open database write rules in a public app.</p>
-    </section>
-  </main>
-  <div class="foot">Milk Turn Organizer · Mobile friendly · No dates in the rotation</div>
-</div>
 
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h3 id="modalTitle">Confirm action</h3><p id="modalDescription"></p>
-    <div id="modalFields"></div>
-    <div class="form-actions"><button class="plain" id="modalCancel">Cancel</button><button class="secondary" id="modalConfirm">Confirm</button></div>
+<div class="wrap">
+  <!-- Top Bar with Realtime DB Connection Status -->
+  <header class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">🏡</div>
+      <div class="brand-info">
+        <h1>Household Duties</h1>
+      </div>
+    </div>
+    <div class="db-status-badge" id="dbStatusBadge" title="Click to view database connection status">
+      <span class="live-dot connecting" id="liveDot"></span>
+      <span class="db-status-text" id="syncStatusText">Connecting to Firebase…</span>
+    </div>
+  </header>
+
+  <!-- User Selector -->
+  <div class="user-select-card">
+    <div class="user-select-left">
+      <div class="avatar-bubble" id="userAvatar">S</div>
+      <div>
+        <div class="user-select-info">
+          <label for="currentUserSelect">I am</label>
+        </div>
+        <div class="custom-select-wrap">
+          <select id="currentUserSelect"></select>
+        </div>
+      </div>
+      <span class="admin-pill" id="adminBadge" style="display:none;">⭐ Admin <button class="lock-admin-btn" id="lockAdminBtn" title="Lock admin session">Lock</button></span>
+    </div>
+    <div class="user-email-meta">
+      <span id="userEmailDisplay">📧 Checking email…</span>
+      <a id="editEmailBtn" title="Change your email address">(Edit)</a>
+    </div>
+  </div>
+
+  <!-- Section Switcher -->
+  <nav class="section-nav" role="tablist">
+    <button class="section-tab active" data-section="milk">
+      <span class="tab-icon">🥛</span> <span>Milk Turn</span>
+    </button>
+    <button class="section-tab" data-section="cleaning">
+      <span class="tab-icon">🧹</span> <span>Cleaning Duty</span>
+    </button>
+    <button class="section-tab" data-section="garbage">
+      <span class="tab-icon">🗑️</span> <span>Garbage Day</span>
+    </button>
+  </nav>
+
+  <!-- Hero Card -->
+  <section class="hero-card milk-theme" id="heroCard">
+    <div class="hero-pill" id="heroPill">🥛 Milk Duty Active</div>
+    <div class="hero-name" id="heroPersonName">Loading…</div>
+    <div class="hero-details" id="heroSubCaption">Fetching shared turn status from cloud database…</div>
+    
+    <div class="hero-highlight" id="heroTimelineHighlight">
+      <span id="heroHighlightIcon">📅</span>
+      <span id="heroHighlightText">Cycle Progress: 0 of 8 complete</span>
+    </div>
+
+    <div class="hero-actions">
+      <button class="hero-btn-primary" id="markDoneBtn">✓ Mark as Done</button>
+      <button class="hero-btn-glass" id="exchangeTurnBtn">⇄ Exchange Turn</button>
+      <button class="hero-btn-glass" id="skipTurnBtn">↷ Skip Turn</button>
+      <button class="hero-btn-glass" id="sendReminderBtn" style="display:none;">🔔 Send Reminder Email</button>
+    </div>
+  </section>
+
+  <!-- Tabbed Content Section -->
+  <div class="content-card">
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" data-subtab="queue">📋 Duty Schedule</button>
+      <button class="sub-tab-btn" data-subtab="requests">⇄ Exchanges <span id="requestBadge"></span></button>
+      <button class="sub-tab-btn" data-subtab="history">📜 Activity Log</button>
+      <button class="sub-tab-btn" id="adminTabBtn" data-subtab="admin" style="display:none;">⚙️ Admin & Backend</button>
+    </div>
+
+    <!-- Panel 1: Queue / Schedule -->
+    <div class="sub-panel active" id="subpanel-queue">
+      <div class="card-head">
+        <h3 id="queueHeading">Rotation Order</h3>
+        <span class="meta" id="queueMeta">8 Members</span>
+      </div>
+      <div id="cleaningNotice" class="guide-callout" style="display:none;">
+        <strong>ℹ️ Household Rule:</strong> Navneet and Japesh are paired for Milk and Garbage Day, but are <em>not included in the Cleaning Duty table</em>.
+      </div>
+      <div class="queue-list" id="queueContainer"></div>
+    </div>
+
+    <!-- Panel 2: Exchange Requests -->
+    <div class="sub-panel" id="subpanel-requests" style="display:none;">
+      <div class="card-head">
+        <h3>Pending Exchange Requests</h3>
+        <span class="meta">Mutual roommate approval required</span>
+      </div>
+      <div id="exchangeContainer"></div>
+    </div>
+
+    <!-- Panel 3: History Log -->
+    <div class="sub-panel" id="subpanel-history" style="display:none;">
+      <div class="card-head">
+        <h3>Recent Shared Activity</h3>
+        <span class="meta" id="historyCount">0 events</span>
+      </div>
+      <div id="historyContainer"></div>
+    </div>
+
+    <!-- Panel 4: Admin & Backend (Visible only to Satnam & Saurab) -->
+    <div class="sub-panel" id="subpanel-admin" style="display:none;">
+      <div class="admin-header">
+        <span style="font-size: 24px;">⚙️</span>
+        <div>
+          <h3>Admin & Backend Management</h3>
+          <p style="font-size: 13px; color: var(--ink-muted);">Authenticated session for Satnam & Sourab. All actions update the Firebase cloud database.</p>
+        </div>
+      </div>
+
+      <div class="admin-grid">
+        <!-- DB Diagnostics Card -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+          <h4>📡 Live Cloud Database Status</h4>
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:12px; font-size:13px;">
+            <div><strong>Endpoint:</strong> <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">https://milk-organizer-default-rtdb.firebaseio.com/</code></div>
+            <div><strong>Status:</strong> <span id="adminDbStatusText" style="color:#059669; font-weight:700;">🟢 Live Connected</span></div>
+            <div><strong>Database State Version:</strong> <span id="adminDbVersion">v2</span></div>
+          </div>
+          <button class="hero-btn-glass" style="background:#0f172a; color:#fff; font-size:12px; padding:8px 14px;" id="adminForceSyncBtn">🔄 Force Resync with Database</button>
+        </div>
+
+        <!-- Quick Jump / Set Next -->
+        <div class="admin-card">
+          <h4>🎯 Set Active Turn</h4>
+          <div class="admin-field">
+            <label for="adminSectionSelect">Section</label>
+            <select id="adminSectionSelect">
+              <option value="milk">🥛 Milk Turn</option>
+              <option value="cleaning">🧹 Cleaning Duty</option>
+              <option value="garbage">🗑️ Garbage Day</option>
+            </select>
+          </div>
+          <div class="admin-field">
+            <label for="adminPersonSelect">Force Set Next Person</label>
+            <select id="adminPersonSelect"></select>
+          </div>
+          <button class="hero-btn-primary" style="background:#0f172a; color:#fff; width:100%;" id="adminSetNextBtn">Apply Next Person</button>
+        </div>
+
+        <!-- Add / Remove Members -->
+        <div class="admin-card">
+          <h4>👥 Member Management</h4>
+          <div class="admin-field">
+            <label for="adminNewMemberName">Add New Member / Pair</label>
+            <input type="text" id="adminNewMemberName" placeholder="e.g. John Doe">
+          </div>
+          <button class="hero-btn-primary" style="background:#059669; color:#fff; width:100%; margin-bottom:10px;" id="adminAddMemberBtn">+ Add Member</button>
+          
+          <div class="admin-field">
+            <label for="adminRemoveMemberSelect">Remove Member</label>
+            <select id="adminRemoveMemberSelect"></select>
+          </div>
+          <button class="hero-btn-primary" style="background:#ef4444; color:#fff; width:100%;" id="adminRemoveMemberBtn">🗑️ Remove Member</button>
+        </div>
+
+        <!-- Automation & Webhook -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+          <h4>📧 2-Day Reminder Email Automation (Satnam's Gmail)</h4>
+          <p style="font-size: 13px; color: var(--ink-muted); margin-bottom: 12px;">
+            Automated reminders are sent from your personal email <strong>2 days before</strong> each turn:
+            <br>• <strong>Garbage Day:</strong> Every Wednesday collection &rarr; Reminder email sent every <strong>Monday</strong> morning.
+            <br>• <strong>Cleaning Duty:</strong> Weekend cleaning &rarr; Reminder email sent every <strong>Friday</strong> morning.
+            <br>• <strong>Milk Turn:</strong> Real-time reminder sent when it's someone's turn.
+          </p>
+          <div class="admin-field">
+            <label for="adminWebhookUrl">Google Apps Script Web App URL (Optional for instant in-app triggers)</label>
+            <input type="url" id="adminWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec">
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="hero-btn-primary" style="background:#0f172a; color:#fff;" id="adminSaveWebhookBtn">Save Webhook</button>
+            <button class="hero-btn-glass" style="background:#4f46e5; color:#fff;" id="adminTestEmailBtn">🚀 Send Test Reminder to Current Person</button>
+            <button class="hero-btn-glass" style="background:#64748b; color:#fff;" id="adminViewGuideBtn">📖 View Apps Script Setup Guide</button>
+          </div>
+        </div>
+
+        <!-- Member Email Directory -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+          <h4>📬 Member Email Directory (Stored in Database)</h4>
+          <p style="font-size: 12px; color: var(--ink-muted); margin-bottom: 8px;">Emails are collected automatically on first name selection and saved in the cloud. Admins can manually update or clear them here.</p>
+          <div style="overflow-x:auto;">
+            <table class="email-table">
+              <thead>
+                <tr>
+                  <th>Member Name</th>
+                  <th>Registered Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminEmailTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+
+<!-- Modal: Admin Password Verification -->
+<div class="modal-backdrop" id="adminAuthModal">
+  <div class="modal">
+    <h3>🔐 Admin Authentication</h3>
+    <p>Please enter the admin password to switch to <strong id="adminTargetName">Satnam</strong> and unlock administrative controls:</p>
+    <div class="admin-field">
+      <label for="adminPasswordInput">Admin Password</label>
+      <input type="password" id="adminPasswordInput" placeholder="Enter password" autocomplete="current-password">
+    </div>
+    <div id="adminAuthError" style="color:var(--danger); font-size:13px; font-weight:700; margin-bottom:12px; display:none;">Incorrect password. Please try again.</div>
+    <div class="modal-actions">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="adminAuthCancel">Cancel</button>
+      <button class="hero-btn-primary" style="background:#0f172a; color:#fff;" id="adminAuthConfirm">Unlock Admin</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Email Setup (First time prompt or edit) -->
+<div class="modal-backdrop" id="emailModal">
+  <div class="modal">
+    <h3 id="emailModalTitle">👋 Welcome! Set up notifications</h3>
+    <p id="emailModalDesc">Enter your email address so you get reminder notifications <strong>2 days before</strong> your Milk, Cleaning, and Garbage turns.</p>
+    <div class="admin-field">
+      <label for="memberEmailInput">Your Email Address</label>
+      <input type="email" id="memberEmailInput" placeholder="name@gmail.com" required>
+    </div>
+    <div style="font-size:12px; color:var(--ink-muted);">
+      🔒 Stored in the shared household database. You will not be asked again once saved.
+    </div>
+    <div class="modal-actions">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="emailModalCancel">Later</button>
+      <button class="hero-btn-primary" style="background:#059669; color:#fff;" id="emailModalSave">Save Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Generic Action (Done, Skip, Exchange) -->
+<div class="modal-backdrop" id="actionModal">
+  <div class="modal">
+    <h3 id="actionModalTitle">Confirm Action</h3>
+    <p id="actionModalDesc"></p>
+    <div id="actionModalFields"></div>
+    <div class="modal-actions">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="actionModalCancel">Cancel</button>
+      <button class="hero-btn-primary" style="background:#0f172a; color:#fff;" id="actionModalConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Setup Guide -->
+<div class="modal-backdrop" id="guideModal">
+  <div class="modal" style="width:min(100%, 650px); max-height:85vh; overflow-y:auto;">
+    <h3>🛠️ Personal Gmail Automation Guide</h3>
+    <p>How Satnam can automate 2-day advance emails using his personal Gmail without paying for servers:</p>
+    
+    <div class="guide-callout">
+      <h4>Step 1: Open Google Apps Script</h4>
+      <p>Go to <a href="https://script.google.com/" target="_blank" style="color:#166534; font-weight:700;">script.google.com</a> with your Google Account and click <strong>New Project</strong>.</p>
+    </div>
+
+    <div class="guide-callout">
+      <h4>Step 2: Copy the Automation Code</h4>
+      <p>Replace the script with the provided code in <code>automation/Code.gs</code> from your project. It connects to your Firebase RTDB and uses <code>GmailApp.sendEmail()</code>.</p>
+    </div>
+
+    <div class="guide-callout">
+      <h4>Step 3: Create Daily Trigger</h4>
+      <p>In Apps Script, click the clock icon (<strong>Triggers</strong>) &rarr; <strong>Add Trigger</strong>:
+      <br>• Choose <code>sendDailyReminders</code>
+      <br>• Select <strong>Time-driven</strong> &rarr; <strong>Day timer</strong> &rarr; <strong>8am to 9am</strong>.
+      <br>Every Monday at 8 AM, it reminds who is on Garbage Day this Wednesday (2 days before)!
+      <br>Every Friday at 8 AM, it reminds who is on Cleaning Duty this Sunday!</p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="hero-btn-primary" style="background:#0f172a; color:#fff;" id="guideModalClose">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><span id="toastIcon">✓</span> <span id="toastMsg">Action completed</span></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-  import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+  import { getDatabase, ref, onValue, runTransaction, update } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-  const MEMBERS = ["Raghav","Ritish","Navneet","Akash","Satnam","Vaibhav","Sourab","Abhi"];
-  const STARTER = {
-    order: [...MEMBERS],
-    nextIndex: 5,
-    cycleSeen: ["Raghav","Ritish","Navneet","Akash","Satnam"],
-    history: [{
-      id:"starter-satnam",
-      type:"completed",
-      member:"Satnam",
-      detail:"Starter setup: milk was already ordered.",
-      at: Date.now(),
-      cycle:1
-    }],
-    requests: {},
-    cycle:1,
-    version:1
+  // Pre-configured Firebase configuration (Direct Connect)
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDQQWZKKhPBO99WW7FrvQEMSfxeqFXIxws",
+    authDomain: "milk-organizer.firebaseapp.com",
+    databaseURL: "https://milk-organizer-default-rtdb.firebaseio.com",
+    projectId: "milk-organizer",
+    storageBucket: "milk-organizer.firebasestorage.app",
+    messagingSenderId: "94257237797",
+    appId: "1:94257237797:web:ffee36f6cbedf3ba21d4cc",
+    measurementId: "G-QDTS5B947F"
   };
-  const $ = id => document.getElementById(id);
-  let state = structuredClone(STARTER);
+
+  const ADMIN_PASSWORD = "4042admin";
+  const ALL_INDIVIDUALS = ["Raghav", "Ritish", "Navneet", "Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
+  const ADMIN_NAMES = ["Satnam", "Sourab", "Saurav"];
+
+  // Default Rotation Lists
+  const DEFAULT_MILK_ORDER = ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
+  const DEFAULT_CLEANING_ORDER = ["Raghav", "Ritish", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
+  const DEFAULT_GARBAGE_ORDER = ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
+
+  const STARTER_STATE = {
+    activeSection: "milk",
+    milk: {
+      order: [...DEFAULT_MILK_ORDER],
+      nextIndex: 5, // Vaibhav is next after Satnam
+      cycle: 1,
+      cycleSeen: ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam"]
+    },
+    cleaning: {
+      order: [...DEFAULT_CLEANING_ORDER],
+      nextIndex: 0,
+      cycle: 1,
+      cycleSeen: []
+    },
+    garbage: {
+      order: [...DEFAULT_GARBAGE_ORDER],
+      nextIndex: 0,
+      cycle: 1,
+      cycleSeen: []
+    },
+    emails: {},
+    requests: {},
+    history: [{
+      id: "starter-init",
+      section: "milk",
+      type: "completed",
+      member: "Satnam",
+      detail: "Starter setup: milk was bought by Satnam.",
+      at: Date.now()
+    }],
+    automation: {
+      webhookUrl: ""
+    },
+    version: 2
+  };
+
+  // State Management
+  let state = structuredClone(STARTER_STATE);
+  let currentSection = "milk";
+  let currentUser = localStorage.getItem("household_user") || "Raghav";
+  let previousUser = currentUser;
   let database = null;
   let dbRef = null;
-  let unsubscribe = null;
-  let mode = "demo";
-  let busy = false;
+  let isConnected = false;
   let modalAction = null;
-  let toastTimer;
+  let toastTimer = null;
+  let pendingAdminTarget = null;
 
-  function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
-  function normalize(s){
-    if(!s || !Array.isArray(s.order) || s.order.length !== MEMBERS.length) return clone(STARTER);
-    return {...clone(STARTER), ...s, requests:s.requests||{}, history:Array.isArray(s.history)?s.history:[], cycleSeen:Array.isArray(s.cycleSeen)?s.cycleSeen:[]};
+  const $ = id => document.getElementById(id);
+
+  function isNameAdmin(name) {
+    return ADMIN_NAMES.some(a => a.toLowerCase() === (name || "").trim().toLowerCase());
   }
-  function currentName(s=state){ return s.order[s.nextIndex % s.order.length]; }
-  function selectedName(){ return $("currentUser").value; }
-  function notify(message){ $("toast").textContent=message; $("toast").classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2800); }
-  function banner(message,type="info"){ const el=$("notice");el.textContent=message;el.className=`notice show ${type}`; }
-  function clearBanner(){ $("notice").className="notice"; }
-  function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-  function addEvent(s, type, member, detail, extra={}){
-    s.history = Array.isArray(s.history)?s.history:[];
-    s.history.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),type,member,detail,at:Date.now(),cycle:s.cycle||1,...extra});
-    if(s.history.length>500) s.history=s.history.slice(0,500);
+
+  function isAdminSessionActive() {
+    return isNameAdmin(currentUser) && sessionStorage.getItem("admin_authenticated") === "true";
   }
-  function cycleAdvance(s, person, type, reason=""){
-    if(!s.cycleSeen.includes(person)) s.cycleSeen.push(person);
-    addEvent(s,type,person,type==="skipped" ? `Skipped their turn. Reason: ${reason}` : "Marked the milk turn as completed.");
-    if(s.cycleSeen.length >= s.order.length && s.order.every(n=>s.cycleSeen.includes(n))){
-      const completedCycle=s.cycle||1;
-      addEvent(s,"cycle-reset","Household",`Cycle ${completedCycle} complete. Progress reset; activity history retained.`,{completedCycle});
-      s.cycle=(completedCycle+1);
-      s.cycleSeen=[];
-      s.nextIndex=0;
-    }else{
-      // Advance to the next slot in the current rotation.
-      s.nextIndex=(s.nextIndex+1)%s.order.length;
+
+  function matchesMember(individual, assignedSlot) {
+    if (!assignedSlot) return false;
+    if (assignedSlot === individual) return true;
+    if (assignedSlot.includes("&")) {
+      const parts = assignedSlot.split("&").map(s => s.trim().toLowerCase());
+      return parts.includes(individual.toLowerCase());
     }
-    s.version=(s.version||0)+1;
+    return false;
   }
-  function render(){
-    const next=currentName();
-    $("nextName").textContent=next;
-    $("nextCaption").textContent=`Cycle ${state.cycle||1} · ${state.cycleSeen.length} of ${state.order.length} members accounted for`;
-    $("cycleProgress").style.width=`${Math.min(100,(state.cycleSeen.length/state.order.length)*100)}%`;
-    $("cycleCaption").textContent=`${state.cycleSeen.length} of ${state.order.length} members accounted for in this cycle`;
-    $("doneBtn").disabled=busy || selectedName()!==next;
-    $("skipBtn").disabled=busy || selectedName()!==next;
-    $("exchangeBtn").disabled=busy;
-    $("connectionStatus").textContent=mode==="firebase"?"Connected · Shared live data":"Demo mode · This device only";
-    $("rotationList").innerHTML=state.order.map((name,i)=>{
-      const isNext=i===state.nextIndex;
-      const seen=state.cycleSeen.includes(name);
-      return `<div class="member ${isNext?"current":""}"><div class="num">${i+1}</div><div class="member-name">${escapeHtml(name)}</div>${isNext?'<span class="tag next">Next</span>':seen?'<span class="tag done">Accounted</span>':'<span class="tag">Waiting</span>'}</div>`;
-    }).join("");
-    const pending=Object.entries(state.requests||{}).filter(([,r])=>r.status==="pending");
-    $("pendingCount").textContent=pending.length?`(${pending.length})`:"";
-    $("historyCount").textContent=`${state.history.length} events`;
-    $("historyList").innerHTML=state.history.length?state.history.map(eventHtml).join(""):'<div class="empty">No activity yet.</div>';
-    $("exchangeList").innerHTML=pending.length?pending.map(([id,r])=>requestHtml(id,r,true)).join(""):'<div class="empty">No pending exchange requests.</div>';
-    renderMyRequests();
-    $("doneBtn").textContent=selectedName()===next?"✓ Mark as Done":`Waiting for ${next}`;
-    $("skipBtn").textContent=selectedName()===next?"↷ Skip Turn":`Only ${next} can skip`;
+
+  function showToast(msg, icon="✓") {
+    $("toastIcon").textContent = icon;
+    $("toastMsg").textContent = msg;
+    $("toast").classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => $("toast").classList.remove("show"), 3200);
   }
-  function eventHtml(e){
-    let label=e.type==="completed"?"Completed":e.type==="skipped"?"Skipped":e.type==="exchange-requested"?"Exchange requested":e.type==="exchange-accepted"?"Exchange accepted":e.type==="exchange-declined"?"Exchange declined":e.type==="cycle-reset"?"Cycle complete":"Update";
-    let tag=e.type==="skipped"?"skipped":e.type==="completed"?"done":e.type.includes("exchange")?"pending":"";
-    return `<article class="event"><div class="event-top"><div><strong>${escapeHtml(e.member||"Household")}</strong><p>${escapeHtml(e.detail||label)}</p></div><span class="tag ${tag}">${label}</span></div></article>`;
+
+  function escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
-  function requestHtml(id,r,showDecision){
-    const mine=selectedName()===r.to;
-    const actions=showDecision&&r.status==="pending"&&mine
-      ?`<div class="mini-actions"><button class="secondary small" data-action="accept" data-id="${escapeHtml(id)}">Accept</button><button class="plain small" data-action="decline" data-id="${escapeHtml(id)}">Decline</button></div>`
-      :`<div class="sub">Status: ${escapeHtml(r.status)}</div>`;
-    return `<article class="request"><div class="event-top"><strong>${escapeHtml(r.from)} ⇄ ${escapeHtml(r.to)}</strong><span class="tag ${r.status==="pending"?"pending":""}">${escapeHtml(r.status)}</span></div><p>${escapeHtml(r.detail||"Swap positions in the rotation.")}</p>${actions}</article>`;
+
+  function updateDbStatus(status, text) {
+    const dot = $("liveDot");
+    const statusText = $("syncStatusText");
+    const adminStatus = $("adminDbStatusText");
+
+    if (status === "connected") {
+      dot.className = "live-dot";
+      statusText.textContent = "Live Cloud Sync (Connected)";
+      if (adminStatus) adminStatus.innerHTML = "🟢 Connected (Real-time Sync Active)";
+    } else if (status === "connecting") {
+      dot.className = "live-dot connecting";
+      statusText.textContent = text || "Connecting to Firebase…";
+      if (adminStatus) adminStatus.innerHTML = "🟡 Connecting to Firebase…";
+    } else {
+      dot.className = "live-dot offline";
+      statusText.textContent = "Offline / Local Mode";
+      if (adminStatus) adminStatus.innerHTML = "🔴 Offline / Check Rules";
+    }
   }
-  function renderMyRequests(){
-    const incoming=Object.entries(state.requests||{}).filter(([,r])=>r.status==="pending"&&r.to===selectedName());
-    $("myRequests").innerHTML=incoming.length?`<div style="margin-top:12px"><strong>Needs your response</strong>${incoming.map(([id,r])=>requestHtml(id,r,true)).join("")}</div>`:"";
+
+  function getUpcomingWednesdays(count = 5) {
+    const dates = [];
+    const now = new Date();
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const day = d.getDay();
+    let diff = (3 - day + 7) % 7;
+    const firstWed = new Date(d);
+    firstWed.setDate(d.getDate() + diff);
+
+    for (let i = 0; i < count; i++) {
+      const w = new Date(firstWed);
+      w.setDate(firstWed.getDate() + (i * 7));
+      dates.push(w);
+    }
+    return dates;
   }
-  function persist(mutator, successMessage){
-    if(busy)return;
-    busy=true;render();
-    const finish=()=>{busy=false;render();};
-    if(mode==="firebase"&&dbRef){
-      runTransaction(dbRef, current=>{
-        const s=normalize(current);
+
+  function getUpcomingSundays(count = 5) {
+    const dates = [];
+    const now = new Date();
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const day = d.getDay();
+    let diff = (7 - day) % 7;
+    const firstSun = new Date(d);
+    firstSun.setDate(d.getDate() + diff);
+
+    for (let i = 0; i < count; i++) {
+      const s = new Date(firstSun);
+      s.setDate(firstSun.getDate() + (i * 7));
+      dates.push(s);
+    }
+    return dates;
+  }
+
+  function getSectionData(sec = currentSection) {
+    if (!state[sec]) state[sec] = structuredClone(STARTER_STATE[sec]);
+    return state[sec];
+  }
+
+  function getCurrentSlot(sec = currentSection) {
+    const d = getSectionData(sec);
+    if (!d.order || d.order.length === 0) return "None";
+    return d.order[d.nextIndex % d.order.length];
+  }
+
+  function normalizeState(s) {
+    if (!s) return structuredClone(STARTER_STATE);
+    const res = { ...structuredClone(STARTER_STATE), ...s };
+    
+    if (Array.isArray(s.order) && !s.milk) {
+      res.milk = {
+        order: s.order,
+        nextIndex: s.nextIndex || 0,
+        cycle: s.cycle || 1,
+        cycleSeen: s.cycleSeen || []
+      };
+    }
+    if (!res.milk || !Array.isArray(res.milk.order)) res.milk = structuredClone(STARTER_STATE.milk);
+    if (!res.cleaning || !Array.isArray(res.cleaning.order)) res.cleaning = structuredClone(STARTER_STATE.cleaning);
+    if (!res.garbage || !Array.isArray(res.garbage.order)) res.garbage = structuredClone(STARTER_STATE.garbage);
+    res.emails = s.emails || {};
+    res.requests = s.requests || {};
+    res.history = Array.isArray(s.history) ? s.history : [];
+    res.automation = s.automation || { webhookUrl: "" };
+    return res;
+  }
+
+  // Direct Database Connection
+  async function initFirebaseDirect() {
+    try {
+      updateDbStatus("connecting", "Connecting to Firebase…");
+
+      const app = initializeApp(FIREBASE_CONFIG);
+      const auth = getAuth(app);
+      await signInAnonymously(auth);
+
+      database = getDatabase(app);
+      dbRef = ref(database, "milkTurnOrganizer/state");
+
+      onValue(dbRef, snapshot => {
+        if (!snapshot.exists()) {
+          runTransaction(dbRef, curr => curr === null ? structuredClone(STARTER_STATE) : curr);
+        } else {
+          state = normalizeState(snapshot.val());
+        }
+        isConnected = true;
+        updateDbStatus("connected");
+        render();
+        checkEmailPresence(currentUser);
+      }, err => {
+        console.error("Firebase read error:", err);
+        updateDbStatus("offline");
+      });
+    } catch (err) {
+      console.warn("Direct Firebase connection notice:", err.message);
+      updateDbStatus("offline");
+      render();
+    }
+  }
+
+  function persist(mutator, successMsg) {
+    if (isConnected && dbRef) {
+      runTransaction(dbRef, current => {
+        const s = normalizeState(current);
         mutator(s);
         return s;
-      }).then(result=>{
-        if(!result.committed)notify("No changes were saved.");
-        else if(successMessage)notify(successMessage);
-      }).catch(err=>{banner(`Could not save: ${err.message}. Check Firebase configuration and database rules.`,"error");})
-        .finally(finish);
-    }else{
-      try{const s=normalize(state);mutator(s);state=s;render();if(successMessage)notify(successMessage);}
-      catch(err){banner(err.message||"Action could not be completed.","error");}
-      finally{finish();}
+      }).then(res => {
+        if (res.committed && successMsg) showToast(successMsg);
+      }).catch(err => {
+        showToast("Database write error: " + err.message, "⚠️");
+      });
+    } else {
+      const s = normalizeState(state);
+      mutator(s);
+      state = s;
+      render();
+      if (successMsg) showToast(successMsg);
     }
   }
-  function ensureCurrent(s, actor){
-    if(actor!==currentName(s)) throw new Error(`It is currently ${currentName(s)}'s turn.`);
+
+  function addHistory(s, section, type, member, detail) {
+    s.history = Array.isArray(s.history) ? s.history : [];
+    s.history.unshift({
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random(),
+      section,
+      type,
+      member,
+      detail,
+      at: Date.now()
+    });
+    if (s.history.length > 300) s.history = s.history.slice(0, 300);
   }
-  function markDone(){
-    const actor=selectedName();
-    persist(s=>{ensureCurrent(s,actor);cycleAdvance(s,actor,"completed");},`${actor}'s turn completed.`);
+
+  function advanceTurn(sec, person, type, reason = "") {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData || !secData.order.length) return;
+      const current = secData.order[secData.nextIndex % secData.order.length];
+
+      if (!secData.cycleSeen) secData.cycleSeen = [];
+      if (!secData.cycleSeen.includes(current)) secData.cycleSeen.push(current);
+
+      const sectionTitle = sec === "milk" ? "Milk Turn" : sec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+      const actionText = type === "skipped" ? `Skipped turn. Reason: ${reason}` : `Completed ${sectionTitle} turn.`;
+      addHistory(s, sec, type, person, actionText);
+
+      // Advance
+      if (secData.cycleSeen.length >= secData.order.length && secData.order.every(n => secData.cycleSeen.includes(n))) {
+        secData.cycle = (secData.cycle || 1) + 1;
+        secData.cycleSeen = [];
+        secData.nextIndex = 0;
+        addHistory(s, sec, "cycle-complete", "Household", `${sectionTitle} Cycle ${secData.cycle - 1} complete! New cycle begun.`);
+      } else {
+        secData.nextIndex = (secData.nextIndex + 1) % secData.order.length;
+      }
+      s.version = (s.version || 0) + 1;
+    }, `${person}'s turn marked ${type === "skipped" ? "skipped" : "done"}!`);
   }
-  function openModal(title,description,fields,action,label="Confirm"){
-    $("modalTitle").textContent=title;$("modalDescription").textContent=description;$("modalFields").innerHTML=fields;
-    $("modalConfirm").textContent=label;modalAction=action;$("modalBackdrop").classList.add("open");
+
+  // Email Notification Check
+  function checkEmailPresence(person) {
+    if (!person) return;
+    const email = state.emails ? state.emails[person] : null;
+    if (email) {
+      $("userEmailDisplay").textContent = `📧 ${email}`;
+      return;
+    }
+    $("userEmailDisplay").textContent = "📧 No email registered";
+    openEmailModal(person);
   }
-  function closeModal(){$("modalBackdrop").classList.remove("open");modalAction=null;}
-  $("modalCancel").addEventListener("click",closeModal);
-  $("modalBackdrop").addEventListener("click",e=>{if(e.target===$("modalBackdrop"))closeModal();});
-  $("modalConfirm").addEventListener("click",async()=>{if(!modalAction)return;const fn=modalAction;closeModal();await fn();});
-  $("doneBtn").addEventListener("click",()=>{
-    if(selectedName()!==currentName()){notify(`Only ${currentName()} can complete the active turn.`);return;}
-    openModal("Mark turn as done?",`Confirm that ${currentName()} has bought the milk. The next person will be updated for everyone.`, "", markDone,"Mark as Done");
-  });
-  $("skipBtn").addEventListener("click",()=>{
-    const actor=selectedName();
-    if(actor!==currentName()){notify(`Only ${currentName()} can skip the active turn.`);return;}
-    openModal("Skip this turn?",`This will record ${actor}'s turn as skipped and move to the next person. A reason is required.`,`<div class="field"><label for="skipReason">Reason for skipping</label><textarea id="skipReason" maxlength="240" required placeholder="e.g. Out of town"></textarea></div>`,()=>{
-      const reason=$("skipReason")?.value?.trim();
-      if(!reason){notify("Please enter a reason.");return;}
-      persist(s=>{ensureCurrent(s,actor);cycleAdvance(s,actor,"skipped",reason);},`${actor}'s skip was recorded.`);
-    },"Skip Turn");
-  });
-  $("exchangeBtn").addEventListener("click",()=>{
-    const actor=selectedName();
-    const options=MEMBERS.filter(n=>n!==actor).map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("");
-    openModal("Request an exchange","Choose the roommate whose position you want to exchange with. They must accept before the rotation changes.",`<div class="field"><label for="exchangeTo">Exchange with</label><select id="exchangeTo">${options}</select></div><p class="sub">The accepted request swaps the two names' positions in the full rotation.</p>`,()=>{
-      const to=$("exchangeTo")?.value;
-      if(!to||to===actor){notify("Choose another person.");return;}
-      persist(s=>{
-        const duplicate=Object.values(s.requests||{}).some(r=>r.status==="pending"&&((r.from===actor&&r.to===to)||(r.from===to&&r.to===actor)));
-        if(duplicate)throw new Error("A pending exchange already exists between these members.");
-        const id=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random();
-        s.requests=s.requests||{};
-        s.requests[id]={from:actor,to,status:"pending",detail:`${actor} requested to swap positions with ${to}.`,createdAt:Date.now()};
-        addEvent(s,"exchange-requested",actor,`Requested an exchange with ${to}.`,{to,requestId:id});
-      },`Exchange request sent to ${to}.`);
-    },"Request Exchange");
-  });
-  async function decideExchange(id, decision){
-    const actor=selectedName();
-    persist(s=>{
-      const r=s.requests?.[id];
-      if(!r||r.status!=="pending")throw new Error("This request is no longer pending.");
-      if(r.to!==actor)throw new Error("Only the selected recipient can respond to this request.");
-      if(r.from===actor)throw new Error("You cannot approve your own exchange.");
-      r.status=decision;r.respondedAt=Date.now();r.respondedBy=actor;
-      if(decision==="accepted"){
-        const a=s.order.indexOf(r.from),b=s.order.indexOf(r.to);
-        if(a<0||b<0)throw new Error("Member not found in rotation.");
-        [s.order[a],s.order[b]]=[s.order[b],s.order[a]];
-        addEvent(s,"exchange-accepted",actor,`${r.from} and ${r.to} accepted an exchange. Their positions in the rotation were swapped.`,{from:r.from,to:r.to,requestId:id});
-        s.version=(s.version||0)+1;
-      }else addEvent(s,"exchange-declined",actor,`${actor} declined ${r.from}'s exchange request.`,{from:r.from,to:r.to,requestId:id});
-    },decision==="accepted"?"Exchange accepted; rotation updated.":"Exchange declined.");
+
+  function openEmailModal(person) {
+    $("emailModalTitle").textContent = `👋 Welcome ${person}! Set up notifications`;
+    $("emailModalDesc").innerHTML = `Enter your email so you get reminder notifications <strong>2 days before</strong> your turn (Milk, Cleaning, and Wednesday Garbage Day).<br><br><em>Once you enter your email, you will not be asked again.</em>`;
+    $("memberEmailInput").value = state.emails?.[person] || "";
+    $("emailModal").classList.add("open");
   }
-  document.addEventListener("click",e=>{
-    const btn=e.target.closest("[data-action]");if(!btn)return;
-    decideExchange(btn.dataset.id,btn.dataset.action==="accept"?"accepted":"declined");
+
+  function closeEmailModal() {
+    $("emailModal").classList.remove("open");
+  }
+
+  $("emailModalCancel").addEventListener("click", closeEmailModal);
+  $("editEmailBtn").addEventListener("click", () => openEmailModal(currentUser));
+
+  $("emailModalSave").addEventListener("click", () => {
+    const val = $("memberEmailInput").value.trim();
+    if (!val || !val.includes("@") || !val.includes(".")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    persist(s => {
+      s.emails = s.emails || {};
+      s.emails[currentUser] = val;
+    }, `Email saved for ${currentUser}!`);
+    closeEmailModal();
+    $("userEmailDisplay").textContent = `📧 ${val}`;
   });
-  $("currentUser").innerHTML=MEMBERS.map(n=>`<option value="${n}">${n}</option>`).join("");
-  $("currentUser").value="Satnam";
-  $("currentUser").addEventListener("change",render);
-  document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{
-    document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===btn));
-    document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===`panel-${btn.dataset.tab}`));
-  }));
-  $("resetBtn").addEventListener("click",()=>{
-    if($("resetConfirm").value.trim()!=="RESET"){notify("Type RESET first to confirm.");return;}
-    if(mode==="firebase"){notify("For shared data, use an admin-only reset operation in your Firebase backend.");return;}
-    state=clone(STARTER);$("resetConfirm").value="";render();notify("Demo rotation reset to starter state.");
+
+  // Admin Password Modal Handlers
+  function promptAdminPassword(targetAdminName) {
+    pendingAdminTarget = targetAdminName;
+    $("adminTargetName").textContent = targetAdminName;
+    $("adminPasswordInput").value = "";
+    $("adminAuthError").style.display = "none";
+    $("adminAuthModal").classList.add("open");
+    setTimeout(() => $("adminPasswordInput").focus(), 100);
+  }
+
+  function closeAdminPasswordModal() {
+    $("adminAuthModal").classList.remove("open");
+    pendingAdminTarget = null;
+  }
+
+  $("adminAuthCancel").addEventListener("click", () => {
+    closeAdminPasswordModal();
+    // Revert user select to previous non-admin user
+    $("currentUserSelect").value = previousUser;
   });
-  $("exportBtn").addEventListener("click",()=>{
-    const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-    const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="milk-turn-activity.json";a.click();URL.revokeObjectURL(url);
+
+  $("adminAuthConfirm").addEventListener("click", verifyAdminPassword);
+  $("adminPasswordInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") verifyAdminPassword();
   });
-  $("connectBtn").addEventListener("click",async()=>{
-    let config;
-    try{config=JSON.parse($("firebaseConfig").value.trim());}
-    catch{banner("Paste a valid Firebase web app config JSON object first.","error");return;}
-    if(!config.apiKey||!config.databaseURL||!config.projectId||!config.appId){banner("Firebase config must include apiKey, databaseURL, projectId and appId.","error");return;}
-    try{
-      const app=initializeApp(config);
-      const auth=getAuth(app);
-      // Sign in anonymously so database rules can require an authenticated session.
-      await signInAnonymously(auth);
-      database=getDatabase(app);
-      dbRef=ref(database,"milkTurnOrganizer/state");
-      if(unsubscribe)unsubscribe();
-      unsubscribe=onValue(dbRef,snap=>{
-        if(!snap.exists()){
-          // First setup only: seed the shared database with the starter state.
-          runTransaction(dbRef,current=>current===null?clone(STARTER):current)
-            .catch(err=>banner(`Could not initialize Firebase state: ${err.message}`,"error"));
-        }else state=normalize(snap.val());
-        mode="firebase";clearBanner();render();
-      },err=>banner(`Firebase read failed: ${err.message}. Check Realtime Database rules.`,"error"));
-      mode="firebase";$("connectionStatus").textContent="Connecting…";
-      banner("Connecting to Firebase. Confirm your database rules allow authenticated, authorized access.","info");
-    }catch(err){banner(`Firebase connection failed: ${err.message}`,"error");}
+
+  function verifyAdminPassword() {
+    const entered = $("adminPasswordInput").value;
+    if (entered === ADMIN_PASSWORD) {
+      sessionStorage.setItem("admin_authenticated", "true");
+      currentUser = pendingAdminTarget;
+      previousUser = currentUser;
+      localStorage.setItem("household_user", currentUser);
+      closeAdminPasswordModal();
+      showToast(`⭐ Admin privileges unlocked for ${currentUser}!`, "🔓");
+      render();
+      checkEmailPresence(currentUser);
+    } else {
+      $("adminAuthError").style.display = "block";
+      $("adminPasswordInput").select();
+    }
+  }
+
+  $("lockAdminBtn").addEventListener("click", () => {
+    sessionStorage.removeItem("admin_authenticated");
+    currentUser = "Raghav";
+    previousUser = "Raghav";
+    $("currentUserSelect").value = "Raghav";
+    localStorage.setItem("household_user", "Raghav");
+    showToast("Admin session locked.", "🔒");
+    render();
+    checkEmailPresence("Raghav");
   });
+
+  // UI Render
+  function render() {
+    $("userAvatar").textContent = currentUser.charAt(0).toUpperCase();
+    const isUserAdmin = isAdminSessionActive();
+    $("adminBadge").style.display = isUserAdmin ? "inline-flex" : "none";
+    
+    // Admin tab is ONLY visible if Satnam or Saurab WITH validated password
+    $("adminTabBtn").style.display = isUserAdmin ? "block" : "none";
+    if (!isUserAdmin && $("subpanel-admin").classList.contains("active")) {
+      switchSubTab("queue");
+    }
+
+    // Active Section details
+    const secData = getSectionData(currentSection);
+    const activeSlot = getCurrentSlot(currentSection);
+    const isMyTurn = matchesMember(currentUser, activeSlot);
+
+    // Update Hero Card theme
+    const hero = $("heroCard");
+    hero.className = `hero-card ${currentSection}-theme`;
+
+    if (currentSection === "milk") {
+      $("heroPill").textContent = "🥛 Milk Turn Active";
+      $("heroPersonName").textContent = activeSlot;
+      $("heroSubCaption").textContent = `Sequential rotation · Cycle ${secData.cycle || 1}`;
+      $("heroHighlightIcon").textContent = "📊";
+      $("heroHighlightText").textContent = `Cycle Progress: ${secData.cycleSeen?.length || 0} of ${secData.order.length} accounted for`;
+      $("cleaningNotice").style.display = "none";
+    } else if (currentSection === "cleaning") {
+      const nextSundays = getUpcomingSundays(1);
+      const sunDate = nextSundays[0].toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      $("heroPill").textContent = "🧹 Cleaning Duty";
+      $("heroPersonName").textContent = activeSlot;
+      $("heroSubCaption").textContent = `Weekly cleaning · Scheduled for this Sunday (${sunDate})`;
+      $("heroHighlightIcon").textContent = "⏰";
+      $("heroHighlightText").textContent = `Reminder sent 2 days before (Friday)`;
+      $("cleaningNotice").style.display = "block";
+    } else if (currentSection === "garbage") {
+      const nextWeds = getUpcomingWednesdays(1);
+      const wedDate = nextWeds[0].toLocaleDateString("en-US", { weekday: 'short', month: "short", day: "numeric" });
+      $("heroPill").textContent = "🗑️ Garbage Day";
+      $("heroPersonName").textContent = activeSlot;
+      $("heroSubCaption").textContent = `Collection every Wednesday · Next: ${wedDate}`;
+      $("heroHighlightIcon").textContent = "🚛";
+      $("heroHighlightText").textContent = `2-Day advance reminder sent on Monday`;
+      $("cleaningNotice").style.display = "none";
+    }
+
+    // Action button states
+    $("markDoneBtn").disabled = !isMyTurn && !isUserAdmin;
+    $("markDoneBtn").textContent = isMyTurn ? "✓ Mark as Done" : isUserAdmin ? `✓ Mark Done (Admin for ${activeSlot})` : `Waiting for ${activeSlot}`;
+    $("skipTurnBtn").disabled = !isMyTurn && !isUserAdmin;
+    
+    // Show Send Reminder button for Admin
+    $("sendReminderBtn").style.display = isUserAdmin ? "inline-flex" : "none";
+
+    renderQueue(secData);
+    renderRequests();
+    renderHistory();
+
+    if (isUserAdmin) renderAdminPanel();
+  }
+
+  function renderQueue(secData) {
+    $("queueHeading").textContent = currentSection === "milk" 
+      ? "Milk Rotation Queue" 
+      : currentSection === "cleaning" 
+      ? "Cleaning Duty Schedule" 
+      : "Garbage Day Schedule";
+
+    $("queueMeta").textContent = `${secData.order.length} Members`;
+
+    const upcomingWednesdays = currentSection === "garbage" ? getUpcomingWednesdays(secData.order.length) : null;
+    const upcomingSundays = currentSection === "cleaning" ? getUpcomingSundays(secData.order.length) : null;
+
+    $("queueContainer").innerHTML = secData.order.map((slotName, i) => {
+      const isCurrent = i === (secData.nextIndex % secData.order.length);
+      const isAccounted = secData.cycleSeen?.includes(slotName);
+      
+      let dateTag = "";
+      if (upcomingWednesdays) {
+        const d = upcomingWednesdays[i % upcomingWednesdays.length];
+        dateTag = `Wed, ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      } else if (upcomingSundays) {
+        const d = upcomingSundays[i % upcomingSundays.length];
+        dateTag = `Sun, ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      }
+
+      let badgeHtml = "";
+      if (isCurrent) {
+        badgeHtml = `<span class="badge active">Up Next</span>`;
+      } else if (dateTag) {
+        badgeHtml = `<span class="badge upcoming">${dateTag}</span>`;
+      } else if (isAccounted) {
+        badgeHtml = `<span class="badge done">Accounted</span>`;
+      } else {
+        badgeHtml = `<span class="badge">In Queue</span>`;
+      }
+
+      return `
+        <div class="queue-item ${isCurrent ? "current" : ""}">
+          <div class="queue-item-left">
+            <div class="queue-num">${i + 1}</div>
+            <div>
+              <div class="queue-title">${escapeHtml(slotName)}</div>
+              ${dateTag ? `<div class="queue-sub">${escapeHtml(dateTag)}</div>` : ''}
+            </div>
+          </div>
+          <div>${badgeHtml}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderRequests() {
+    const list = Object.entries(state.requests || {}).filter(([, r]) => r.status === "pending" && r.section === currentSection);
+    $("requestBadge").textContent = list.length ? `(${list.length})` : "";
+    
+    if (list.length === 0) {
+      $("exchangeContainer").innerHTML = '<div class="empty-state">No pending exchange requests for this section.</div>';
+      return;
+    }
+
+    $("exchangeContainer").innerHTML = list.map(([id, r]) => {
+      const canRespond = matchesMember(currentUser, r.to) || isAdminSessionActive();
+      return `
+        <div class="request-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong>${escapeHtml(r.from)} ⇄ ${escapeHtml(r.to)}</strong>
+            <span class="badge upcoming">Pending</span>
+          </div>
+          <p style="font-size:13px; color:var(--ink-muted); margin-bottom:10px;">${escapeHtml(r.detail || "Swap positions.")}</p>
+          ${canRespond ? `
+            <div style="display:flex; gap:8px;">
+              <button class="hero-btn-primary" style="background:#059669; color:#fff; padding:6px 14px; font-size:12px;" data-request-action="accept" data-id="${escapeHtml(id)}">Accept Swap</button>
+              <button class="hero-btn-glass" style="background:#ef4444; color:#fff; padding:6px 14px; font-size:12px;" data-request-action="decline" data-id="${escapeHtml(id)}">Decline</button>
+            </div>
+          ` : '<span style="font-size:12px; color:var(--ink-muted);">Awaiting response</span>'}
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderHistory() {
+    const history = (state.history || []).filter(h => !h.section || h.section === currentSection);
+    $("historyCount").textContent = `${history.length} events`;
+
+    if (history.length === 0) {
+      $("historyContainer").innerHTML = '<div class="empty-state">No activity recorded yet.</div>';
+      return;
+    }
+
+    $("historyContainer").innerHTML = history.slice(0, 30).map(item => {
+      const timeStr = item.at ? new Date(item.at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+      return `
+        <div class="history-card">
+          <div class="history-top">
+            <strong>${escapeHtml(item.member || "Household")}</strong>
+            <span class="history-time">${escapeHtml(timeStr)}</span>
+          </div>
+          <p>${escapeHtml(item.detail || "")}</p>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderAdminPanel() {
+    const secData = getSectionData(currentSection);
+    
+    $("adminDbVersion").textContent = `v${state.version || 2} (${state.history?.length || 0} events in DB)`;
+    $("adminPersonSelect").innerHTML = secData.order.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    $("adminPersonSelect").value = getCurrentSlot(currentSection);
+
+    $("adminRemoveMemberSelect").innerHTML = secData.order.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    $("adminWebhookUrl").value = state.automation?.webhookUrl || "";
+
+    const tableBody = $("adminEmailTableBody");
+    tableBody.innerHTML = ALL_INDIVIDUALS.map(name => {
+      const email = state.emails?.[name] || "";
+      return `
+        <tr>
+          <td><strong>${escapeHtml(name)}</strong></td>
+          <td>${email ? `<span style="color:#059669; font-weight:600;">${escapeHtml(email)}</span>` : '<span style="color:#94a3b8; font-style:italic;">Not registered</span>'}</td>
+          <td>
+            <button class="hero-btn-glass" style="padding:4px 8px; font-size:11px; background:#e2e8f0; color:#0f172a;" data-admin-edit-email="${escapeHtml(name)}">✏️ Edit</button>
+            ${email ? `<button class="hero-btn-glass" style="padding:4px 8px; font-size:11px; background:#fee2e2; color:#ef4444;" data-admin-clear-email="${escapeHtml(name)}">Clear</button>` : ''}
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  $("adminForceSyncBtn").addEventListener("click", () => {
+    if (isConnected && dbRef) {
+      showToast("Fetching latest data from database…", "🔄");
+      onValue(dbRef, snapshot => {
+        if (snapshot.exists()) {
+          state = normalizeState(snapshot.val());
+          render();
+          showToast("Database state refreshed!", "✓");
+        }
+      }, { onlyOnce: true });
+    }
+  });
+
+  // Action Confirmation Modal
+  function openActionModal(title, desc, fieldsHtml, confirmBtnText, onConfirm) {
+    $("actionModalTitle").textContent = title;
+    $("actionModalDesc").innerHTML = desc;
+    $("actionModalFields").innerHTML = fieldsHtml || "";
+    $("actionModalConfirm").textContent = confirmBtnText || "Confirm";
+    modalAction = onConfirm;
+    $("actionModal").classList.add("open");
+  }
+
+  function closeActionModal() {
+    $("actionModal").classList.remove("open");
+    modalAction = null;
+  }
+
+  $("actionModalCancel").addEventListener("click", closeActionModal);
+  $("actionModalConfirm").addEventListener("click", () => {
+    if (modalAction) {
+      const fn = modalAction;
+      closeActionModal();
+      fn();
+    }
+  });
+
+  // Action Buttons
+  $("markDoneBtn").addEventListener("click", () => {
+    const activeSlot = getCurrentSlot(currentSection);
+    openActionModal(
+      `Mark ${currentSection.toUpperCase()} Done?`,
+      `Confirm that <strong>${escapeHtml(activeSlot)}</strong> has completed their turn for <strong>${currentSection === "milk" ? "Milk" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day"}</strong>. Rotation will advance to the next roommate.`,
+      "",
+      "✓ Mark Done",
+      () => advanceTurn(currentSection, activeSlot, "completed")
+    );
+  });
+
+  $("skipTurnBtn").addEventListener("click", () => {
+    const activeSlot = getCurrentSlot(currentSection);
+    openActionModal(
+      `Skip ${escapeHtml(activeSlot)}'s Turn?`,
+      `This will record this turn as skipped and move immediately to the next person. A reason is required.`,
+      `<div class="admin-field"><label>Reason for Skipping</label><input type="text" id="skipReasonInput" placeholder="e.g. Out of town, exam week" required></div>`,
+      "↷ Skip Turn",
+      () => {
+        const reason = $("skipReasonInput")?.value?.trim() || "Passed turn";
+        advanceTurn(currentSection, activeSlot, "skipped", reason);
+      }
+    );
+  });
+
+  $("exchangeTurnBtn").addEventListener("click", () => {
+    const secData = getSectionData(currentSection);
+    const options = secData.order.filter(p => !matchesMember(currentUser, p)).map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    
+    openActionModal(
+      `Exchange ${currentSection.toUpperCase()} Turn`,
+      `Select a roommate to swap positions with in this duty queue. Once they accept, your slots will switch.`,
+      `<div class="admin-field"><label>Swap with</label><select id="exchangeTargetSelect">${options}</select></div>`,
+      "Request Exchange",
+      () => {
+        const target = $("exchangeTargetSelect")?.value;
+        if (!target) return;
+        persist(s => {
+          s.requests = s.requests || {};
+          const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random();
+          s.requests[id] = {
+            id,
+            section: currentSection,
+            from: currentUser,
+            to: target,
+            status: "pending",
+            detail: `${currentUser} requested to exchange ${currentSection} turn with ${target}.`,
+            createdAt: Date.now()
+          };
+          addHistory(s, currentSection, "exchange-requested", currentUser, `Requested swap with ${target}.`);
+        }, `Exchange request sent to ${target}!`);
+      }
+    );
+  });
+
+  // Admin Actions
+  $("adminSetNextBtn").addEventListener("click", () => {
+    const sec = $("adminSectionSelect").value;
+    const targetPerson = $("adminPersonSelect").value;
+    persist(s => {
+      const secData = s[sec];
+      const idx = secData.order.indexOf(targetPerson);
+      if (idx !== -1) {
+        secData.nextIndex = idx;
+        addHistory(s, sec, "admin-override", currentUser, `Admin set ${targetPerson} as active turn.`);
+      }
+    }, `Active turn set to ${targetPerson}!`);
+  });
+
+  $("adminAddMemberBtn").addEventListener("click", () => {
+    const newName = $("adminNewMemberName").value.trim();
+    if (!newName) return;
+    persist(s => {
+      const secData = s[currentSection];
+      if (!secData.order.includes(newName)) {
+        secData.order.push(newName);
+        addHistory(s, currentSection, "member-added", currentUser, `Added ${newName} to ${currentSection}.`);
+      }
+    }, `Added ${newName} to ${currentSection}!`);
+    $("adminNewMemberName").value = "";
+  });
+
+  $("adminRemoveMemberBtn").addEventListener("click", () => {
+    const toRemove = $("adminRemoveMemberSelect").value;
+    if (!toRemove) return;
+    if (confirm(`Are you sure you want to remove ${toRemove} from ${currentSection}?`)) {
+      persist(s => {
+        const secData = s[currentSection];
+        secData.order = secData.order.filter(p => p !== toRemove);
+        secData.nextIndex = secData.nextIndex % Math.max(1, secData.order.length);
+        addHistory(s, currentSection, "member-removed", currentUser, `Removed ${toRemove} from ${currentSection}.`);
+      }, `Removed ${toRemove}!`);
+    }
+  });
+
+  $("adminSaveWebhookBtn").addEventListener("click", () => {
+    const url = $("adminWebhookUrl").value.trim();
+    persist(s => {
+      s.automation = s.automation || {};
+      s.automation.webhookUrl = url;
+    }, "Webhook URL saved!");
+  });
+
+  async function triggerEmailReminder(sectionName, targetPerson) {
+    const email = state.emails?.[targetPerson];
+    const webhookUrl = state.automation?.webhookUrl;
+    
+    if (!email) {
+      showToast(`No email found for ${targetPerson}. Please enter it in the directory.`, "⚠️");
+      return;
+    }
+
+    if (!webhookUrl) {
+      showToast("Please enter your Apps Script Webhook URL in Admin first.", "⚠️");
+      return;
+    }
+
+    try {
+      showToast("Dispatching reminder email…", "⏳");
+      await fetch(webhookUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          section: sectionName,
+          person: targetPerson,
+          email: email,
+          timestamp: Date.now()
+        })
+      });
+      showToast(`Reminder email triggered to ${email}!`, "📧");
+    } catch (err) {
+      showToast("Failed to dispatch email: " + err.message, "⚠️");
+    }
+  }
+
+  $("adminTestEmailBtn").addEventListener("click", () => {
+    const activeSlot = getCurrentSlot(currentSection);
+    triggerEmailReminder(currentSection === "milk" ? "Milk Turn" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day", activeSlot);
+  });
+
+  $("sendReminderBtn").addEventListener("click", () => {
+    const activeSlot = getCurrentSlot(currentSection);
+    triggerEmailReminder(currentSection === "milk" ? "Milk Turn" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day", activeSlot);
+  });
+
+  $("adminViewGuideBtn").addEventListener("click", () => {
+    $("guideModal").classList.add("open");
+  });
+  $("guideModalClose").addEventListener("click", () => {
+    $("guideModal").classList.remove("open");
+  });
+
+  document.addEventListener("click", e => {
+    const reqBtn = e.target.closest("[data-request-action]");
+    if (reqBtn) {
+      const id = reqBtn.dataset.id;
+      const act = reqBtn.dataset.requestAction;
+      persist(s => {
+        const r = s.requests?.[id];
+        if (!r || r.status !== "pending") return;
+        r.status = act === "accept" ? "accepted" : "declined";
+        if (act === "accept") {
+          const secData = s[r.section];
+          const a = secData.order.indexOf(r.from);
+          const b = secData.order.indexOf(r.to);
+          if (a !== -1 && b !== -1) {
+            [secData.order[a], secData.order[b]] = [secData.order[b], secData.order[a]];
+          }
+          addHistory(s, r.section, "exchange-accepted", currentUser, `${r.from} and ${r.to} swapped positions.`);
+        } else {
+          addHistory(s, r.section, "exchange-declined", currentUser, `${currentUser} declined swap.`);
+        }
+      }, act === "accept" ? "Exchange accepted & rotation updated!" : "Exchange declined.");
+      return;
+    }
+
+    const editEmailName = e.target.closest("[data-admin-edit-email]")?.dataset.adminEditEmail;
+    if (editEmailName) {
+      const curr = state.emails?.[editEmailName] || "";
+      const newEmail = prompt(`Enter email address for ${editEmailName}:`, curr);
+      if (newEmail !== null) {
+        persist(s => {
+          s.emails = s.emails || {};
+          s.emails[editEmailName] = newEmail.trim();
+        }, `Email updated for ${editEmailName}!`);
+      }
+      return;
+    }
+
+    const clearEmailName = e.target.closest("[data-admin-clear-email]")?.dataset.adminClearEmail;
+    if (clearEmailName) {
+      if (confirm(`Remove email for ${clearEmailName}?`)) {
+        persist(s => {
+          s.emails = s.emails || {};
+          delete s.emails[clearEmailName];
+        }, `Cleared email for ${clearEmailName}.`);
+      }
+    }
+  });
+
+  // Section Switching
+  document.querySelectorAll(".section-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".section-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentSection = tab.dataset.section;
+      render();
+    });
+  });
+
+  // Sub Tab Switching
+  function switchSubTab(subtabId) {
+    document.querySelectorAll(".sub-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.subtab === subtabId));
+    document.querySelectorAll(".sub-panel").forEach(p => p.classList.toggle("active", p.id === `subpanel-${subtabId}`));
+    document.querySelectorAll(".sub-panel").forEach(p => p.style.display = p.id === `subpanel-${subtabId}` ? "block" : "none");
+  }
+
+  document.querySelectorAll(".sub-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => switchSubTab(btn.dataset.subtab));
+  });
+
+  // User Selection with Admin Password Protection
+  const userSelect = $("currentUserSelect");
+  userSelect.innerHTML = ALL_INDIVIDUALS.map(name => `<option value="${name}">${name} ${isNameAdmin(name) ? '🔒' : ''}</option>`).join("");
+  
+  // If previously selected user was admin, check if session is still valid
+  if (isNameAdmin(currentUser) && sessionStorage.getItem("admin_authenticated") !== "true") {
+    currentUser = "Raghav";
+    previousUser = "Raghav";
+  }
+  userSelect.value = currentUser;
+
+  userSelect.addEventListener("change", () => {
+    const selected = userSelect.value;
+    if (isNameAdmin(selected)) {
+      if (sessionStorage.getItem("admin_authenticated") === "true") {
+        currentUser = selected;
+        previousUser = selected;
+        localStorage.setItem("household_user", currentUser);
+        render();
+        checkEmailPresence(currentUser);
+      } else {
+        promptAdminPassword(selected);
+      }
+    } else {
+      currentUser = selected;
+      previousUser = selected;
+      localStorage.setItem("household_user", currentUser);
+      render();
+      checkEmailPresence(currentUser);
+    }
+  });
+
+  // Initialize
+  initFirebaseDirect();
   render();
-  if(!location.protocol.startsWith("http"))banner("To use Firebase, open this file through a web server or GitHub Pages. Demo mode works locally in this browser only.","info");
 </script>
 </body>
 </html>
