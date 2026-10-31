@@ -5,6 +5,8 @@
  * Runs automatically every day in Satnam's Google Account for free.
  * Sends emails from Satnam's personal Gmail directly to roommates!
  *
+ * All emails are prefixed with [4042] in the subject heading.
+ *
  * SCHEDULE:
  * - Garbage Day is every Wednesday: Reminders sent 2 days before (Monday morning).
  * - Cleaning Duty is every Sunday: Reminders sent 2 days before (Friday morning).
@@ -63,7 +65,7 @@ function handleGarbageReminder(data) {
   const nextWed = getNextDayOfWeek(3); // 3 = Wednesday
   const dateStr = nextWed.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
-  const subject = "[Garbage Day] Household Reminder: Your turn is this Wednesday (" + dateStr + ")";
+  const subject = "[4042] [Garbage Day] Household Reminder: Your turn is this Wednesday (" + dateStr + ")";
   const body = 
 `Hi ${person},
 
@@ -103,7 +105,7 @@ function handleCleaningReminder(data) {
   const nextSun = getNextDayOfWeek(0); // 0 = Sunday
   const dateStr = nextSun.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
-  const subject = "[Cleaning Duty] Household Reminder: Your turn is this Sunday (" + dateStr + ")";
+  const subject = "[4042] [Cleaning Duty] Household Reminder: Your turn is this Sunday (" + dateStr + ")";
   const body = 
 `Hi ${person},
 
@@ -132,17 +134,17 @@ function handleSendEmail(section, person, email, customMessage) {
   }
 
   const secLower = String(section || "").toLowerCase();
-  let subject = "[Household Turn] Reminder for " + (person || "Roommate");
+  let subject = "[4042] [Household Turn] Reminder for " + (person || "Roommate");
   let body = `Hi ${person || "Roommate"},\n\nFriendly reminder: You have an upcoming turn for ${section || "household duty"}.\n\n${customMessage || "Please check the household web app to view details or mark your turn as done."}\n\nThanks!\nHousehold Organizer (Satnam)`;
 
   if (secLower.includes("milk")) {
-    subject = "[Milk Turn] Household Reminder: It is your turn to buy Milk!";
+    subject = "[4042] [Milk Turn] Household Reminder: It is your turn to buy Milk!";
     body = `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer (Satnam)`;
   } else if (secLower.includes("garbage")) {
-    subject = "[Garbage Day] Household Reminder: Your Garbage Duty is this week!";
+    subject = "[4042] [Garbage Day] Household Reminder: Your Garbage Duty is this week!";
     body = `Hi ${person},\n\nFriendly reminder: It's your turn for Garbage Day duty this week (every Wednesday)!\nPlease remember to pull the bins out.\n\nThanks!\nHousehold Organizer (Satnam)`;
   } else if (secLower.includes("cleaning")) {
-    subject = "[Cleaning Duty] Household Reminder: Cleaning Duty this weekend!";
+    subject = "[4042] [Cleaning Duty] Household Reminder: Cleaning Duty this weekend!";
     body = `Hi ${person},\n\nFriendly reminder: You are scheduled for house cleaning duty this weekend!\n\nThanks!\nHousehold Organizer (Satnam)`;
   }
 

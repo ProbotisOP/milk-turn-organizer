@@ -443,6 +443,58 @@
     .badge.done { background: #f1f5f9; color: #64748b; }
     .badge.upcoming { background: #fef3c7; color: #92400e; }
 
+    /* Drag & Drop Reordering */
+    .drag-handle {
+      cursor: grab;
+      color: var(--ink-subtle);
+      font-size: 17px;
+      padding: 0 4px;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+    .queue-item.draggable {
+      cursor: grab;
+    }
+    .queue-item.drag-over {
+      border-top: 3px solid var(--cleaning-primary);
+      background: #f1f5f9;
+      transform: translateY(2px);
+    }
+    .queue-item.dragging {
+      opacity: 0.35;
+      background: #e2e8f0;
+      border: 1px dashed var(--ink);
+    }
+    .admin-reorder-btns {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-left: 8px;
+    }
+    .reorder-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--ink);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .reorder-btn:hover:not(:disabled) {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .reorder-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
     /* Secondary Nav Tabs */
     .sub-tabs {
       display: flex;
@@ -1378,6 +1430,7 @@
     $("sendReminderBtn").style.display = isUserAdmin ? "inline-flex" : "none";
 
     renderQueue(secData);
+    setupQueueDragAndDrop();
     renderRequests();
     renderHistory();
 
@@ -1391,7 +1444,12 @@
       ? "Cleaning Duty Schedule" 
       : "Garbage Day Schedule";
 
-    $("queueMeta").textContent = `${secData.order.length} Members`;
+    const isUserAdmin = isAdminSessionActive();
+    if (isUserAdmin) {
+      $("queueMeta").innerHTML = `${secData.order.length} Members &middot; <span style="color:var(--cleaning-primary); font-weight:700;">Drag ☰ or use ▲▼ to reorder</span>`;
+    } else {
+      $("queueMeta").textContent = `${secData.order.length} Members`;
+    }
 
     const upcomingWednesdays = currentSection === "garbage" ? getUpcomingWednesdays(secData.order.length) : null;
     const upcomingSundays = currentSection === "cleaning" ? getUpcomingSundays(secData.order.length) : null;
@@ -1420,19 +1478,91 @@
         badgeHtml = `<span class="badge">In Queue</span>`;
       }
 
+      const adminControlsHtml = isUserAdmin ? `
+        <div class="admin-reorder-btns">
+          <button type="button" class="reorder-btn" data-reorder-action="up" data-index="${i}" title="Move Up" ${i === 0 ? "disabled" : ""}>▲</button>
+          <button type="button" class="reorder-btn" data-reorder-action="down" data-index="${i}" title="Move Down" ${i === secData.order.length - 1 ? "disabled" : ""}>▼</button>
+        </div>
+      ` : "";
+
+      const dragHandleHtml = isUserAdmin ? `<span class="drag-handle" title="Drag to reorder sequence">☰</span>` : "";
+
       return `
-        <div class="queue-item ${isCurrent ? "current" : ""}">
+        <div class="queue-item ${isCurrent ? "current" : ""} ${isUserAdmin ? "draggable" : ""}" 
+             ${isUserAdmin ? `draggable="true" data-drag-index="${i}"` : ""}>
           <div class="queue-item-left">
+            ${dragHandleHtml}
             <div class="queue-num">${i + 1}</div>
             <div>
               <div class="queue-title">${escapeHtml(slotName)}</div>
               ${dateTag ? `<div class="queue-sub">${escapeHtml(dateTag)}</div>` : ''}
             </div>
           </div>
-          <div>${badgeHtml}</div>
+          <div style="display:flex; align-items:center;">
+            ${badgeHtml}
+            ${adminControlsHtml}
+          </div>
         </div>
       `;
     }).join("");
+  }
+
+  function reorderQueue(sec, fromIndex, toIndex) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData || !secData.order || secData.order.length <= 1) return;
+      const activePerson = secData.order[secData.nextIndex % secData.order.length];
+
+      const item = secData.order.splice(fromIndex, 1)[0];
+      secData.order.splice(toIndex, 0, item);
+
+      // Maintain current active turn
+      const newActiveIdx = secData.order.indexOf(activePerson);
+      if (newActiveIdx !== -1) {
+        secData.nextIndex = newActiveIdx;
+      }
+      addHistory(s, sec, "queue-reordered", currentUser, `Admin reordered the ${sec} sequence.`);
+      s.version = (s.version || 0) + 1;
+    }, "Rotation sequence updated!");
+  }
+
+  let draggedIndex = null;
+  function setupQueueDragAndDrop() {
+    if (!isAdminSessionActive()) return;
+    const items = document.querySelectorAll(".queue-item.draggable");
+    items.forEach(item => {
+      item.addEventListener("dragstart", e => {
+        draggedIndex = parseInt(item.dataset.dragIndex, 10);
+        item.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+      });
+
+      item.addEventListener("dragend", () => {
+        item.classList.remove("dragging");
+        document.querySelectorAll(".queue-item").forEach(el => el.classList.remove("drag-over"));
+        draggedIndex = null;
+      });
+
+      item.addEventListener("dragover", e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        document.querySelectorAll(".queue-item").forEach(el => el.classList.remove("drag-over"));
+        item.classList.add("drag-over");
+      });
+
+      item.addEventListener("dragleave", () => {
+        item.classList.remove("drag-over");
+      });
+
+      item.addEventListener("drop", e => {
+        e.preventDefault();
+        item.classList.remove("drag-over");
+        const targetIndex = parseInt(item.dataset.dragIndex, 10);
+        if (draggedIndex !== null && !isNaN(targetIndex) && draggedIndex !== targetIndex) {
+          reorderQueue(currentSection, draggedIndex, targetIndex);
+        }
+      });
+    });
   }
 
   function renderRequests() {
@@ -1716,6 +1846,20 @@
   });
 
   document.addEventListener("click", e => {
+    // Reorder buttons (Move Up / Down)
+    const reorderBtn = e.target.closest("[data-reorder-action]");
+    if (reorderBtn) {
+      const idx = parseInt(reorderBtn.dataset.index, 10);
+      const action = reorderBtn.dataset.reorderAction;
+      const secData = getSectionData(currentSection);
+      if (action === "up" && idx > 0) {
+        reorderQueue(currentSection, idx, idx - 1);
+      } else if (action === "down" && idx < secData.order.length - 1) {
+        reorderQueue(currentSection, idx, idx + 1);
+      }
+      return;
+    }
+
     const reqBtn = e.target.closest("[data-request-action]");
     if (reqBtn) {
       const id = reqBtn.dataset.id;
