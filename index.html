@@ -1655,33 +1655,44 @@
   });
 
   async function triggerEmailReminder(sectionName, targetPerson) {
-    const email = state.emails?.[targetPerson];
-    const webhookUrl = state.automation?.webhookUrl;
+    let email = state.emails?.[targetPerson];
+    if (!email && targetPerson && targetPerson.includes("&")) {
+      const parts = targetPerson.split("&").map(s => s.trim());
+      for (const p of parts) {
+        if (state.emails?.[p]) { email = state.emails[p]; break; }
+      }
+    }
     
+    // If no email registered yet for this person, prompt the admin
     if (!email) {
-      showToast(`No email found for ${targetPerson}. Please enter it in the directory.`, "⚠️");
-      return;
+      email = prompt(`No email found for ${targetPerson}. Enter email address to send test reminder to:`, state.emails?.[currentUser] || "sohalsatnam792@gmail.com");
+      if (!email || !email.includes("@")) {
+        showToast("No valid recipient email provided.", "⚠️");
+        return;
+      }
     }
 
-    if (!webhookUrl) {
-      showToast("Please enter your Apps Script Webhook URL in Admin first.", "⚠️");
+    const webhookUrl = (state.automation?.webhookUrl || $("adminWebhookUrl")?.value || "").trim();
+    if (!webhookUrl || !webhookUrl.startsWith("http")) {
+      alert("Missing Webhook URL!\n\nTo enable instant email sending from the website:\n1. Open your Apps Script at script.google.com\n2. Click Deploy ➔ New deployment ➔ Web app\n3. Set 'Execute as: Me' and 'Who has access: Anyone'\n4. Copy the Web App URL\n5. Paste it in Admin & Backend ➔ Save Webhook.");
       return;
     }
 
     try {
       showToast("Dispatching reminder email…", "⏳");
-      await fetch(webhookUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          section: sectionName,
-          person: targetPerson,
-          email: email,
-          timestamp: Date.now()
-        })
+      const params = new URLSearchParams({
+        section: sectionName,
+        person: targetPerson,
+        email: email,
+        t: String(Date.now())
       });
-      showToast(`Reminder email triggered to ${email}!`, "📧");
+      const requestUrl = webhookUrl + (webhookUrl.includes("?") ? "&" : "?") + params.toString();
+
+      await fetch(requestUrl, {
+        method: "GET",
+        mode: "no-cors"
+      });
+      showToast(`Reminder email sent to ${email}!`, "📧");
     } catch (err) {
       showToast("Failed to dispatch email: " + err.message, "⚠️");
     }

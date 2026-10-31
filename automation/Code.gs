@@ -12,12 +12,12 @@
  * =========================================================================
  */
 
-// Your Firebase Database URL (public read or secret/token if rules locked)
+// Your Firebase Database URL (public read or authenticated)
 const FIREBASE_DB_URL = "https://milk-organizer-default-rtdb.firebaseio.com/milkTurnOrganizer/state.json";
 
 /**
  * Main Daily Trigger Function:
- * Run this function once per day between 8:00 AM - 9:00 AM.
+ * Set a trigger in Apps Script to run this once per day between 7:00 AM - 8:00 AM.
  */
 function sendDailyReminders() {
   const data = getFirebaseData();
@@ -60,7 +60,6 @@ function handleGarbageReminder(data) {
     return;
   }
 
-  // Calculate upcoming Wednesday date
   const nextWed = getNextDayOfWeek(3); // 3 = Wednesday
   const dateStr = nextWed.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
@@ -124,42 +123,72 @@ Household Organizer (Automated reminder from Satnam)`;
 }
 
 /**
- * Webhook handler for instant 1-click reminders from the web app
+ * Unified Email Dispatcher for Instant Webhook Calls
+ */
+function handleSendEmail(section, person, email, customMessage) {
+  if (!email) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: "No recipient email provided" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  let subject = "📢 Household Turn Reminder: " + (section || "Turn Duty");
+  let body = `Hi ${person || "Roommate"},\n\nFriendly reminder: You have an upcoming turn for ${section || "household duty"}.\n\n${customMessage || "Please check the household web app to view details or mark your turn as done."}\n\nThanks!\nHousehold Organizer (Satnam)`;
+
+  if (section === "Milk Turn" || section === "milk") {
+    subject = "🥛 Household Reminder: It is your turn to buy Milk!";
+    body = `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer (Satnam)`;
+  } else if (section === "Garbage Day" || section === "garbage") {
+    subject = "🗑️ Household Reminder: Garbage Day Duty this week!";
+    body = `Hi ${person},\n\nFriendly reminder: It's your turn for Garbage Day duty this week (every Wednesday)!\nPlease remember to pull the bins out.\n\nThanks!\nHousehold Organizer (Satnam)`;
+  } else if (section === "Cleaning Duty" || section === "cleaning") {
+    subject = "🧹 Household Reminder: Cleaning Duty turn!";
+    body = `Hi ${person},\n\nFriendly reminder: You are scheduled for house cleaning duty this weekend!\n\nThanks!\nHousehold Organizer (Satnam)`;
+  }
+
+  Logger.log("Sending email to " + email + " for section: " + section);
+  GmailApp.sendEmail(email, subject, body);
+
+  return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Email sent to " + email }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Webhook handler for POST requests
  */
 function doPost(e) {
   try {
-    const payload = JSON.parse(e.postData.contents);
-    const { section, person, email, customMessage } = payload;
-
-    if (!email) {
-      return ContentService.createTextOutput(JSON.stringify({ success: false, error: "No recipient email provided" }))
-        .setMimeType(ContentService.MimeType.JSON);
+    let payload = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        payload = JSON.parse(e.postData.contents);
+      } catch (_) {
+        payload = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
+      payload = e.parameter;
     }
-
-    let subject = "📢 Household Turn Reminder: " + section;
-    let body = `Hi ${person},\n\nThis is a friendly reminder that you have an upcoming turn for ${section} in our shared household.\n\n${customMessage || "Please check the app to see details or mark your turn as done."}\n\nThanks!\nHousehold Organizer`;
-
-    if (section === "Milk Turn") {
-      subject = "🥛 Reminder: It is your turn to buy Milk!";
-      body = `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer`;
-    } else if (section === "Garbage Day") {
-      subject = "🗑️ Reminder: Garbage Day Duty this week!";
-    } else if (section === "Cleaning Duty") {
-      subject = "🧹 Reminder: Cleaning Duty turn!";
-    }
-
-    GmailApp.sendEmail(email, subject, body);
-
-    return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Email sent successfully to " + email }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return handleSendEmail(payload.section, payload.person, payload.email, payload.customMessage);
   } catch (err) {
+    Logger.log("doPost Error: " + err);
     return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
+/**
+ * Webhook handler for GET requests (CORS-friendly fallback)
+ */
 function doGet(e) {
-  return ContentService.createTextOutput("Household Email Automation Webhook is Active! Use POST with {section, person, email} to trigger an email.");
+  try {
+    if (e && e.parameter && e.parameter.email) {
+      return handleSendEmail(e.parameter.section, e.parameter.person, e.parameter.email, e.parameter.customMessage);
+    }
+    return ContentService.createTextOutput("Household Email Automation Webhook is ACTIVE! Send a GET or POST request with ?email=...&person=...&section=... to trigger.");
+  } catch (err) {
+    Logger.log("doGet Error: " + err);
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 // ---------------- Helper Utilities ----------------
@@ -180,7 +209,6 @@ function getEmailsForPerson(person, emails) {
   const result = [];
   if (emails[person]) result.push(emails[person]);
   
-  // Handle paired names like "Navneet & Japesh"
   if (person.includes("&")) {
     const parts = person.split("&").map(p => p.trim());
     for (const p of parts) {
