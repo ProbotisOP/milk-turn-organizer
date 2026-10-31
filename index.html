@@ -1254,6 +1254,7 @@
   }
 
   function advanceTurn(sec, person, type, reason = "") {
+    let newNextSlot = null;
     persist(s => {
       const secData = s[sec];
       if (!secData || !secData.order.length) return;
@@ -1275,8 +1276,98 @@
       } else {
         secData.nextIndex = (secData.nextIndex + 1) % secData.order.length;
       }
+      newNextSlot = secData.order[secData.nextIndex % secData.order.length];
       s.version = (s.version || 0) + 1;
     }, `${person}'s turn marked ${type === "skipped" ? "skipped" : "done"}!`);
+
+    // If turn was skipped, send email alert to the new next person and admins
+    if (type === "skipped" && newNextSlot) {
+      notifyTurnSkipped(sec, person, newNextSlot, reason);
+    }
+  }
+
+  // Helper functions for Automated Email Notifications
+  function getEmailsForSlot(slotName) {
+    const list = [];
+    if (!slotName) return list;
+    if (state.emails?.[slotName]) list.push(state.emails[slotName]);
+    if (slotName.includes("&")) {
+      const parts = slotName.split("&").map(s => s.trim());
+      for (const p of parts) {
+        if (state.emails?.[p] && !list.includes(state.emails[p])) {
+          list.push(state.emails[p]);
+        }
+      }
+    }
+    return list;
+  }
+
+  function getAdminEmails() {
+    const list = [];
+    ADMIN_NAMES.forEach(adm => {
+      if (state.emails?.[adm] && !list.includes(state.emails[adm])) {
+        list.push(state.emails[adm]);
+      }
+    });
+    return list;
+  }
+
+  function dispatchNotification(recipientEmails, subject, bodyText) {
+    const webhookUrl = (state.automation?.webhookUrl || $("adminWebhookUrl")?.value || "").trim();
+    if (!webhookUrl || !webhookUrl.startsWith("http")) return;
+
+    const list = Array.isArray(recipientEmails) ? recipientEmails.filter(Boolean) : [recipientEmails].filter(Boolean);
+    if (list.length === 0) return;
+
+    const uniqueEmails = [...new Set(list)];
+    const params = new URLSearchParams({
+      email: uniqueEmails.join(","),
+      subject: subject,
+      body: bodyText,
+      t: String(Date.now())
+    });
+
+    fetch(webhookUrl + (webhookUrl.includes("?") ? "&" : "?") + params.toString(), {
+      method: "GET",
+      mode: "no-cors"
+    }).catch(err => console.warn("Notification dispatch notice:", err));
+  }
+
+  function notifyTurnSkipped(sec, skippedPerson, nextPerson, reason) {
+    const sectionTitle = sec === "milk" ? "Milk Turn" : sec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    const nextEmails = getEmailsForSlot(nextPerson);
+    const adminEmails = getAdminEmails();
+    const recipients = [...nextEmails, ...adminEmails];
+
+    const subject = `[4042] [Turn Skipped] ${sectionTitle}: ${skippedPerson} skipped their turn`;
+    const body = `Hi Roommates,\n\n${skippedPerson} skipped their turn for ${sectionTitle}.\nReason: ${reason || "Out of town / Passed"}\n\n👉 ${nextPerson} is now UP NEXT!\n\nPlease check the household web app to manage your turn.\n\nThanks!\nHousehold Organizer`;
+
+    dispatchNotification(recipients, subject, body);
+  }
+
+  function notifyExchangeRequested(sec, fromPerson, toPerson) {
+    const sectionTitle = sec === "milk" ? "Milk Turn" : sec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    const toEmails = getEmailsForSlot(toPerson);
+    const adminEmails = getAdminEmails();
+    const recipients = [...toEmails, ...adminEmails];
+
+    const subject = `[4042] [Exchange Request] ${sectionTitle}: ${fromPerson} wants to swap turns with you`;
+    const body = `Hi ${toPerson},\n\n${fromPerson} has requested to exchange duty turns with you for ${sectionTitle}.\n\nPlease open the household web app to Accept or Decline the swap.\n\nThanks!\nHousehold Organizer`;
+
+    dispatchNotification(recipients, subject, body);
+  }
+
+  function notifyExchangeAccepted(sec, fromPerson, toPerson) {
+    const sectionTitle = sec === "milk" ? "Milk Turn" : sec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    const fromEmails = getEmailsForSlot(fromPerson);
+    const toEmails = getEmailsForSlot(toPerson);
+    const adminEmails = getAdminEmails();
+    const recipients = [...fromEmails, ...toEmails, ...adminEmails];
+
+    const subject = `[4042] [Turn Exchange] ${sectionTitle}: ${fromPerson} & ${toPerson} swapped turns`;
+    const body = `Hi Roommates,\n\nAn exchange between ${fromPerson} and ${toPerson} for ${sectionTitle} has been accepted!\n\nThe rotation queue in the household app has been updated.\n\nThanks!\nHousehold Organizer`;
+
+    dispatchNotification(recipients, subject, body);
   }
 
   // Email Notification Check
@@ -1732,6 +1823,7 @@
           };
           addHistory(s, currentSection, "exchange-requested", currentUser, `Requested swap with ${target}.`);
         }, `Exchange request sent to ${target}!`);
+        notifyExchangeRequested(currentSection, currentUser, target);
       }
     );
   });
@@ -1864,6 +1956,7 @@
     if (reqBtn) {
       const id = reqBtn.dataset.id;
       const act = reqBtn.dataset.requestAction;
+      const requestData = state.requests?.[id];
       persist(s => {
         const r = s.requests?.[id];
         if (!r || r.status !== "pending") return;
@@ -1880,6 +1973,10 @@
           addHistory(s, r.section, "exchange-declined", currentUser, `${currentUser} declined swap.`);
         }
       }, act === "accept" ? "Exchange accepted & rotation updated!" : "Exchange declined.");
+
+      if (act === "accept" && requestData) {
+        notifyExchangeAccepted(requestData.section, requestData.from, requestData.to);
+      }
       return;
     }
 

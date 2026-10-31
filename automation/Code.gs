@@ -11,6 +11,7 @@
  * - Garbage Day is every Wednesday: Reminders sent 2 days before (Monday morning).
  * - Cleaning Duty is every Sunday: Reminders sent 2 days before (Friday morning).
  * - Milk Turn: Reminders sent when someone's turn is active or on demand.
+ * - Skip Turn & Exchange Alerts: Sent immediately to next person and Admins.
  * =========================================================================
  */
 
@@ -126,34 +127,40 @@ Household Organizer (Automated reminder from Satnam)`;
 
 /**
  * Unified Email Dispatcher for Instant Webhook Calls
+ * Supports single email or comma-separated recipients, and custom subjects/bodies
  */
-function handleSendEmail(section, person, email, customMessage) {
+function handleSendEmail(section, person, email, customMessage, customSubject, customBody) {
   if (!email) {
     return ContentService.createTextOutput(JSON.stringify({ success: false, error: "No recipient email provided" }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  const secLower = String(section || "").toLowerCase();
-  let subject = "[4042] [Household Turn] Reminder for " + (person || "Roommate");
-  let body = `Hi ${person || "Roommate"},\n\nFriendly reminder: You have an upcoming turn for ${section || "household duty"}.\n\n${customMessage || "Please check the household web app to view details or mark your turn as done."}\n\nThanks!\nHousehold Organizer (Satnam)`;
-
-  if (secLower.includes("milk")) {
-    subject = "[4042] [Milk Turn] Household Reminder: It is your turn to buy Milk!";
-    body = `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer (Satnam)`;
-  } else if (secLower.includes("garbage")) {
-    subject = "[4042] [Garbage Day] Household Reminder: Your Garbage Duty is this week!";
-    body = `Hi ${person},\n\nFriendly reminder: It's your turn for Garbage Day duty this week (every Wednesday)!\nPlease remember to pull the bins out.\n\nThanks!\nHousehold Organizer (Satnam)`;
-  } else if (secLower.includes("cleaning")) {
-    subject = "[4042] [Cleaning Duty] Household Reminder: Cleaning Duty this weekend!";
-    body = `Hi ${person},\n\nFriendly reminder: You are scheduled for house cleaning duty this weekend!\n\nThanks!\nHousehold Organizer (Satnam)`;
+  const emailList = String(email).split(",").map(e => e.trim()).filter(Boolean);
+  if (emailList.length === 0) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: "Empty email list" }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 
-  Logger.log("Sending email to " + email + " with subject: " + subject);
-  GmailApp.sendEmail(email, subject, body, {
-    name: "Household Organizer"
-  });
+  const secLower = String(section || "").toLowerCase();
+  let subject = customSubject || ("[4042] [Household Turn] Reminder for " + (person || "Roommate"));
+  let body = customBody || `Hi ${person || "Roommate"},\n\nFriendly reminder: You have an upcoming turn for ${section || "household duty"}.\n\n${customMessage || "Please check the household web app to view details or mark your turn as done."}\n\nThanks!\nHousehold Organizer (Satnam)`;
 
-  return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Email sent to " + email }))
+  if (!customSubject) {
+    if (secLower.includes("milk")) {
+      subject = "[4042] [Milk Turn] Household Reminder: It is your turn to buy Milk!";
+      body = customBody || `Hi ${person},\n\nFriendly reminder: You are up next on the Milk Turn!\nPlease pick up milk for the house when you can and mark it done on the web app.\n\nThanks!\nHousehold Organizer (Satnam)`;
+    } else if (secLower.includes("garbage")) {
+      subject = "[4042] [Garbage Day] Household Reminder: Your Garbage Duty is this week!";
+      body = customBody || `Hi ${person},\n\nFriendly reminder: It's your turn for Garbage Day duty this week (every Wednesday)!\nPlease remember to pull the bins out.\n\nThanks!\nHousehold Organizer (Satnam)`;
+    } else if (secLower.includes("cleaning")) {
+      subject = "[4042] [Cleaning Duty] Household Reminder: Cleaning Duty this weekend!";
+      body = customBody || `Hi ${person},\n\nFriendly reminder: You are scheduled for house cleaning duty this weekend!\n\nThanks!\nHousehold Organizer (Satnam)`;
+    }
+  }
+
+  sendToAll(emailList, subject, body);
+
+  return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Emails sent to: " + emailList.join(", ") }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -172,7 +179,7 @@ function doPost(e) {
     } else if (e && e.parameter) {
       payload = e.parameter;
     }
-    return handleSendEmail(payload.section, payload.person, payload.email, payload.customMessage);
+    return handleSendEmail(payload.section, payload.person, payload.email, payload.customMessage, payload.subject, payload.body);
   } catch (err) {
     Logger.log("doPost Error: " + err);
     return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
@@ -186,9 +193,16 @@ function doPost(e) {
 function doGet(e) {
   try {
     if (e && e.parameter && e.parameter.email) {
-      return handleSendEmail(e.parameter.section, e.parameter.person, e.parameter.email, e.parameter.customMessage);
+      return handleSendEmail(
+        e.parameter.section,
+        e.parameter.person,
+        e.parameter.email,
+        e.parameter.customMessage,
+        e.parameter.subject,
+        e.parameter.body
+      );
     }
-    return ContentService.createTextOutput("Household Email Automation Webhook is ACTIVE! Send a GET or POST request with ?email=...&person=...&section=... to trigger.");
+    return ContentService.createTextOutput("Household Email Automation Webhook is ACTIVE! Send a GET or POST request with ?email=...&subject=...&body=... to trigger.");
   } catch (err) {
     Logger.log("doGet Error: " + err);
     return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
@@ -228,7 +242,7 @@ function getEmailsForPerson(person, emails) {
 function sendToAll(emailList, subject, body) {
   emailList.forEach(email => {
     try {
-      Logger.log("Sending email to: " + email);
+      Logger.log("Sending email to: " + email + " | Subject: " + subject);
       GmailApp.sendEmail(email, subject, body, {
         name: "Household Organizer"
       });
