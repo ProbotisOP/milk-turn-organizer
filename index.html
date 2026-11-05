@@ -853,18 +853,18 @@
       gap: 4px;
     }
 
-    /* 3 Scheduling Modes Tabs */
+    /* Scheduling Modes Tabs */
     .schedule-mode-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
       margin-bottom: 16px;
     }
     .mode-tab-btn {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
+      gap: 10px;
+      padding: 10px 12px;
       background: #ffffff;
       border: 2px solid var(--card-border);
       border-radius: var(--radius-md);
@@ -884,6 +884,60 @@
     .mode-tab-btn.active div > div:first-child {
       color: #065f46;
     }
+
+    /* Person Chain & Linked Mode Components */
+    .chain-step-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .chain-step-badge {
+      display: inline-flex;
+      align-items: center;
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      text-transform: uppercase;
+    }
+    .chain-days-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .chain-arrow {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      padding: 2px 0;
+    }
+    .chain-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .chain-mini-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 6px;
+      color: var(--ink);
+    }
+    .chain-mini-btn:hover { background: #e2e8f0; }
 
     @media (max-width: 600px) {
       .schedule-mode-tabs { grid-template-columns: 1fr; }
@@ -1073,27 +1127,41 @@
             </div>
           </div>
 
-          <!-- 3 Mode Selection Tabs -->
+          <!-- 5 Mode Selection Tabs -->
           <div class="schedule-mode-tabs" id="adminModeTabs">
             <button type="button" class="mode-tab-btn active" data-mode="recurring" id="modeBtnRecurring">
-              <span style="font-size:22px;">📌</span>
+              <span style="font-size:20px;">📌</span>
               <div>
-                <div style="font-weight:800; font-size:14px;">1. Recurring Occurrence</div>
-                <div style="font-size:11px; color:var(--ink-muted);">e.g., Every 8th Satnam, every 12th, or weekly</div>
+                <div style="font-weight:800; font-size:13px;">1. Recurring</div>
+                <div style="font-size:11px; color:var(--ink-muted);">e.g. Every 8th, 12th</div>
               </div>
             </button>
             <button type="button" class="mode-tab-btn" data-mode="timebased" id="modeBtnTimebased">
-              <span style="font-size:22px;">⏱️</span>
+              <span style="font-size:20px;">⏱️</span>
               <div>
-                <div style="font-weight:800; font-size:14px;">2. Time-Based Interval</div>
-                <div style="font-size:11px; color:var(--ink-muted);">e.g., Continue after 4 days or 5 days</div>
+                <div style="font-weight:800; font-size:13px;">2. Time-Based</div>
+                <div style="font-size:11px; color:var(--ink-muted);">e.g. Every 4 or 5 days</div>
+              </div>
+            </button>
+            <button type="button" class="mode-tab-btn" data-mode="chain" id="modeBtnChain">
+              <span style="font-size:20px;">🔀</span>
+              <div>
+                <div style="font-weight:800; font-size:13px;">3. Person Chain</div>
+                <div style="font-size:11px; color:var(--ink-muted);">Satnam → Saurab → Abhi</div>
+              </div>
+            </button>
+            <button type="button" class="mode-tab-btn" data-mode="linked" id="modeBtnLinked">
+              <span style="font-size:20px;">🔗</span>
+              <div>
+                <div style="font-weight:800; font-size:13px;">4. Linked Duty</div>
+                <div style="font-size:11px; color:var(--ink-muted);">Link with Garbage Day</div>
               </div>
             </button>
             <button type="button" class="mode-tab-btn" data-mode="specific" id="modeBtnSpecific">
-              <span style="font-size:22px;">📅</span>
+              <span style="font-size:20px;">📅</span>
               <div>
-                <div style="font-weight:800; font-size:14px;">3. Specific Dates</div>
-                <div style="font-size:11px; color:var(--ink-muted);">e.g., Assign / swap exact calendar dates</div>
+                <div style="font-weight:800; font-size:13px;">5. Specific Dates</div>
+                <div style="font-size:11px; color:var(--ink-muted);">Exact date assignments</div>
               </div>
             </button>
           </div>
@@ -1177,7 +1245,69 @@
             </div>
           </div>
 
-          <!-- Panel Mode 3: Specific Calendar Dates -->
+          <!-- Panel Mode 3: Person Chain ("After Turn" Succession) -->
+          <div class="mode-config-panel" id="modePanelChain" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <div>
+                <h5 style="font-size:14px; font-weight:800; margin:0; display:flex; align-items:center; gap:6px;">
+                  <span>🔀</span> Person Chain ("After-Turn" Succession) for <span class="active-sec-label">Milk Turn</span>
+                </h5>
+                <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
+                  Custom succession: after Satnam is Saurab, then Abhi, etc., with custom turn duration for each.
+                </p>
+              </div>
+              <button type="button" class="hero-btn-glass" style="font-size:11px; padding:6px 10px; background:#e2e8f0; color:#0f172a;" id="adminResetChainBtn">↺ Reset to Household Order</button>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:12px; border-radius:var(--radius-sm);">
+              <div class="admin-field" style="margin:0; min-width:180px; flex:1;">
+                <label for="adminChainPersonSelect">Roommate</label>
+                <select id="adminChainPersonSelect"></select>
+              </div>
+              <div class="admin-field" style="margin:0; width:120px;">
+                <label for="adminChainDaysInput">Days Duration</label>
+                <input type="number" id="adminChainDaysInput" min="1" max="60" value="4">
+              </div>
+              <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:10px 14px;" id="adminAddChainStepBtn">➕ Add to Chain</button>
+            </div>
+
+            <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:8px; text-transform:uppercase;">Active Succession Chain Order:</h6>
+            <div id="adminChainContainer" style="display:grid; gap:6px;"></div>
+          </div>
+
+          <!-- Panel Mode 4: Linked Duty Schedule -->
+          <div class="mode-config-panel" id="modePanelLinked" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+            <h5 style="font-size:14px; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <span>🔗</span> Linked Duty Schedule Synchronization for <span class="active-sec-label">Milk Turn</span>
+            </h5>
+            <p style="font-size:12px; color:var(--ink-muted); margin-bottom:12px;">
+              Link this duty's schedule to another duty (e.g. Cleaning Duty schedule can be linked with Garbage Day so the same roommate does both).
+            </p>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:14px; background:#fff; border:1px solid var(--card-border); padding:14px; border-radius:var(--radius-sm);">
+              <div class="admin-field" style="margin:0;">
+                <label for="adminLinkTargetSelect">Link this Duty Schedule with:</label>
+                <select id="adminLinkTargetSelect">
+                  <option value="garbage">🗑️ Garbage Day Schedule</option>
+                  <option value="cleaning">🧹 Cleaning Duty Schedule</option>
+                  <option value="milk">🥛 Milk Turn Schedule</option>
+                </select>
+              </div>
+              <div class="admin-field" style="margin:0;">
+                <label for="adminLinkRuleSelect">Roommate Assignment Rule:</label>
+                <select id="adminLinkRuleSelect">
+                  <option value="same_person">Same Roommate (Match linked duty turn)</option>
+                  <option value="offset_1">Next Roommate in Rotation (+1 offset)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:var(--radius-sm); padding:12px; font-size:12px; color:#065f46;">
+              <strong>ℹ️ Active Synchronization:</strong> Turns on this duty will automatically sync and follow the selected duty's schedule in real time.
+            </div>
+          </div>
+
+          <!-- Panel Mode 5: Specific Calendar Dates -->
           <div class="mode-config-panel" id="modePanelSpecific" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
             <h5 style="font-size:14px; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
               <span>📅</span> Specific Date Assignments for <span class="active-sec-label">Milk Turn</span>
@@ -1409,31 +1539,45 @@
 
 <!-- Modal: Quick Schedule Settings & Occurrence Rules -->
 <div class="modal-backdrop" id="scheduleSettingsModal">
-  <div class="modal" style="width:min(100%, 620px); max-height:85vh; overflow-y:auto;">
+  <div class="modal" style="width:min(100%, 650px); max-height:85vh; overflow-y:auto;">
     <h3 id="modalSchedHeading">⚙️ Schedule & Occurrence Rules</h3>
-    <p>Select which of the 3 scheduling modes controls this duty. Click <strong>Save & Apply</strong> to update duties immediately.</p>
+    <p>Select which scheduling mode controls this duty. Click <strong>Save & Apply</strong> to update duties immediately.</p>
 
-    <!-- 3 Mode Selection Tabs for Modal -->
+    <!-- 5 Mode Selection Tabs for Modal -->
     <div class="schedule-mode-tabs" id="modalModeTabs" style="margin-top:12px; margin-bottom:14px;">
       <button type="button" class="mode-tab-btn active" data-modal-mode="recurring" id="modalModeBtnRecurring">
-        <span style="font-size:22px;">📌</span>
+        <span style="font-size:20px;">📌</span>
         <div>
-          <div style="font-weight:800; font-size:13px;">1. Recurring Occurrence</div>
-          <div style="font-size:11px; color:var(--ink-muted);">e.g., Every 8th Satnam, 12th Sourab</div>
+          <div style="font-weight:800; font-size:13px;">1. Recurring</div>
+          <div style="font-size:11px; color:var(--ink-muted);">e.g. Every 8th, 12th</div>
         </div>
       </button>
       <button type="button" class="mode-tab-btn" data-modal-mode="timebased" id="modalModeBtnTimebased">
-        <span style="font-size:22px;">⏱️</span>
+        <span style="font-size:20px;">⏱️</span>
         <div>
-          <div style="font-weight:800; font-size:13px;">2. Time-Based Interval</div>
-          <div style="font-size:11px; color:var(--ink-muted);">e.g., After 4 or 5 days continue</div>
+          <div style="font-weight:800; font-size:13px;">2. Time-Based</div>
+          <div style="font-size:11px; color:var(--ink-muted);">e.g. Every 4 or 5 days</div>
+        </div>
+      </button>
+      <button type="button" class="mode-tab-btn" data-modal-mode="chain" id="modalModeBtnChain">
+        <span style="font-size:20px;">🔀</span>
+        <div>
+          <div style="font-weight:800; font-size:13px;">3. Person Chain</div>
+          <div style="font-size:11px; color:var(--ink-muted);">Satnam → Saurab → Abhi</div>
+        </div>
+      </button>
+      <button type="button" class="mode-tab-btn" data-modal-mode="linked" id="modalModeBtnLinked">
+        <span style="font-size:20px;">🔗</span>
+        <div>
+          <div style="font-weight:800; font-size:13px;">4. Linked Duty</div>
+          <div style="font-size:11px; color:var(--ink-muted);">Link with Garbage Day</div>
         </div>
       </button>
       <button type="button" class="mode-tab-btn" data-modal-mode="specific" id="modalModeBtnSpecific">
-        <span style="font-size:22px;">📅</span>
+        <span style="font-size:20px;">📅</span>
         <div>
-          <div style="font-weight:800; font-size:13px;">3. Specific Dates</div>
-          <div style="font-size:11px; color:var(--ink-muted);">e.g., Exact calendar date overrides</div>
+          <div style="font-weight:800; font-size:13px;">5. Specific Dates</div>
+          <div style="font-size:11px; color:var(--ink-muted);">Exact date overrides</div>
         </div>
       </button>
     </div>
@@ -1501,7 +1645,68 @@
       </div>
     </div>
 
-    <!-- Panel 3: Specific Date Overrides -->
+    <!-- Panel 3: Person Chain ("After Turn" Succession) -->
+    <div class="mode-config-panel" id="modalModePanelChain" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+        <div>
+          <h4 style="font-size:14px; font-weight:800; margin:0; display:flex; align-items:center; gap:6px;">
+            <span>🔀</span> Person Chain ("After-Turn" Succession)
+          </h4>
+          <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
+            Sequential chain: after Satnam is Saurab, then Abhi, etc., with custom turn duration for each.
+          </p>
+        </div>
+        <button type="button" class="hero-btn-glass" style="font-size:11px; padding:4px 8px; background:#e2e8f0; color:#0f172a;" id="modalResetChainBtn">↺ Reset to Household</button>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:10px; border-radius:var(--radius-sm);">
+        <div class="admin-field" style="margin:0; min-width:160px; flex:1;">
+          <label for="modalChainPersonSelect">Roommate</label>
+          <select id="modalChainPersonSelect"></select>
+        </div>
+        <div class="admin-field" style="margin:0; width:110px;">
+          <label for="modalChainDaysInput">Days Duration</label>
+          <input type="number" id="modalChainDaysInput" min="1" max="60" value="4">
+        </div>
+        <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:8px 12px;" id="modalAddChainStepBtn">➕ Add to Chain</button>
+      </div>
+
+      <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Active Succession Chain:</h6>
+      <div id="modalChainContainer" style="display:grid; gap:6px;"></div>
+    </div>
+
+    <!-- Panel 4: Linked Duty Schedule -->
+    <div class="mode-config-panel" id="modalModePanelLinked" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
+      <h4 style="font-size:14px; font-weight:800; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+        <span>🔗</span> Linked Duty Schedule Synchronization
+      </h4>
+      <p style="font-size:12px; color:var(--ink-muted); margin-bottom:10px;">
+        Link this duty's schedule to another duty (e.g. Cleaning Duty schedule can be linked with Garbage Day so the same roommate does both).
+      </p>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:10px; border-radius:var(--radius-sm);">
+        <div class="admin-field" style="margin:0;">
+          <label for="modalLinkTargetSelect">Link this Duty with:</label>
+          <select id="modalLinkTargetSelect">
+            <option value="garbage">🗑️ Garbage Day Schedule</option>
+            <option value="cleaning">🧹 Cleaning Duty Schedule</option>
+            <option value="milk">🥛 Milk Turn Schedule</option>
+          </select>
+        </div>
+        <div class="admin-field" style="margin:0;">
+          <label for="modalLinkRuleSelect">Roommate Sync Rule:</label>
+          <select id="modalLinkRuleSelect">
+            <option value="same_person">Same Roommate (Match linked duty)</option>
+            <option value="offset_1">Next Roommate in Rotation (+1 offset)</option>
+          </select>
+        </div>
+      </div>
+      <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:var(--radius-sm); padding:10px; font-size:12px; color:#065f46;">
+        <strong>ℹ️ Active Sync:</strong> Turns on this duty will automatically mirror the linked duty's schedule in real time.
+      </div>
+    </div>
+
+    <!-- Panel 5: Specific Date Overrides -->
     <div class="mode-config-panel" id="modalModePanelSpecific" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px;">
       <h4 style="font-size:14px; font-weight:800; margin-bottom:6px;">⚡ Specific Date Overrides</h4>
       <p style="font-size:12px; color:var(--ink-muted); margin-bottom:10px;">Assign or rearrange turns on exact calendar dates.</p>
@@ -1519,6 +1724,13 @@
       <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Custom Date Assignments:</h6>
       <div id="modalOverridesList" style="display:grid; gap:6px;"></div>
     </div>
+
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="scheduleSettingsModalClose">Cancel</button>
+      <button class="hero-btn-primary" style="background:#059669; color:#fff; font-weight:800;" id="modalApplyScheduleBtn">💾 Save & Apply Schedule to Duties</button>
+    </div>
+  </div>
+</div>
 
     <div class="modal-actions" style="margin-top:16px;">
       <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="scheduleSettingsModalClose">Cancel</button>
@@ -1600,6 +1812,13 @@
         mode: "timebased",
         intervalDays: 4,
         anchorDate: "2026-11-04",
+        chain: [
+          { person: "Satnam", days: 4 },
+          { person: "Sourab", days: 5 },
+          { person: "Abhi", days: 4 },
+          { person: "Raghav", days: 4 }
+        ],
+        linked: { targetSection: "garbage", rule: "same_person" },
         recurringRules: [
           { id: "rule-milk-8", type: "day_of_month", day: 8, person: "Satnam" }
         ],
@@ -1615,6 +1834,12 @@
         mode: "recurring",
         intervalDays: 7,
         anchorDate: "2026-11-08",
+        chain: [
+          { person: "Raghav", days: 7 },
+          { person: "Ritish", days: 7 },
+          { person: "Akash", days: 7 }
+        ],
+        linked: { targetSection: "garbage", rule: "same_person" },
         recurringRules: [
           { id: "rule-clean-sun", type: "day_of_week", dayOfWeek: 0, person: "Raghav" }
         ],
@@ -1630,6 +1855,12 @@
         mode: "recurring",
         intervalDays: 7,
         anchorDate: "2026-11-11",
+        chain: [
+          { person: "Ritish", days: 7 },
+          { person: "Akash", days: 7 },
+          { person: "Satnam", days: 7 }
+        ],
+        linked: { targetSection: "cleaning", rule: "same_person" },
         recurringRules: [
           { id: "rule-garb-wed", type: "day_of_week", dayOfWeek: 3, person: "Ritish" }
         ],
@@ -1757,8 +1988,8 @@
     return "th";
   }
 
-  // 3-Mode Scheduling Engine: (1. Recurring Occurrence, 2. Time-Based Interval, 3. Specific Dates)
-  function getUpcomingTurns(sec = currentSection, count = 10) {
+  // 5-Mode Scheduling Engine: (1. Recurring, 2. Time-Based, 3. Person Chain, 4. Linked Duty, 5. Specific Dates)
+  function getUpcomingTurns(sec = currentSection, count = 10, depth = 0) {
     const secData = getSectionData(sec);
     const sched = secData.scheduling || {
       mode: sec === "milk" ? "timebased" : "recurring",
@@ -1878,7 +2109,123 @@
     }
 
     // ==========================================
-    // MODE 2 (TIME-BASED) & MODE 3 (SPECIFIC DATES) & FALLBACK
+    // MODE 3: PERSON CHAIN ("AFTER-TURN" SUCCESSION)
+    // ==========================================
+    else if (mode === "chain") {
+      let chain = (Array.isArray(sched.chain) && sched.chain.length > 0)
+        ? sched.chain
+        : order.map(p => ({ person: p, days: intervalDays }));
+
+      let curDate = new Date(baseDate.getTime());
+
+      for (let i = 0; i < count; i++) {
+        const item = chain[i % chain.length];
+        const prevItem = chain[(i - 1 + chain.length) % chain.length];
+        const days = Math.max(1, parseInt(item.days, 10) || intervalDays);
+        const turnDate = new Date(curDate.getTime());
+        const nextTurnDate = new Date(curDate.getTime() + (days * 86400000));
+        curDate = nextTurnDate;
+
+        const dateKey = formatDateKey(turnDate);
+        const dayOfMonth = turnDate.getDate();
+        const dayOfWeek = turnDate.getDay();
+
+        const defaultPerson = item.person;
+        const isOverride = !!overrides[dateKey];
+        const assignedPerson = isOverride ? overrides[dateKey] : defaultPerson;
+        const source = isOverride ? "override" : "chain";
+        const ruleDetail = isOverride 
+          ? "Admin Override" 
+          : (i === 0 ? `Chain Start (${days} days)` : `After ${prevItem.person} (${days} days)`);
+
+        turns.push({
+          index: i,
+          orderSlotIndex: i % chain.length,
+          defaultPerson,
+          person: assignedPerson,
+          date: turnDate,
+          endDate: nextTurnDate,
+          dateKey,
+          dayOfMonth,
+          dayOfWeek,
+          source,
+          ruleDetail,
+          isActive: i === 0
+        });
+      }
+    }
+
+    // ==========================================
+    // MODE 4: LINKED DUTY SCHEDULE
+    // ==========================================
+    else if (mode === "linked" && depth < 2) {
+      const targetSec = sched.linked?.targetSection || (sec === "cleaning" ? "garbage" : sec === "garbage" ? "cleaning" : "milk");
+      const linkRule = sched.linked?.rule || "same_person";
+      const targetSecTitle = targetSec === "milk" ? "Milk Turn" : targetSec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+
+      if (sec === "garbage") {
+        const day = baseDate.getDay();
+        const diff = (3 - day + 7) % 7;
+        baseDate.setDate(baseDate.getDate() + diff);
+      } else if (sec === "cleaning") {
+        const day = baseDate.getDay();
+        const diff = (7 - day) % 7;
+        baseDate.setDate(baseDate.getDate() + diff);
+      }
+
+      const targetData = getSectionData(targetSec);
+      let targetTurns = [];
+      if (targetData.scheduling?.mode === "linked") {
+        const fallbackOrder = targetData.order.length ? targetData.order : ["None"];
+        targetTurns = fallbackOrder.map(p => ({ person: p }));
+      } else {
+        targetTurns = getUpcomingTurns(targetSec, count, depth + 1);
+      }
+
+      for (let i = 0; i < count; i++) {
+        const turnDate = new Date(baseDate.getTime() + (i * intervalDays * 86400000));
+        const nextTurnDate = new Date(baseDate.getTime() + ((i + 1) * intervalDays * 86400000));
+        const dateKey = formatDateKey(turnDate);
+        const dayOfMonth = turnDate.getDate();
+        const dayOfWeek = turnDate.getDay();
+
+        let linkedPerson = "None";
+        if (targetTurns.length > 0) {
+          const tTurn = targetTurns[i] || targetTurns[i % targetTurns.length];
+          linkedPerson = tTurn.person || "None";
+        }
+
+        if (linkRule === "offset_1" && order.length > 0) {
+          const pIdx = order.indexOf(linkedPerson);
+          if (pIdx !== -1) {
+            linkedPerson = order[(pIdx + 1) % order.length];
+          }
+        }
+
+        const isOverride = !!overrides[dateKey];
+        const assignedPerson = isOverride ? overrides[dateKey] : linkedPerson;
+        const source = isOverride ? "override" : "linked";
+        const ruleDetail = isOverride ? "Admin Override" : `Linked with ${targetSecTitle} (${linkedPerson})`;
+
+        turns.push({
+          index: i,
+          orderSlotIndex: (startIdx + i) % order.length,
+          defaultPerson: linkedPerson,
+          person: assignedPerson,
+          date: turnDate,
+          endDate: nextTurnDate,
+          dateKey,
+          dayOfMonth,
+          dayOfWeek,
+          source,
+          ruleDetail,
+          isActive: i === 0
+        });
+      }
+    }
+
+    // ==========================================
+    // MODE 2 (TIME-BASED) & MODE 5 (SPECIFIC DATES) & FALLBACK
     // ==========================================
     if (turns.length === 0) {
       if (sec === "garbage" && mode !== "specific") {
@@ -2006,6 +2353,22 @@
         }
         if (!res[sec].scheduling.dateOverrides || typeof res[sec].scheduling.dateOverrides !== "object") {
           res[sec].scheduling.dateOverrides = {};
+        }
+        if (!Array.isArray(res[sec].scheduling.chain) || res[sec].scheduling.chain.length === 0) {
+          if (res[sec].scheduling.chain && typeof res[sec].scheduling.chain === "object") {
+            res[sec].scheduling.chain = Object.values(res[sec].scheduling.chain);
+          } else {
+            res[sec].scheduling.chain = (res[sec].order || []).map(p => ({
+              person: p,
+              days: res[sec].scheduling.intervalDays || (sec === "milk" ? 4 : 7)
+            }));
+          }
+        }
+        if (!res[sec].scheduling.linked || typeof res[sec].scheduling.linked !== "object") {
+          res[sec].scheduling.linked = {
+            targetSection: sec === "cleaning" ? "garbage" : sec === "garbage" ? "cleaning" : "milk",
+            rule: "same_person"
+          };
         }
       }
     });
@@ -2634,10 +2997,10 @@
     }, "Date override cleared, reverted to default rotation.");
   }
 
-  // Schedule Settings & 3-Mode Controller
+  // Schedule Settings & 5-Mode Controller
   function setAdminScheduleMode(mode) {
     activeAdminScheduleMode = mode || "recurring";
-    ["recurring", "timebased", "specific"].forEach(m => {
+    ["recurring", "timebased", "chain", "linked", "specific"].forEach(m => {
       const btn = $("modeBtn" + m.charAt(0).toUpperCase() + m.slice(1));
       const panel = $("modePanel" + m.charAt(0).toUpperCase() + m.slice(1));
       if (btn) btn.classList.toggle("active", m === activeAdminScheduleMode);
@@ -2647,12 +3010,111 @@
 
   function setModalScheduleMode(mode) {
     activeModalScheduleMode = mode || "recurring";
-    ["recurring", "timebased", "specific"].forEach(m => {
+    ["recurring", "timebased", "chain", "linked", "specific"].forEach(m => {
       const btn = $("modalModeBtn" + m.charAt(0).toUpperCase() + m.slice(1));
       const panel = $("modalModePanel" + m.charAt(0).toUpperCase() + m.slice(1));
       if (btn) btn.classList.toggle("active", m === activeModalScheduleMode);
       if (panel) panel.style.display = m === activeModalScheduleMode ? "block" : "none";
     });
+  }
+
+  // Visual Person Chain Editor
+  function renderChainContainer(sec, isModal) {
+    const secData = getSectionData(sec);
+    const chain = Array.isArray(secData?.scheduling?.chain) && secData.scheduling.chain.length > 0
+      ? secData.scheduling.chain
+      : (secData.order || []).map(p => ({ person: p, days: secData.scheduling?.intervalDays || (sec === "milk" ? 4 : 7) }));
+
+    const containerId = isModal ? "modalChainContainer" : "adminChainContainer";
+    const container = $(containerId);
+    if (!container) return;
+
+    if (chain.length === 0) {
+      container.innerHTML = '<div style="font-size:12px; color:var(--ink-muted); font-style:italic;">Chain is empty. Click "+ Add to Chain" or "Reset to Household Order".</div>';
+      return;
+    }
+
+    let html = "";
+    chain.forEach((item, idx) => {
+      const prevPerson = idx > 0 ? chain[idx - 1].person : "Start";
+      const arrowText = idx === 0 ? "Initial Roommate Turn" : `↓ after ${escapeHtml(prevPerson)} is next`;
+      if (idx > 0) {
+        html += `<div class="chain-arrow">${arrowText}</div>`;
+      }
+      html += `
+        <div class="chain-step-row">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="chain-step-badge">Turn ${idx + 1}</span>
+            <strong style="font-size:13px;">${escapeHtml(item.person)}</strong>
+            <span class="chain-days-pill">${item.days || 4} days</span>
+          </div>
+          <div class="chain-btn-group">
+            <button type="button" class="chain-mini-btn" data-chain-action="up" data-chain-index="${idx}" data-chain-modal="${isModal ? '1' : '0'}" ${idx === 0 ? 'disabled style="opacity:0.4;"' : ''} title="Move Up">▲</button>
+            <button type="button" class="chain-mini-btn" data-chain-action="down" data-chain-index="${idx}" data-chain-modal="${isModal ? '1' : '0'}" ${idx === chain.length - 1 ? 'disabled style="opacity:0.4;"' : ''} title="Move Down">▼</button>
+            <button type="button" class="chain-mini-btn" style="color:#ef4444;" data-chain-action="del" data-chain-index="${idx}" data-chain-modal="${isModal ? '1' : '0'}" title="Remove from Chain">✕</button>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function addChainStep(sec, person, days, isModal) {
+    if (!person) return;
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.mode = "chain";
+      secData.scheduling.chain = Array.isArray(secData.scheduling.chain) ? secData.scheduling.chain : [];
+      secData.scheduling.chain.push({
+        person: person,
+        days: Math.max(1, parseInt(days, 10) || (sec === "milk" ? 4 : 7))
+      });
+      addHistory(s, sec, "chain-step-added", currentUser, `Admin added ${person} (${days} days) to succession chain.`);
+      s.version = (s.version || 0) + 1;
+    }, `Added ${person} to chain!`);
+    renderChainContainer(sec, isModal);
+  }
+
+  function moveChainStep(sec, index, direction, isModal) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData?.scheduling?.chain) return;
+      const chain = secData.scheduling.chain;
+      const targetIdx = direction === "up" ? index - 1 : index + 1;
+      if (targetIdx < 0 || targetIdx >= chain.length) return;
+      [chain[index], chain[targetIdx]] = [chain[targetIdx], chain[index]];
+      s.version = (s.version || 0) + 1;
+    }, "Chain order updated!");
+    renderChainContainer(sec, isModal);
+  }
+
+  function deleteChainStep(sec, index, isModal) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData?.scheduling?.chain) return;
+      secData.scheduling.chain.splice(index, 1);
+      s.version = (s.version || 0) + 1;
+    }, "Removed from chain!");
+    renderChainContainer(sec, isModal);
+  }
+
+  function resetChainToOrder(sec, isModal) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.mode = "chain";
+      const interval = secData.scheduling.intervalDays || (sec === "milk" ? 4 : 7);
+      secData.scheduling.chain = (secData.order || []).map(p => ({
+        person: p,
+        days: interval
+      }));
+      addHistory(s, sec, "chain-reset", currentUser, `Admin reset succession chain to household order.`);
+      s.version = (s.version || 0) + 1;
+    }, "Chain reset to household order!");
+    renderChainContainer(sec, isModal);
   }
 
   // Schedule Settings Modal (Quick Bar trigger)
@@ -2666,7 +3128,7 @@
 
     const secTitle = currentSection === "milk" ? "Milk Turn" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day";
     if ($("modalSchedHeading")) {
-      $("modalSchedHeading").textContent = `⚙️ ${secTitle} Schedule & Occurrence Rules`;
+      $("modalSchedHeading").textContent = `⚙️ ${secTitle} Schedule & Rules`;
     }
 
     const mode = sched.mode || (currentSection === "milk" ? "timebased" : "recurring");
@@ -2686,8 +3148,21 @@
     const peopleOptions = people.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
     $("modalRulePerson").innerHTML = peopleOptions;
     $("modalOverridePerson").innerHTML = peopleOptions;
+    if ($("modalChainPersonSelect")) $("modalChainPersonSelect").innerHTML = peopleOptions;
+
+    // Linked duty options
+    if ($("modalLinkTargetSelect")) {
+      const otherDuties = [
+        { val: "garbage", label: "🗑️ Garbage Day Schedule" },
+        { val: "cleaning", label: "🧹 Cleaning Duty Schedule" },
+        { val: "milk", label: "🥛 Milk Turn Schedule" }
+      ].filter(d => d.val !== currentSection);
+      $("modalLinkTargetSelect").innerHTML = otherDuties.map(d => `<option value="${d.val}" ${sched.linked?.targetSection === d.val ? 'selected' : ''}>${d.label}</option>`).join("");
+      $("modalLinkRuleSelect").value = sched.linked?.rule || "same_person";
+    }
 
     renderModalRulesAndOverrides();
+    renderChainContainer(currentSection, true);
     $("scheduleSettingsModal").classList.add("open");
   }
 
@@ -2743,6 +3218,8 @@
     );
 
     const chosenMode = mode || "recurring";
+    const linkedTarget = (isFromAdmin ? $("adminLinkTargetSelect")?.value : $("modalLinkTargetSelect")?.value) || (sec === "cleaning" ? "garbage" : sec === "garbage" ? "cleaning" : "milk");
+    const linkRule = (isFromAdmin ? $("adminLinkRuleSelect")?.value : $("modalLinkRuleSelect")?.value) || "same_person";
 
     persist(s => {
       const secData = s[sec];
@@ -2753,10 +3230,23 @@
       secData.scheduling.anchorDate = anchorDate;
       secData.scheduling.recurringRules = Array.isArray(secData.scheduling.recurringRules) ? secData.scheduling.recurringRules : [];
       secData.scheduling.dateOverrides = secData.scheduling.dateOverrides || {};
+      secData.scheduling.linked = {
+        targetSection: linkedTarget,
+        rule: linkRule
+      };
+      if (!Array.isArray(secData.scheduling.chain) || secData.scheduling.chain.length === 0) {
+        secData.scheduling.chain = secData.order.map(p => ({ person: p, days: intervalDays }));
+      }
 
-      const modeName = chosenMode === "recurring" ? "Recurring Occurrence" : chosenMode === "timebased" ? "Time-Based Cadence" : "Specific Calendar Dates";
+      const modeNames = {
+        recurring: "Recurring Occurrence",
+        timebased: "Time-Based Cadence",
+        chain: "Person Chain (After-Turn)",
+        linked: "Linked Duty Schedule",
+        specific: "Specific Calendar Dates"
+      };
       const secLabel = sec === "milk" ? "Milk" : sec === "cleaning" ? "Cleaning" : "Garbage";
-      addHistory(s, sec, "schedule-applied", currentUser, `Admin saved and applied ${modeName} schedule for ${secLabel}.`);
+      addHistory(s, sec, "schedule-applied", currentUser, `Admin saved and applied ${modeNames[chosenMode] || chosenMode} schedule for ${secLabel}.`);
       s.version = (s.version || 0) + 1;
     }, `✓ Applied ${chosenMode.toUpperCase()} schedule to ${sec === "milk" ? "Milk" : sec === "cleaning" ? "Cleaning" : "Garbage"} duties!`);
 
@@ -2785,11 +3275,43 @@
   // Mode Selection Tabs Event Listeners
   $("modeBtnRecurring").addEventListener("click", () => setAdminScheduleMode("recurring"));
   $("modeBtnTimebased").addEventListener("click", () => setAdminScheduleMode("timebased"));
+  if ($("modeBtnChain")) $("modeBtnChain").addEventListener("click", () => setAdminScheduleMode("chain"));
+  if ($("modeBtnLinked")) $("modeBtnLinked").addEventListener("click", () => setAdminScheduleMode("linked"));
   $("modeBtnSpecific").addEventListener("click", () => setAdminScheduleMode("specific"));
 
   $("modalModeBtnRecurring").addEventListener("click", () => setModalScheduleMode("recurring"));
   $("modalModeBtnTimebased").addEventListener("click", () => setModalScheduleMode("timebased"));
+  if ($("modalModeBtnChain")) $("modalModeBtnChain").addEventListener("click", () => setModalScheduleMode("chain"));
+  if ($("modalModeBtnLinked")) $("modalModeBtnLinked").addEventListener("click", () => setModalScheduleMode("linked"));
   $("modalModeBtnSpecific").addEventListener("click", () => setModalScheduleMode("specific"));
+
+  // Chain Button Handlers
+  if ($("adminAddChainStepBtn")) {
+    $("adminAddChainStepBtn").addEventListener("click", () => {
+      const sec = $("adminSchedSectionSelect")?.value || currentSection;
+      const person = $("adminChainPersonSelect")?.value;
+      const days = $("adminChainDaysInput")?.value;
+      addChainStep(sec, person, days, false);
+    });
+  }
+  if ($("adminResetChainBtn")) {
+    $("adminResetChainBtn").addEventListener("click", () => {
+      const sec = $("adminSchedSectionSelect")?.value || currentSection;
+      resetChainToOrder(sec, false);
+    });
+  }
+  if ($("modalAddChainStepBtn")) {
+    $("modalAddChainStepBtn").addEventListener("click", () => {
+      const person = $("modalChainPersonSelect")?.value;
+      const days = $("modalChainDaysInput")?.value;
+      addChainStep(currentSection, person, days, true);
+    });
+  }
+  if ($("modalResetChainBtn")) {
+    $("modalResetChainBtn").addEventListener("click", () => {
+      resetChainToOrder(currentSection, true);
+    });
+  }
 
   $("openSchedSettingsBtn").addEventListener("click", () => {
     if (!isAdminSessionActive()) {
@@ -3042,6 +3564,17 @@
       $("cadenceText").textContent = rules.length > 0 
         ? `Recurring Mode: ${ruleSummaries.join(", ")}${extra}` 
         : `Recurring Mode: 0 rules set (Click Cadence & Rules to add)`;
+    } else if (mode === "chain") {
+      $("cadenceIcon").textContent = "🔀";
+      const chain = Array.isArray(sched.chain) && sched.chain.length > 0 ? sched.chain : secData.order.map(p => ({ person: p, days: sched.intervalDays || 4 }));
+      const chainPreview = chain.slice(0, 3).map(c => `${c.person} (${c.days}d)`).join(" → ");
+      const extra = chain.length > 3 ? ` → +${chain.length - 3} more` : "";
+      $("cadenceText").textContent = `Person Chain: ${chainPreview}${extra}`;
+    } else if (mode === "linked") {
+      $("cadenceIcon").textContent = "🔗";
+      const targetTitle = sched.linked?.targetSection === "garbage" ? "Garbage Day" : sched.linked?.targetSection === "cleaning" ? "Cleaning Duty" : "Milk Turn";
+      const ruleText = sched.linked?.rule === "offset_1" ? "Next Roommate (+1)" : "Same Roommate";
+      $("cadenceText").textContent = `Linked Duty: Synced with ${targetTitle} (${ruleText})`;
     } else if (mode === "specific") {
       $("cadenceIcon").textContent = "📅";
       $("cadenceText").textContent = `Specific Dates Mode: ${overrideCount} custom assignment${overrideCount === 1 ? '' : 's'}`;
@@ -3080,6 +3613,10 @@
         badgeHtml = `<span class="badge active">Up Next</span>`;
       } else if (turn.source === "override") {
         badgeHtml = `<span class="badge override-tag">⚡ Override</span>`;
+      } else if (turn.source === "chain") {
+        badgeHtml = `<span class="badge rule-tag">🔀 ${escapeHtml(turn.ruleDetail)}</span>`;
+      } else if (turn.source === "linked") {
+        badgeHtml = `<span class="badge rule-tag">🔗 ${escapeHtml(turn.ruleDetail)}</span>`;
       } else if (turn.source.startsWith("rule")) {
         badgeHtml = `<span class="badge rule-tag">📌 ${escapeHtml(turn.ruleDetail)}</span>`;
       } else {
@@ -3282,6 +3819,21 @@
     const peopleOptions = people.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
     $("adminRulePersonSelect").innerHTML = peopleOptions;
     $("adminCustomOverridePerson").innerHTML = peopleOptions;
+    if ($("adminChainPersonSelect")) $("adminChainPersonSelect").innerHTML = peopleOptions;
+
+    // Person Chain container
+    renderChainContainer(selectedAdminSec, false);
+
+    // Linked duty options
+    if ($("adminLinkTargetSelect")) {
+      const otherDuties = [
+        { val: "garbage", label: "🗑️ Garbage Day Schedule" },
+        { val: "cleaning", label: "🧹 Cleaning Duty Schedule" },
+        { val: "milk", label: "🥛 Milk Turn Schedule" }
+      ].filter(d => d.val !== selectedAdminSec);
+      $("adminLinkTargetSelect").innerHTML = otherDuties.map(d => `<option value="${d.val}" ${sched.linked?.targetSection === d.val ? 'selected' : ''}>${d.label}</option>`).join("");
+      $("adminLinkRuleSelect").value = sched.linked?.rule || "same_person";
+    }
 
     // Recurring Rules List
     const rules = Array.isArray(sched.recurringRules) ? sched.recurringRules : Object.values(sched.recurringRules || {});
@@ -3556,6 +4108,19 @@
   });
 
   document.addEventListener("click", e => {
+    // Person Chain action button (Move Up, Down, Delete)
+    const chainBtn = e.target.closest("[data-chain-action]");
+    if (chainBtn) {
+      const action = chainBtn.dataset.chainAction;
+      const idx = parseInt(chainBtn.dataset.chainIndex, 10);
+      const isModal = chainBtn.dataset.chainModal === "1";
+      const sec = isModal ? currentSection : ($("adminSchedSectionSelect")?.value || currentSection);
+      if (action === "up") moveChainStep(sec, idx, "up", isModal);
+      else if (action === "down") moveChainStep(sec, idx, "down", isModal);
+      else if (action === "del") deleteChainStep(sec, idx, isModal);
+      return;
+    }
+
     // Reorder buttons (Move Up / Down)
     const reorderBtn = e.target.closest("[data-reorder-action]");
     if (reorderBtn) {

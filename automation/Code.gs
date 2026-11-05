@@ -70,6 +70,8 @@ function handleMilkReminder(data) {
   let targetPerson = null;
   if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
     targetPerson = sched.dateOverrides[dateKey];
+  } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
+    targetPerson = sched.chain[(milk.nextIndex || 0) % sched.chain.length].person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) targetPerson = monthRule.person;
@@ -108,6 +110,14 @@ function handleGarbageReminder(data) {
   let person = order[nextIndex % order.length];
   if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
     person = sched.dateOverrides[dateKey];
+  } else if (sched.mode === "linked") {
+    const targetSec = sched.linked?.targetSection || "cleaning";
+    const linkedDuty = data[targetSec] || {};
+    if (linkedDuty.order && linkedDuty.order.length > 0) {
+      person = linkedDuty.order[(linkedDuty.nextIndex || 0) % linkedDuty.order.length];
+    }
+  } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
+    person = sched.chain[nextIndex % sched.chain.length].person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) person = monthRule.person;
@@ -162,6 +172,14 @@ function handleCleaningReminder(data) {
   let person = order[nextIndex % order.length];
   if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
     person = sched.dateOverrides[dateKey];
+  } else if (sched.mode === "linked") {
+    const targetSec = sched.linked?.targetSection || "garbage";
+    const linkedDuty = data[targetSec] || {};
+    if (linkedDuty.order && linkedDuty.order.length > 0) {
+      person = linkedDuty.order[(linkedDuty.nextIndex || 0) % linkedDuty.order.length];
+    }
+  } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
+    person = sched.chain[nextIndex % sched.chain.length].person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) person = monthRule.person;

@@ -11,17 +11,23 @@ A unified mobile-first household manager for **Raghav, Ritish, Navneet, Japesh, 
    - **Full Admin Control:** Admins can add new people, edit/rename existing members, grant or revoke Admin privileges, set duty participation (🥛 Milk, 🧹 Cleaning, 🗑️ Garbage), and remove people with full cloud synchronization.
    - **Direct Header Integration:** Admins can click `+ Person` or choose `➕ Add New Person…` straight from the dropdown.
 
-2. **📅 Full Admin Scheduling Control with 3 Distinct Modes:**
+2. **📅 Full Admin Scheduling Control with 5 Distinct Modes:**
    - **Mode 1: 📌 Recurring Occurrence Rules:**
      - Configure occurrence rules: e.g., every **8th** of the month is assigned to **Satnam**, every **12th** is assigned to **Sourab**, or weekly day of week (e.g. every Sunday or Wednesday).
      - Upcoming duties queue lists occurrences generated from recurring rules in chronological order.
    - **Mode 2: ⏱️ Time-Based Interval Cadence:**
      - Sequential turn rotation that continues every N days (e.g., after **4 days** or **5 days** continue rotation through roommates).
      - Quick cadence buttons: 3 days, 4 days, 5 days, 7 days.
-   - **Mode 3: 📅 Specific Calendar Dates:**
+   - **Mode 3: 🔀 Person Chain ("After-Turn" Succession):**
+     - Custom successor chain: e.g., **after Satnam is Saurab, then Abhi, etc.**
+     - Admins can customize the exact succession order and set individual turn duration (days) for each roommate.
+   - **Mode 4: 🔗 Linked Duty Schedule Synchronization:**
+     - Automatically link a duty schedule with another duty: e.g., **Cleaning Duty schedule linked to Garbage Day**.
+     - When Garbage Day advances or changes, Cleaning Duty automatically mirrors the assigned roommate in real time!
+   - **Mode 5: 📅 Specific Calendar Dates:**
      - Explicitly assign specific calendar dates to roommates.
    - **Instant Save & Apply to Duties:**
-     - Admins select any of the 3 modes and click **💾 Save & Apply Schedule to Duties**.
+     - Admins select any of the 5 modes and click **💾 Save & Apply Schedule to Duties**.
      - Duties list updates immediately on screen within 0ms and syncs to Firebase Realtime Database in the background.
    - **Inline Turn Reassignment & Rearrangement:**
      - Admins can change who does ANY turn directly on the schedule cards using the **`⇄ Change`** button (e.g. change the 8th from Satnam to anyone!).
