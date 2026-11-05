@@ -1253,22 +1253,18 @@
                   <span>🔀</span> Person Chain ("After-Turn" Succession) for <span class="active-sec-label">Milk Turn</span>
                 </h5>
                 <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
-                  Custom succession: after Satnam is Saurab, then Abhi, etc., with custom turn duration for each.
+                  Event-driven succession without day counter: We wait for the turn to be completed by one person. Once marked done, an automated email is instantly fired to the next roommate in the chain!
                 </p>
               </div>
               <button type="button" class="hero-btn-glass" style="font-size:11px; padding:6px 10px; background:#e2e8f0; color:#0f172a;" id="adminResetChainBtn">↺ Reset to Household Order</button>
             </div>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:12px; border-radius:var(--radius-sm);">
-              <div class="admin-field" style="margin:0; min-width:180px; flex:1;">
-                <label for="adminChainPersonSelect">Roommate</label>
+              <div class="admin-field" style="margin:0; min-width:200px; flex:1;">
+                <label for="adminChainPersonSelect">Select Roommate to Append to Chain</label>
                 <select id="adminChainPersonSelect"></select>
               </div>
-              <div class="admin-field" style="margin:0; width:120px;">
-                <label for="adminChainDaysInput">Days Duration</label>
-                <input type="number" id="adminChainDaysInput" min="1" max="60" value="4">
-              </div>
-              <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:10px 14px;" id="adminAddChainStepBtn">➕ Add to Chain</button>
+              <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:10px 16px;" id="adminAddChainStepBtn">➕ Add to Chain</button>
             </div>
 
             <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:8px; text-transform:uppercase;">Active Succession Chain Order:</h6>
@@ -1653,22 +1649,18 @@
             <span>🔀</span> Person Chain ("After-Turn" Succession)
           </h4>
           <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
-            Sequential chain: after Satnam is Saurab, then Abhi, etc., with custom turn duration for each.
+            Event-driven succession without day counter. Turns wait for completion — once marked done, an email is fired to the next roommate in chain!
           </p>
         </div>
         <button type="button" class="hero-btn-glass" style="font-size:11px; padding:4px 8px; background:#e2e8f0; color:#0f172a;" id="modalResetChainBtn">↺ Reset to Household</button>
       </div>
 
       <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:10px; border-radius:var(--radius-sm);">
-        <div class="admin-field" style="margin:0; min-width:160px; flex:1;">
-          <label for="modalChainPersonSelect">Roommate</label>
+        <div class="admin-field" style="margin:0; min-width:180px; flex:1;">
+          <label for="modalChainPersonSelect">Select Roommate to Append</label>
           <select id="modalChainPersonSelect"></select>
         </div>
-        <div class="admin-field" style="margin:0; width:110px;">
-          <label for="modalChainDaysInput">Days Duration</label>
-          <input type="number" id="modalChainDaysInput" min="1" max="60" value="4">
-        </div>
-        <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:8px 12px;" id="modalAddChainStepBtn">➕ Add to Chain</button>
+        <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:8px 14px;" id="modalAddChainStepBtn">➕ Add to Chain</button>
       </div>
 
       <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Active Succession Chain:</h6>
@@ -2113,18 +2105,19 @@
     // ==========================================
     else if (mode === "chain") {
       let chain = (Array.isArray(sched.chain) && sched.chain.length > 0)
-        ? sched.chain
-        : order.map(p => ({ person: p, days: intervalDays }));
+        ? sched.chain.map(c => typeof c === "string" ? { person: c } : c)
+        : order.map(p => ({ person: p }));
 
+      const startIdx = secData.nextIndex || 0;
       let curDate = new Date(baseDate.getTime());
 
       for (let i = 0; i < count; i++) {
-        const item = chain[i % chain.length];
-        const prevItem = chain[(i - 1 + chain.length) % chain.length];
-        const days = Math.max(1, parseInt(item.days, 10) || intervalDays);
-        const turnDate = new Date(curDate.getTime());
-        const nextTurnDate = new Date(curDate.getTime() + (days * 86400000));
-        curDate = nextTurnDate;
+        const chainIdx = (startIdx + i) % chain.length;
+        const item = chain[chainIdx];
+        const prevItem = chain[(chainIdx - 1 + chain.length) % chain.length];
+
+        const turnDate = new Date(curDate.getTime() + (i * 86400000));
+        const nextTurnDate = new Date(turnDate.getTime());
 
         const dateKey = formatDateKey(turnDate);
         const dayOfMonth = turnDate.getDate();
@@ -2136,11 +2129,11 @@
         const source = isOverride ? "override" : "chain";
         const ruleDetail = isOverride 
           ? "Admin Override" 
-          : (i === 0 ? `Chain Start (${days} days)` : `After ${prevItem.person} (${days} days)`);
+          : (i === 0 ? "Active Turn (Waiting for completion)" : (i === 1 ? `Up Next (After ${prevItem.person} completes)` : `After ${prevItem.person} completes`));
 
         turns.push({
           index: i,
-          orderSlotIndex: i % chain.length,
+          orderSlotIndex: chainIdx,
           defaultPerson,
           person: assignedPerson,
           date: turnDate,
@@ -2358,12 +2351,12 @@
           if (res[sec].scheduling.chain && typeof res[sec].scheduling.chain === "object") {
             res[sec].scheduling.chain = Object.values(res[sec].scheduling.chain);
           } else {
-            res[sec].scheduling.chain = (res[sec].order || []).map(p => ({
-              person: p,
-              days: res[sec].scheduling.intervalDays || (sec === "milk" ? 4 : 7)
-            }));
+            res[sec].scheduling.chain = (res[sec].order || []).map(p => ({ person: p }));
           }
         }
+        res[sec].scheduling.chain = res[sec].scheduling.chain.map(item => ({
+          person: typeof item === "string" ? item : (item.person || "")
+        })).filter(item => Boolean(item.person));
         if (!res[sec].scheduling.linked || typeof res[sec].scheduling.linked !== "object") {
           res[sec].scheduling.linked = {
             targetSection: sec === "cleaning" ? "garbage" : sec === "garbage" ? "cleaning" : "milk",
@@ -2455,6 +2448,7 @@
 
   function advanceTurn(sec, person, type, reason = "") {
     let newNextSlot = null;
+    const oldCurrent = person || getCurrentSlot(sec);
     persist(s => {
       const secData = s[sec];
       if (!secData || !secData.order.length) return;
@@ -2468,13 +2462,18 @@
       addHistory(s, sec, type, person, actionText);
 
       // Advance
+      const isChainMode = secData.scheduling?.mode === "chain";
+      const chainLen = (isChainMode && Array.isArray(secData.scheduling?.chain) && secData.scheduling.chain.length > 0)
+        ? secData.scheduling.chain.length
+        : secData.order.length;
+
       if (secData.cycleSeen.length >= secData.order.length && secData.order.every(n => secData.cycleSeen.includes(n))) {
         secData.cycle = (secData.cycle || 1) + 1;
         secData.cycleSeen = [];
         secData.nextIndex = 0;
         addHistory(s, sec, "cycle-complete", "Household", `${sectionTitle} Cycle ${secData.cycle - 1} complete! New cycle begun.`);
       } else {
-        secData.nextIndex = (secData.nextIndex + 1) % secData.order.length;
+        secData.nextIndex = (secData.nextIndex + 1) % chainLen;
       }
 
       // Move anchorDate to today so next interval starts now
@@ -2488,6 +2487,8 @@
     newNextSlot = getCurrentSlot(sec);
     if (type === "skipped" && newNextSlot) {
       notifyTurnSkipped(sec, person, newNextSlot, reason);
+    } else if (type === "completed" && newNextSlot) {
+      notifyTurnCompleted(sec, oldCurrent, newNextSlot);
     }
   }
 
@@ -2536,6 +2537,19 @@
       method: "GET",
       mode: "no-cors"
     }).catch(err => console.warn("Notification dispatch notice:", err));
+  }
+
+  function notifyTurnCompleted(sec, completedPerson, nextPerson) {
+    const sectionTitle = sec === "milk" ? "Milk Turn" : sec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    const nextEmails = getEmailsForSlot(nextPerson);
+    const adminEmails = getAdminEmails();
+    const recipients = [...nextEmails, ...adminEmails];
+
+    const subject = `[4042] [${sectionTitle}] It's your turn, ${nextPerson}! (${completedPerson} marked done)`;
+    const body = `Hi ${nextPerson},\n\n${completedPerson} has just completed and marked done their turn for ${sectionTitle}!\n\n👉 It is now YOUR TURN for ${sectionTitle}.\n\nPlease check the household web app to view details and complete your turn.\n\nThanks!\nHousehold Organizer (4042)`;
+
+    dispatchNotification(recipients, subject, body);
+    showToast(`✓ Marked done! Automated notification email sent to ${nextPerson}.`, "📧");
   }
 
   function notifyTurnSkipped(sec, skippedPerson, nextPerson, reason) {
@@ -3021,9 +3035,10 @@
   // Visual Person Chain Editor
   function renderChainContainer(sec, isModal) {
     const secData = getSectionData(sec);
-    const chain = Array.isArray(secData?.scheduling?.chain) && secData.scheduling.chain.length > 0
+    const rawChain = Array.isArray(secData?.scheduling?.chain) && secData.scheduling.chain.length > 0
       ? secData.scheduling.chain
-      : (secData.order || []).map(p => ({ person: p, days: secData.scheduling?.intervalDays || (sec === "milk" ? 4 : 7) }));
+      : (secData.order || []).map(p => ({ person: p }));
+    const chain = rawChain.map(c => typeof c === "string" ? { person: c } : { person: c.person || "" }).filter(c => Boolean(c.person));
 
     const containerId = isModal ? "modalChainContainer" : "adminChainContainer";
     const container = $(containerId);
@@ -3036,17 +3051,17 @@
 
     let html = "";
     chain.forEach((item, idx) => {
-      const prevPerson = idx > 0 ? chain[idx - 1].person : "Start";
-      const arrowText = idx === 0 ? "Initial Roommate Turn" : `↓ after ${escapeHtml(prevPerson)} is next`;
+      const prevPerson = idx > 0 ? chain[idx - 1].person : "Initial";
+      const arrowText = idx === 0 ? "Initial Active Turn" : `↓ after ${escapeHtml(prevPerson)} is next`;
       if (idx > 0) {
         html += `<div class="chain-arrow">${arrowText}</div>`;
       }
       html += `
         <div class="chain-step-row">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span class="chain-step-badge">Turn ${idx + 1}</span>
+            <span class="chain-step-badge">#${idx + 1}</span>
             <strong style="font-size:13px;">${escapeHtml(item.person)}</strong>
-            <span class="chain-days-pill">${item.days || 4} days</span>
+            <span style="font-size:11px; color:var(--ink-muted); font-style:italic;">${idx === 0 ? "(Waits for completion)" : `(Waits for ${escapeHtml(prevPerson)})`}</span>
           </div>
           <div class="chain-btn-group">
             <button type="button" class="chain-mini-btn" data-chain-action="up" data-chain-index="${idx}" data-chain-modal="${isModal ? '1' : '0'}" ${idx === 0 ? 'disabled style="opacity:0.4;"' : ''} title="Move Up">▲</button>
@@ -3059,7 +3074,7 @@
     container.innerHTML = html;
   }
 
-  function addChainStep(sec, person, days, isModal) {
+  function addChainStep(sec, person, isModal) {
     if (!person) return;
     persist(s => {
       const secData = s[sec];
@@ -3067,11 +3082,8 @@
       secData.scheduling = secData.scheduling || {};
       secData.scheduling.mode = "chain";
       secData.scheduling.chain = Array.isArray(secData.scheduling.chain) ? secData.scheduling.chain : [];
-      secData.scheduling.chain.push({
-        person: person,
-        days: Math.max(1, parseInt(days, 10) || (sec === "milk" ? 4 : 7))
-      });
-      addHistory(s, sec, "chain-step-added", currentUser, `Admin added ${person} (${days} days) to succession chain.`);
+      secData.scheduling.chain.push({ person: person });
+      addHistory(s, sec, "chain-step-added", currentUser, `Admin added ${person} to succession chain.`);
       s.version = (s.version || 0) + 1;
     }, `Added ${person} to chain!`);
     renderChainContainer(sec, isModal);
@@ -3106,11 +3118,7 @@
       if (!secData) return;
       secData.scheduling = secData.scheduling || {};
       secData.scheduling.mode = "chain";
-      const interval = secData.scheduling.intervalDays || (sec === "milk" ? 4 : 7);
-      secData.scheduling.chain = (secData.order || []).map(p => ({
-        person: p,
-        days: interval
-      }));
+      secData.scheduling.chain = (secData.order || []).map(p => ({ person: p }));
       addHistory(s, sec, "chain-reset", currentUser, `Admin reset succession chain to household order.`);
       s.version = (s.version || 0) + 1;
     }, "Chain reset to household order!");
@@ -3235,7 +3243,7 @@
         rule: linkRule
       };
       if (!Array.isArray(secData.scheduling.chain) || secData.scheduling.chain.length === 0) {
-        secData.scheduling.chain = secData.order.map(p => ({ person: p, days: intervalDays }));
+        secData.scheduling.chain = secData.order.map(p => ({ person: p }));
       }
 
       const modeNames = {
@@ -3290,8 +3298,7 @@
     $("adminAddChainStepBtn").addEventListener("click", () => {
       const sec = $("adminSchedSectionSelect")?.value || currentSection;
       const person = $("adminChainPersonSelect")?.value;
-      const days = $("adminChainDaysInput")?.value;
-      addChainStep(sec, person, days, false);
+      addChainStep(sec, person, false);
     });
   }
   if ($("adminResetChainBtn")) {
@@ -3303,8 +3310,7 @@
   if ($("modalAddChainStepBtn")) {
     $("modalAddChainStepBtn").addEventListener("click", () => {
       const person = $("modalChainPersonSelect")?.value;
-      const days = $("modalChainDaysInput")?.value;
-      addChainStep(currentSection, person, days, true);
+      addChainStep(currentSection, person, true);
     });
   }
   if ($("modalResetChainBtn")) {
@@ -3500,7 +3506,15 @@
 
     const sched = secData.scheduling || { intervalDays: 4 };
 
-    if (currentSection === "milk") {
+    if (sched.mode === "chain") {
+      $("heroPill").textContent = currentSection === "milk" ? "🥛 Milk Turn Active" : currentSection === "cleaning" ? "🧹 Cleaning Duty Active" : "🗑️ Garbage Day Active";
+      $("heroPersonName").textContent = activeSlot;
+      $("heroSubCaption").textContent = "Person Chain Succession · No day timer · Waiting for completion";
+      $("heroHighlightIcon").textContent = "🔀";
+      $("heroHighlightText").textContent = "Once marked done, an automated email will instantly fire to the next roommate in chain";
+      if (currentSection === "cleaning") $("cleaningNotice").style.display = "block";
+      else $("cleaningNotice").style.display = "none";
+    } else if (currentSection === "milk") {
       $("heroPill").textContent = "🥛 Milk Turn Active";
       $("heroPersonName").textContent = activeSlot;
       $("heroSubCaption").textContent = `${sched.intervalDays || 4}-day rotation cadence &middot; Cycle ${secData.cycle || 1}`;
@@ -3529,7 +3543,10 @@
 
     // Action button states
     $("markDoneBtn").disabled = !isMyTurn && !isUserAdmin;
-    $("markDoneBtn").textContent = isMyTurn ? "✓ Mark as Done" : isUserAdmin ? `✓ Mark Done (Admin for ${activeSlot})` : `Waiting for ${activeSlot}`;
+    const markDoneLabel = sched.mode === "chain" 
+      ? (isMyTurn ? "✓ Mark Done & Email Next" : isUserAdmin ? `✓ Mark Done & Email Next (${activeSlot})` : `Waiting for ${activeSlot}`)
+      : (isMyTurn ? "✓ Mark as Done" : isUserAdmin ? `✓ Mark Done (Admin for ${activeSlot})` : `Waiting for ${activeSlot}`);
+    $("markDoneBtn").textContent = markDoneLabel;
     $("skipTurnBtn").disabled = !isMyTurn && !isUserAdmin;
     
     // Show Send Reminder button for Admin
@@ -3566,10 +3583,11 @@
         : `Recurring Mode: 0 rules set (Click Cadence & Rules to add)`;
     } else if (mode === "chain") {
       $("cadenceIcon").textContent = "🔀";
-      const chain = Array.isArray(sched.chain) && sched.chain.length > 0 ? sched.chain : secData.order.map(p => ({ person: p, days: sched.intervalDays || 4 }));
-      const chainPreview = chain.slice(0, 3).map(c => `${c.person} (${c.days}d)`).join(" → ");
-      const extra = chain.length > 3 ? ` → +${chain.length - 3} more` : "";
-      $("cadenceText").textContent = `Person Chain: ${chainPreview}${extra}`;
+      const rawChain = Array.isArray(sched.chain) && sched.chain.length > 0 ? sched.chain : secData.order.map(p => ({ person: p }));
+      const chainNames = rawChain.map(c => typeof c === "string" ? c : (c.person || "")).filter(Boolean);
+      const chainPreview = chainNames.slice(0, 4).join(" → ");
+      const extra = chainNames.length > 4 ? ` → +${chainNames.length - 4} more` : "";
+      $("cadenceText").textContent = `Person Chain (Event-Driven): ${chainPreview}${extra} (No day counter · Waits for turn completion)`;
     } else if (mode === "linked") {
       $("cadenceIcon").textContent = "🔗";
       const targetTitle = sched.linked?.targetSection === "garbage" ? "Garbage Day" : sched.linked?.targetSection === "cleaning" ? "Cleaning Duty" : "Milk Turn";
@@ -3600,7 +3618,11 @@
       const isCurrent = turn.isActive;
       
       let dateTag = "";
-      if (currentSection === "milk") {
+      if (mode === "chain") {
+        dateTag = isCurrent 
+          ? "Active (Waiting for completion)" 
+          : (i === 1 ? `Up Next (After ${turns[0].person} completes)` : `After ${turns[i - 1].person} completes`);
+      } else if (currentSection === "milk") {
         const startStr = turn.date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
         const endStr = turn.endDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
         dateTag = isCurrent ? `${startStr} – ${endStr} (Active)` : `${startStr} – ${endStr}`;
@@ -3610,7 +3632,7 @@
 
       let badgeHtml = "";
       if (isCurrent) {
-        badgeHtml = `<span class="badge active">Up Next</span>`;
+        badgeHtml = `<span class="badge active">${mode === "chain" ? "Active Turn" : "Up Next"}</span>`;
       } else if (turn.source === "override") {
         badgeHtml = `<span class="badge override-tag">⚡ Override</span>`;
       } else if (turn.source === "chain") {
@@ -3967,9 +3989,11 @@
   // Action Buttons
   $("markDoneBtn").addEventListener("click", () => {
     const activeSlot = getCurrentSlot(currentSection);
+    const secData = getSectionData(currentSection);
+    const isChain = secData?.scheduling?.mode === "chain";
     openActionModal(
       `Mark ${currentSection.toUpperCase()} Done?`,
-      `Confirm that <strong>${escapeHtml(activeSlot)}</strong> has completed their turn for <strong>${currentSection === "milk" ? "Milk" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day"}</strong>. Rotation will advance to the next roommate.`,
+      `Confirm that <strong>${escapeHtml(activeSlot)}</strong> has completed their turn for <strong>${currentSection === "milk" ? "Milk" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day"}</strong>. Rotation will advance to the next roommate and an automated notification email will be fired immediately!`,
       "",
       "✓ Mark Done",
       () => advanceTurn(currentSection, activeSlot, "completed")

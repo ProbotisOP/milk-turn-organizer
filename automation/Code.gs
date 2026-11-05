@@ -71,7 +71,8 @@ function handleMilkReminder(data) {
   if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
     targetPerson = sched.dateOverrides[dateKey];
   } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
-    targetPerson = sched.chain[(milk.nextIndex || 0) % sched.chain.length].person;
+    const chainItem = sched.chain[(milk.nextIndex || 0) % sched.chain.length];
+    targetPerson = typeof chainItem === "string" ? chainItem : chainItem.person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) targetPerson = monthRule.person;
@@ -117,7 +118,8 @@ function handleGarbageReminder(data) {
       person = linkedDuty.order[(linkedDuty.nextIndex || 0) % linkedDuty.order.length];
     }
   } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
-    person = sched.chain[nextIndex % sched.chain.length].person;
+    const chainItem = sched.chain[nextIndex % sched.chain.length];
+    person = typeof chainItem === "string" ? chainItem : chainItem.person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) person = monthRule.person;
@@ -179,7 +181,8 @@ function handleCleaningReminder(data) {
       person = linkedDuty.order[(linkedDuty.nextIndex || 0) % linkedDuty.order.length];
     }
   } else if (sched.mode === "chain" && Array.isArray(sched.chain) && sched.chain.length > 0) {
-    person = sched.chain[nextIndex % sched.chain.length].person;
+    const chainItem = sched.chain[nextIndex % sched.chain.length];
+    person = typeof chainItem === "string" ? chainItem : chainItem.person;
   } else if (Array.isArray(sched.recurringRules)) {
     const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
     if (monthRule) person = monthRule.person;

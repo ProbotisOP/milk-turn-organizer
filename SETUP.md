@@ -19,8 +19,9 @@ A unified mobile-first household manager for **Raghav, Ritish, Navneet, Japesh, 
      - Sequential turn rotation that continues every N days (e.g., after **4 days** or **5 days** continue rotation through roommates).
      - Quick cadence buttons: 3 days, 4 days, 5 days, 7 days.
    - **Mode 3: 🔀 Person Chain ("After-Turn" Succession):**
-     - Custom successor chain: e.g., **after Satnam is Saurab, then Abhi, etc.**
-     - Admins can customize the exact succession order and set individual turn duration (days) for each roommate.
+     - Event-driven succession chain: e.g., **after Satnam is Saurab, then Abhi, etc.**
+     - **No days counter / timer:** Turns wait until the current person marks their turn as completed.
+     - **Instant Email Trigger:** As soon as someone marks their turn done (`✓ Mark as Done`), an automated email is instantly fired to the next roommate in the chain notifying them it's their turn!
    - **Mode 4: 🔗 Linked Duty Schedule Synchronization:**
      - Automatically link a duty schedule with another duty: e.g., **Cleaning Duty schedule linked to Garbage Day**.
      - When Garbage Day advances or changes, Cleaning Duty automatically mirrors the assigned roommate in real time!
