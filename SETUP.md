@@ -1,39 +1,51 @@
 # 🏡 Household Turn Organizer — Setup & Guide
 
-A unified mobile-first household manager for **Raghav, Ritish, Navneet, Japesh, Akash, Satnam, Vaibhav, Sourab, and Abhi**.
+A unified mobile-first household manager for **Raghav, Ritish, Navneet, Japesh, Akash, Satnam, Vaibhav, Sourab, and Abhi** (with full admin capability to add/edit/manage any household member).
 
 ---
 
 ## 🌟 Key Features & Updates
 
-1. **🔐 Admin Password Protection (`4042admin`):**
-   - Switching to **Satnam** or **Sourab** in the dropdown requires the admin password: `4042admin`.
-   - If incorrect or cancelled, access is blocked and the user is reverted to a roommate profile.
-   - Admin privileges unlock the **⚙️ Admin & Backend** panel and turn override controls.
-   - Includes a quick **Lock** button in the header pill to lock the admin session on shared devices.
+1. **👥 Database-Synced People & Member Management:**
+   - **Unified People List:** The top "I am [Name]" dropdown is dynamically linked to the household member list in Firebase DB.
+   - **Full Admin Control:** Admins can add new people, edit/rename existing members, grant or revoke Admin privileges, set duty participation (🥛 Milk, 🧹 Cleaning, 🗑️ Garbage), and remove people with full cloud synchronization.
+   - **Direct Header Integration:** Admins can click `+ Person` or choose `➕ Add New Person…` straight from the dropdown.
 
-2. **📡 Live DB Connection Status Badge:**
+2. **📅 Full Admin Scheduling Control with 3 Distinct Modes:**
+   - **Mode 1: 📌 Recurring Occurrence Rules:**
+     - Configure occurrence rules: e.g., every **8th** of the month is assigned to **Satnam**, every **12th** is assigned to **Sourab**, or weekly day of week (e.g. every Sunday or Wednesday).
+     - Upcoming duties queue lists occurrences generated from recurring rules in chronological order.
+   - **Mode 2: ⏱️ Time-Based Interval Cadence:**
+     - Sequential turn rotation that continues every N days (e.g., after **4 days** or **5 days** continue rotation through roommates).
+     - Quick cadence buttons: 3 days, 4 days, 5 days, 7 days.
+   - **Mode 3: 📅 Specific Calendar Dates:**
+     - Explicitly assign specific calendar dates to roommates.
+   - **Instant Save & Apply to Duties:**
+     - Admins select any of the 3 modes and click **💾 Save & Apply Schedule to Duties**.
+     - Duties list updates immediately on screen within 0ms and syncs to Firebase Realtime Database in the background.
+   - **Inline Turn Reassignment & Rearrangement:**
+     - Admins can change who does ANY turn directly on the schedule cards using the **`⇄ Change`** button (e.g. change the 8th from Satnam to anyone!).
+     - Choose whether changes apply to **that specific date only**, update the **recurring rule**, or **swap rotation positions**.
+     - Overridden turns feature a quick **`✕ Revert`** button to restore standard rotation.
+     - Rearrange turns anytime with **▲ Move Up**, **▼ Move Down**, or **☰ Drag & Drop**.
+
+3. **🔐 Admin Password Protection (`4042admin`):**
+   - Switching to **Satnam**, **Sourab**, or any designated admin in the dropdown requires the admin password: `4042admin`.
+   - Admin privileges unlock the **⚙️ Admin & Backend** panel, schedule configuration, people manager, and turn override controls.
+   - Quick **Lock** button in the header to safely close admin sessions on shared devices.
+
+4. **📡 Live DB Connection Status Badge:**
    - Prominently displayed in the top header:
      - 🟢 **Live Cloud Sync (Connected):** Realtime multi-device database active.
      - 🟡 **Connecting to Firebase…:** Initializing anonymous auth and cloud handshake.
      - 🔴 **Offline / Local Mode:** Graceful local fallback if offline.
-   - Admin panel includes a **Force Resync with Database** button to refresh live state.
-
-3. **☁️ End-to-End Database Storage:**
-   - **Milk Turn:** Rotation order, next index, cycle count, cycle history.
-   - **Cleaning Duty:** Weekly cleaning schedule (Navneet & Japesh excluded).
-   - **Garbage Day:** Wednesday collection rotation (Navneet & Japesh paired).
-   - **Roommate Emails:** Saved in `/milkTurnOrganizer/state/emails` on first name selection.
-   - **Exchange Requests & History:** Swaps, completions, skips, and activity logs are all synchronized in real-time across everyone's devices.
-
-4. **👥 Navneet & Japesh Pairing:**
-   - Paired together as **Navneet & Japesh** for **Milk Turn** and **Garbage Day**.
-   - Excluded from the **Cleaning Duty** table.
 
 5. **📧 2-Day Advance Personal Gmail Reminders:**
    - Automation script in `automation/Code.gs` runs for free in Satnam's Google Account.
    - **Garbage Day:** Reminders sent every **Monday** morning (2 days before Wednesday collection).
    - **Cleaning Duty:** Reminders sent every **Friday** morning (2 days before Sunday cleaning).
+   - **Milk Turn:** 2-day advance check and real-time reminders.
+   - Supports date overrides and recurring scheduling rules.
 
 ---
 

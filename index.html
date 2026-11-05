@@ -695,7 +695,198 @@
     .guide-callout h4 { font-weight: 800; margin-bottom: 4px; }
     .guide-callout ol { margin-left: 18px; margin-top: 6px; display: grid; gap: 4px; }
 
+    /* Schedule Quick Bar & Turn Controls */
+    .schedule-quick-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #f1f5f9;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .schedule-info-pill {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .schedule-admin-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .schedule-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #0f172a;
+      color: #fff;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 0;
+      cursor: pointer;
+    }
+    .schedule-btn:hover { background: #1e293b; }
+    .turn-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 8px;
+    }
+    .change-turn-btn {
+      background: #e2e8f0;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 0;
+      cursor: pointer;
+    }
+    .change-turn-btn:hover { background: #cbd5e1; }
+    .revert-turn-btn {
+      background: #fee2e2;
+      color: #ef4444;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 0;
+      cursor: pointer;
+    }
+    .revert-turn-btn:hover { background: #fecaca; }
+    .quick-add-btn {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      border: 0;
+    }
+    .quick-add-btn:hover { background: #1e293b; }
+    .rule-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: #e0e7ff;
+      color: #3730a3;
+      white-space: nowrap;
+    }
+    .override-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: #fef3c7;
+      color: #92400e;
+      white-space: nowrap;
+    }
+    .cadence-chip-group {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .cadence-chip {
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+    }
+    .cadence-chip.active, .cadence-chip:hover {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .people-card-list {
+      display: grid;
+      gap: 8px;
+    }
+    .people-card-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .duty-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .admin-role-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #b45309;
+      background: #fef3c7;
+      padding: 2px 8px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 3 Scheduling Modes Tabs */
+    .schedule-mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .mode-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mode-tab-btn:hover {
+      border-color: #94a3b8;
+      background: #f8fafc;
+    }
+    .mode-tab-btn.active {
+      border-color: #059669;
+      background: #ecfdf5;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.15);
+    }
+    .mode-tab-btn.active div > div:first-child {
+      color: #065f46;
+    }
+
     @media (max-width: 600px) {
+      .schedule-mode-tabs { grid-template-columns: 1fr; }
       .wrap { padding: 14px 12px; }
       .hero-card { padding: 20px 18px; border-radius: var(--radius-md); }
       .hero-name { font-size: 30px; }
@@ -734,6 +925,7 @@
           <select id="currentUserSelect"></select>
         </div>
       </div>
+      <button class="quick-add-btn" id="headerAddPersonBtn" title="Add a roommate to the household" style="display:none;">+ Person</button>
       <span class="admin-pill" id="adminBadge" style="display:none;">⭐ Admin <button class="lock-admin-btn" id="lockAdminBtn" title="Lock admin session">Lock</button></span>
     </div>
     <div class="user-email-meta">
@@ -788,6 +980,15 @@
       <div class="card-head">
         <h3 id="queueHeading">Rotation Order</h3>
         <span class="meta" id="queueMeta">8 Members</span>
+      </div>
+      <div class="schedule-quick-bar" id="scheduleQuickBar">
+        <div class="schedule-info-pill" id="scheduleCadenceInfo">
+          <span id="cadenceIcon">⏱️</span> <span id="cadenceText">4-day rotation cadence</span>
+        </div>
+        <div class="schedule-admin-actions" id="scheduleAdminActions" style="display:none;">
+          <button type="button" class="schedule-btn" id="openSchedSettingsBtn">⚙️ Cadence & Rules</button>
+          <button type="button" class="schedule-btn" id="openDateOverrideBtn">📅 + Date Assignment</button>
+        </div>
       </div>
       <div id="cleaningNotice" class="guide-callout" style="display:none;">
         <strong>ℹ️ Household Rule:</strong> Navneet and Japesh are paired for Milk and Garbage Day, but are <em>not included in the Cleaning Duty table</em>.
@@ -853,20 +1054,172 @@
           <button class="hero-btn-primary" style="background:#0f172a; color:#fff; width:100%;" id="adminSetNextBtn">Apply Next Person</button>
         </div>
 
-        <!-- Add / Remove Members -->
-        <div class="admin-card">
-          <h4>👥 Member Management</h4>
-          <div class="admin-field">
-            <label for="adminNewMemberName">Add New Member / Pair</label>
-            <input type="text" id="adminNewMemberName" placeholder="e.g. John Doe">
+        <!-- Master Scheduling Card: 3 Modes (Recurring, Time-Based, Specific) -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+            <div>
+              <h4 style="margin:0;">📅 Master Scheduling: Choose 1 of 3 Scheduling Types</h4>
+              <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
+                Select either <strong>Recurring Occurrence</strong>, <strong>Time-Based Interval</strong>, or <strong>Specific Date Assignments</strong>. Clicking Save immediately updates the duties list.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <label for="adminSchedSectionSelect" style="font-size:12px; font-weight:700; color:var(--ink-muted); margin:0;">Duty Section:</label>
+              <select id="adminSchedSectionSelect" style="padding:6px 12px; border-radius:8px; font-weight:700; font-size:13px; border:1px solid var(--card-border);">
+                <option value="milk">🥛 Milk Turn Schedule</option>
+                <option value="cleaning">🧹 Cleaning Duty Schedule</option>
+                <option value="garbage">🗑️ Garbage Day Schedule</option>
+              </select>
+            </div>
           </div>
-          <button class="hero-btn-primary" style="background:#059669; color:#fff; width:100%; margin-bottom:10px;" id="adminAddMemberBtn">+ Add Member</button>
-          
-          <div class="admin-field">
-            <label for="adminRemoveMemberSelect">Remove Member</label>
-            <select id="adminRemoveMemberSelect"></select>
+
+          <!-- 3 Mode Selection Tabs -->
+          <div class="schedule-mode-tabs" id="adminModeTabs">
+            <button type="button" class="mode-tab-btn active" data-mode="recurring" id="modeBtnRecurring">
+              <span style="font-size:22px;">📌</span>
+              <div>
+                <div style="font-weight:800; font-size:14px;">1. Recurring Occurrence</div>
+                <div style="font-size:11px; color:var(--ink-muted);">e.g., Every 8th Satnam, every 12th, or weekly</div>
+              </div>
+            </button>
+            <button type="button" class="mode-tab-btn" data-mode="timebased" id="modeBtnTimebased">
+              <span style="font-size:22px;">⏱️</span>
+              <div>
+                <div style="font-weight:800; font-size:14px;">2. Time-Based Interval</div>
+                <div style="font-size:11px; color:var(--ink-muted);">e.g., Continue after 4 days or 5 days</div>
+              </div>
+            </button>
+            <button type="button" class="mode-tab-btn" data-mode="specific" id="modeBtnSpecific">
+              <span style="font-size:22px;">📅</span>
+              <div>
+                <div style="font-weight:800; font-size:14px;">3. Specific Dates</div>
+                <div style="font-size:11px; color:var(--ink-muted);">e.g., Assign / swap exact calendar dates</div>
+              </div>
+            </button>
           </div>
-          <button class="hero-btn-primary" style="background:#ef4444; color:#fff; width:100%;" id="adminRemoveMemberBtn">🗑️ Remove Member</button>
+
+          <!-- Panel Mode 1: Recurring Occurrence -->
+          <div class="mode-config-panel" id="modePanelRecurring" style="background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <div>
+                <h5 style="font-size:14px; font-weight:800; margin:0; display:flex; align-items:center; gap:6px;">
+                  <span>📌</span> Recurring Occurrence Rules for <span class="active-sec-label">Milk Turn</span>
+                </h5>
+                <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
+                  Duties are triggered on specific recurring days (e.g., every 8th of the month Satnam will do, every 12th X will do).
+                </p>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:12px; border-radius:var(--radius-sm);">
+              <div class="admin-field" style="margin:0;">
+                <label for="adminRuleTypeSelect">Frequency</label>
+                <select id="adminRuleTypeSelect">
+                  <option value="day_of_month">Day of Month (e.g. 8th)</option>
+                  <option value="day_of_week">Day of Week (e.g. Wednesday)</option>
+                </select>
+              </div>
+              <div class="admin-field" style="margin:0;" id="adminDayOfMonthField">
+                <label for="adminRuleDayOfMonth">Day of Month</label>
+                <select id="adminRuleDayOfMonth"></select>
+              </div>
+              <div class="admin-field" style="margin:0; display:none;" id="adminDayOfWeekField">
+                <label for="adminRuleDayOfWeek">Day of Week</label>
+                <select id="adminRuleDayOfWeek">
+                  <option value="0">Sunday</option>
+                  <option value="1">Monday</option>
+                  <option value="2">Tuesday</option>
+                  <option value="3">Wednesday</option>
+                  <option value="4">Thursday</option>
+                  <option value="5">Friday</option>
+                  <option value="6">Saturday</option>
+                </select>
+              </div>
+              <div class="admin-field" style="margin:0;">
+                <label for="adminRulePersonSelect">Assign Turn To</label>
+                <select id="adminRulePersonSelect"></select>
+              </div>
+              <div style="display:flex; align-items:flex-end;">
+                <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; width:100%; font-size:12px; padding:10px 12px;" id="adminAddRuleBtn">➕ Add / Update Rule</button>
+              </div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Active Recurring Rules:</h6>
+              <div id="adminRecurringRulesList" style="display:grid; gap:6px;"></div>
+            </div>
+          </div>
+
+          <!-- Panel Mode 2: Time-Based Interval -->
+          <div class="mode-config-panel" id="modePanelTimebased" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+            <h5 style="font-size:14px; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <span>⏱️</span> Time-Based Interval (Cadence) for <span class="active-sec-label">Milk Turn</span>
+            </h5>
+            <p style="font-size:12px; color:var(--ink-muted); margin-bottom:12px;">
+              Sequential turn rotation that advances through roommates every N days continue (e.g. after 4 days or 5 days continue).
+            </p>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
+              <div class="admin-field" style="margin:0;">
+                <label for="adminIntervalInput">Turn Interval (Days per turn)</label>
+                <input type="number" id="adminIntervalInput" min="1" max="60" value="4">
+              </div>
+              <div class="admin-field" style="margin:0;">
+                <label for="adminAnchorDateInput">Schedule Anchor / Start Date</label>
+                <input type="date" id="adminAnchorDateInput">
+              </div>
+            </div>
+            <div class="cadence-chip-group" style="margin-bottom:8px;">
+              <span style="font-size:11px; color:var(--ink-muted); align-self:center;">Quick Select Cadence:</span>
+              <button type="button" class="cadence-chip" data-admin-cadence="3">3 Days</button>
+              <button type="button" class="cadence-chip" data-admin-cadence="4">4 Days</button>
+              <button type="button" class="cadence-chip" data-admin-cadence="5">5 Days</button>
+              <button type="button" class="cadence-chip" data-admin-cadence="7">7 Days (Weekly)</button>
+            </div>
+          </div>
+
+          <!-- Panel Mode 3: Specific Calendar Dates -->
+          <div class="mode-config-panel" id="modePanelSpecific" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+            <h5 style="font-size:14px; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+              <span>📅</span> Specific Date Assignments for <span class="active-sec-label">Milk Turn</span>
+            </h5>
+            <p style="font-size:12px; color:var(--ink-muted); margin-bottom:12px;">
+              Manually assign or rearrange exact calendar dates for roommates. Overrides standard rotation.
+            </p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px; background:#fff; border:1px solid var(--card-border); padding:12px; border-radius:var(--radius-sm);">
+              <div class="admin-field" style="margin:0; min-width:160px; flex:1;">
+                <label for="adminCustomOverrideDate">Target Calendar Date</label>
+                <input type="date" id="adminCustomOverrideDate">
+              </div>
+              <div class="admin-field" style="margin:0; min-width:180px; flex:1;">
+                <label for="adminCustomOverridePerson">Assign To Roommate</label>
+                <select id="adminCustomOverridePerson"></select>
+              </div>
+              <button type="button" class="hero-btn-primary" style="background:#4f46e5; color:#fff; font-size:12px; padding:10px 14px;" id="adminSaveDateOverrideBtn">📌 Assign Date</button>
+            </div>
+            <div>
+              <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Custom Date Assignments:</h6>
+              <div id="adminDateOverridesList" style="display:grid; gap:6px;"></div>
+            </div>
+          </div>
+
+          <!-- Prominent Apply & Save Button -->
+          <button type="button" class="hero-btn-primary" id="adminApplyScheduleBtn" style="background:#059669; color:#fff; width:100%; padding:14px 20px; font-size:15px; font-weight:800; border-radius:var(--radius-md); box-shadow:0 4px 14px rgba(5,150,105,0.25); cursor:pointer;">
+            💾 Save & Apply Schedule to <span id="adminApplySectionName">Milk Turn</span> Duties
+          </button>
+        </div>
+
+        <!-- Household People & Roommates Management Card -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div>
+              <h4 style="margin:0;">👥 Household People & Roommates Management</h4>
+              <p style="font-size:12px; color:var(--ink-muted); margin-top:2px;">
+                Manage the master list of people linked across all dropdowns ("Who are you?", Duty queues, Exchange targets, and Admin controls). All changes sync to the database.
+              </p>
+            </div>
+            <button class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:8px 14px;" id="adminAddNewMemberBtn">+ Add New Member</button>
+          </div>
+          <div class="people-card-list" id="adminPeopleListContainer"></div>
         </div>
 
         <!-- Automation & Webhook -->
@@ -960,6 +1313,220 @@
   </div>
 </div>
 
+<!-- Modal: Add / Edit Household Member -->
+<div class="modal-backdrop" id="memberModal">
+  <div class="modal" style="width:min(100%, 500px);">
+    <h3 id="memberModalTitle">👥 Add Household Member</h3>
+    <p id="memberModalDesc">This person will appear in the "Who are you?" dropdown and can be scheduled for duty turns.</p>
+    <input type="hidden" id="memberEditOriginalName" value="">
+    <div class="admin-field">
+      <label for="memberNameInput">Full Name or Pair (e.g. Satnam, Navneet & Japesh)</label>
+      <input type="text" id="memberNameInput" placeholder="Enter name" required>
+    </div>
+    <div class="admin-field">
+      <label for="memberEmailModalInput">Email Address (Optional for reminders)</label>
+      <input type="email" id="memberEmailModalInput" placeholder="roommate@gmail.com">
+    </div>
+    <div class="admin-field" style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+      <input type="checkbox" id="memberIsAdminInput" style="width:auto; cursor:pointer;">
+      <label for="memberIsAdminInput" style="margin:0; cursor:pointer; font-size:13px; font-weight:700;">⭐ Grant Admin Access (Protected by password)</label>
+    </div>
+    <div class="admin-field" style="margin-top:12px;">
+      <label style="font-size:12px; font-weight:700; color:var(--ink-muted); margin-bottom:6px; display:block;">Include in Duty Rotations:</label>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; font-size:13px; font-weight:600;">
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="memberDutyMilk" checked style="width:auto;"> 🥛 Milk Turn
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="memberDutyCleaning" checked style="width:auto;"> 🧹 Cleaning Duty
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="memberDutyGarbage" checked style="width:auto;"> 🗑️ Garbage Day
+        </label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="memberModalCancel">Cancel</button>
+      <button class="hero-btn-primary" style="background:#059669; color:#fff;" id="memberModalSave">Save Member</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Change Turn Assignment / Date Override -->
+<div class="modal-backdrop" id="changeTurnModal">
+  <div class="modal" style="width:min(100%, 520px);">
+    <h3>⇄ Change Turn Assignment</h3>
+    <p id="changeTurnModalDesc">Rearrange or reassign who is responsible for this scheduled duty turn.</p>
+    <input type="hidden" id="changeTurnDateKey" value="">
+    <input type="hidden" id="changeTurnIndex" value="">
+    <input type="hidden" id="changeTurnCurrentPerson" value="">
+
+    <div class="admin-field">
+      <label>Scheduled Turn Info</label>
+      <div style="background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-sm); padding:10px 12px; font-size:13px; font-weight:700;" id="changeTurnDisplayInfo">
+        Sun, Nov 8, 2026 · Current: Satnam
+      </div>
+    </div>
+
+    <div class="admin-field">
+      <label for="changeTurnNewPersonSelect">Assign Turn To (From Household List)</label>
+      <select id="changeTurnNewPersonSelect" style="font-weight:700;"></select>
+    </div>
+
+    <div class="admin-field">
+      <label style="font-size:12px; font-weight:700; color:var(--ink-muted); margin-bottom:8px; display:block;">How should this change apply?</label>
+      <div style="display:grid; gap:8px;">
+        <label style="display:flex; align-items:flex-start; gap:8px; background:#f8fafc; border:1px solid var(--card-border); padding:10px 12px; border-radius:var(--radius-sm); cursor:pointer;">
+          <input type="radio" name="turnChangeScope" value="date_override" id="scopeDateOnly" checked style="width:auto; margin-top:2px;">
+          <div style="font-size:13px;">
+            <strong>Change for this date only</strong>
+            <div style="font-size:12px; color:var(--ink-muted);" id="scopeDateOnlyLabel">Sets a cloud date override for this specific turn.</div>
+          </div>
+        </label>
+        <label style="display:flex; align-items:flex-start; gap:8px; background:#f8fafc; border:1px solid var(--card-border); padding:10px 12px; border-radius:var(--radius-sm); cursor:pointer;">
+          <input type="radio" name="turnChangeScope" value="recurring_month" id="scopeRecurringMonth" style="width:auto; margin-top:2px;">
+          <div style="font-size:13px;">
+            <strong id="scopeRecurringMonthTitle">Recurring every 8th of the month</strong>
+            <div style="font-size:12px; color:var(--ink-muted);">Updates the recurring rule so this person always does this day.</div>
+          </div>
+        </label>
+        <label style="display:flex; align-items:flex-start; gap:8px; background:#f8fafc; border:1px solid var(--card-border); padding:10px 12px; border-radius:var(--radius-sm); cursor:pointer;">
+          <input type="radio" name="turnChangeScope" value="swap_rotation" id="scopeSwapRotation" style="width:auto; margin-top:2px;">
+          <div style="font-size:13px;">
+            <strong>Swap positions in rotation queue</strong>
+            <div style="font-size:12px; color:var(--ink-muted);">Swaps the positions of the two roommates in the sequential order.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="changeTurnCancel">Cancel</button>
+      <button class="hero-btn-primary" style="background:#0f172a; color:#fff;" id="changeTurnSave">✓ Save & Sync Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Quick Schedule Settings & Occurrence Rules -->
+<div class="modal-backdrop" id="scheduleSettingsModal">
+  <div class="modal" style="width:min(100%, 620px); max-height:85vh; overflow-y:auto;">
+    <h3 id="modalSchedHeading">⚙️ Schedule & Occurrence Rules</h3>
+    <p>Select which of the 3 scheduling modes controls this duty. Click <strong>Save & Apply</strong> to update duties immediately.</p>
+
+    <!-- 3 Mode Selection Tabs for Modal -->
+    <div class="schedule-mode-tabs" id="modalModeTabs" style="margin-top:12px; margin-bottom:14px;">
+      <button type="button" class="mode-tab-btn active" data-modal-mode="recurring" id="modalModeBtnRecurring">
+        <span style="font-size:22px;">📌</span>
+        <div>
+          <div style="font-weight:800; font-size:13px;">1. Recurring Occurrence</div>
+          <div style="font-size:11px; color:var(--ink-muted);">e.g., Every 8th Satnam, 12th Sourab</div>
+        </div>
+      </button>
+      <button type="button" class="mode-tab-btn" data-modal-mode="timebased" id="modalModeBtnTimebased">
+        <span style="font-size:22px;">⏱️</span>
+        <div>
+          <div style="font-weight:800; font-size:13px;">2. Time-Based Interval</div>
+          <div style="font-size:11px; color:var(--ink-muted);">e.g., After 4 or 5 days continue</div>
+        </div>
+      </button>
+      <button type="button" class="mode-tab-btn" data-modal-mode="specific" id="modalModeBtnSpecific">
+        <span style="font-size:22px;">📅</span>
+        <div>
+          <div style="font-weight:800; font-size:13px;">3. Specific Dates</div>
+          <div style="font-size:11px; color:var(--ink-muted);">e.g., Exact calendar date overrides</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Panel 1: Recurring Rules -->
+    <div class="mode-config-panel" id="modalModePanelRecurring" style="background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
+      <h4 style="font-size:14px; font-weight:800; margin-bottom:6px;">📌 Recurring Occurrence Rules</h4>
+      <p style="font-size:12px; color:var(--ink-muted); margin-bottom:10px;">Set recurring occurrences: e.g., every 8th of the month Satnam will do, every 12th Sourab will do, or weekly day.</p>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+        <div class="admin-field" style="margin:0;">
+          <label for="modalRuleType">Rule Frequency</label>
+          <select id="modalRuleType">
+            <option value="day_of_month">Day of Month (e.g. Every 8th)</option>
+            <option value="day_of_week">Day of Week (e.g. Every Wednesday)</option>
+          </select>
+        </div>
+        <div class="admin-field" style="margin:0;" id="modalDayOfMonthField">
+          <label for="modalRuleDayOfMonth">Day of Month</label>
+          <select id="modalRuleDayOfMonth"></select>
+        </div>
+        <div class="admin-field" style="margin:0; display:none;" id="modalDayOfWeekField">
+          <label for="modalRuleDayOfWeek">Day of Week</label>
+          <select id="modalRuleDayOfWeek">
+            <option value="0">Sunday</option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+          </select>
+        </div>
+      </div>
+      <div class="admin-field">
+        <label for="modalRulePerson">Assigned Member</label>
+        <select id="modalRulePerson"></select>
+      </div>
+      <button type="button" class="hero-btn-primary" style="background:#059669; color:#fff; font-size:12px; padding:8px 14px; margin-bottom:12px;" id="modalAddRuleBtn">➕ Add / Update Rule</button>
+      
+      <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Active Recurring Rules:</h6>
+      <div id="modalRecurringRulesList" style="display:grid; gap:6px;"></div>
+    </div>
+
+    <!-- Panel 2: Cadence / Time-Based Settings -->
+    <div class="mode-config-panel" id="modalModePanelTimebased" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px;">
+      <h4 style="font-size:14px; font-weight:800; margin-bottom:6px;">⏱️ Turn Cadence / Duration</h4>
+      <p style="font-size:12px; color:var(--ink-muted); margin-bottom:10px;">Sequential turn rotation advancing through roommates every N days continue.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+        <div class="admin-field" style="margin:0;">
+          <label for="modalIntervalDays">Turn Interval (Days)</label>
+          <input type="number" id="modalIntervalDays" min="1" max="60" value="4">
+        </div>
+        <div class="admin-field" style="margin:0;">
+          <label for="modalAnchorDate">Schedule Start / Reference Date</label>
+          <input type="date" id="modalAnchorDate">
+        </div>
+      </div>
+      <div class="cadence-chip-group">
+        <span style="font-size:12px; color:var(--ink-muted); align-self:center;">Quick Cadence:</span>
+        <button type="button" class="cadence-chip" data-cadence-val="3">3 Days</button>
+        <button type="button" class="cadence-chip" data-cadence-val="4">4 Days</button>
+        <button type="button" class="cadence-chip" data-cadence-val="5">5 Days</button>
+        <button type="button" class="cadence-chip" data-cadence-val="7">7 Days (Weekly)</button>
+      </div>
+    </div>
+
+    <!-- Panel 3: Specific Date Overrides -->
+    <div class="mode-config-panel" id="modalModePanelSpecific" style="display:none; background:#f8fafc; border:1px solid var(--card-border); border-radius:var(--radius-md); padding:14px;">
+      <h4 style="font-size:14px; font-weight:800; margin-bottom:6px;">⚡ Specific Date Overrides</h4>
+      <p style="font-size:12px; color:var(--ink-muted); margin-bottom:10px;">Assign or rearrange turns on exact calendar dates.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+        <div class="admin-field" style="margin:0;">
+          <label for="modalOverrideDate">Select Date</label>
+          <input type="date" id="modalOverrideDate">
+        </div>
+        <div class="admin-field" style="margin:0;">
+          <label for="modalOverridePerson">Assign To</label>
+          <select id="modalOverridePerson"></select>
+        </div>
+      </div>
+      <button type="button" class="hero-btn-primary" style="background:#4f46e5; color:#fff; font-size:12px; padding:8px 14px; margin-bottom:12px;" id="modalAddOverrideBtn">📌 Assign Date</button>
+      <h6 style="font-size:12px; font-weight:800; color:var(--ink-muted); margin-bottom:6px; text-transform:uppercase;">Custom Date Assignments:</h6>
+      <div id="modalOverridesList" style="display:grid; gap:6px;"></div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="hero-btn-glass" style="color:var(--ink); background:#f1f5f9;" id="scheduleSettingsModalClose">Cancel</button>
+      <button class="hero-btn-primary" style="background:#059669; color:#fff; font-weight:800;" id="modalApplyScheduleBtn">💾 Save & Apply Schedule to Duties</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Setup Guide -->
 <div class="modal-backdrop" id="guideModal">
   <div class="modal" style="width:min(100%, 650px); max-height:85vh; overflow-y:auto;">
@@ -1012,8 +1579,8 @@
   };
 
   const ADMIN_PASSWORD = "4042admin";
-  const ALL_INDIVIDUALS = ["Raghav", "Ritish", "Navneet", "Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
-  const ADMIN_NAMES = ["Satnam", "Sourab", "Saurav"];
+  const DEFAULT_PEOPLE = ["Raghav", "Ritish", "Navneet", "Japesh", "Navneet & Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
+  const DEFAULT_ADMINS = ["Satnam", "Sourab", "Saurav"];
 
   // Default Rotation Lists
   const DEFAULT_MILK_ORDER = ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam", "Vaibhav", "Sourab", "Abhi"];
@@ -1022,25 +1589,56 @@
 
   const STARTER_STATE = {
     activeSection: "milk",
+    people: [...DEFAULT_PEOPLE],
+    admins: [...DEFAULT_ADMINS],
     milk: {
       order: [...DEFAULT_MILK_ORDER],
       nextIndex: 5, // Vaibhav is next after Satnam
       cycle: 1,
-      cycleSeen: ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam"]
+      cycleSeen: ["Raghav", "Ritish", "Navneet & Japesh", "Akash", "Satnam"],
+      scheduling: {
+        mode: "timebased",
+        intervalDays: 4,
+        anchorDate: "2026-11-04",
+        recurringRules: [
+          { id: "rule-milk-8", type: "day_of_month", day: 8, person: "Satnam" }
+        ],
+        dateOverrides: {}
+      }
     },
     cleaning: {
       order: [...DEFAULT_CLEANING_ORDER],
       nextIndex: 0,
       cycle: 1,
-      cycleSeen: []
+      cycleSeen: [],
+      scheduling: {
+        mode: "recurring",
+        intervalDays: 7,
+        anchorDate: "2026-11-08",
+        recurringRules: [
+          { id: "rule-clean-sun", type: "day_of_week", dayOfWeek: 0, person: "Raghav" }
+        ],
+        dateOverrides: {}
+      }
     },
     garbage: {
       order: [...DEFAULT_GARBAGE_ORDER],
       nextIndex: 0,
       cycle: 1,
-      cycleSeen: []
+      cycleSeen: [],
+      scheduling: {
+        mode: "recurring",
+        intervalDays: 7,
+        anchorDate: "2026-11-11",
+        recurringRules: [
+          { id: "rule-garb-wed", type: "day_of_week", dayOfWeek: 3, person: "Ritish" }
+        ],
+        dateOverrides: {}
+      }
     },
-    emails: {},
+    emails: {
+      "Satnam": "sohalsatnam792@gmail.com"
+    },
     requests: {},
     history: [{
       id: "starter-init",
@@ -1053,12 +1651,14 @@
     automation: {
       webhookUrl: ""
     },
-    version: 2
+    version: 3
   };
 
   // State Management
   let state = structuredClone(STARTER_STATE);
   let currentSection = "milk";
+  let activeAdminScheduleMode = "timebased";
+  let activeModalScheduleMode = "timebased";
   let currentUser = localStorage.getItem("household_user") || "Raghav";
   let previousUser = currentUser;
   let database = null;
@@ -1067,11 +1667,28 @@
   let modalAction = null;
   let toastTimer = null;
   let pendingAdminTarget = null;
+  let pendingAdminAction = null;
 
   const $ = id => document.getElementById(id);
 
+  function getPeopleList() {
+    if (Array.isArray(state?.people) && state.people.length > 0) {
+      return state.people;
+    }
+    return DEFAULT_PEOPLE;
+  }
+
+  function getAdminList() {
+    if (Array.isArray(state?.admins) && state.admins.length > 0) {
+      return state.admins;
+    }
+    return DEFAULT_ADMINS;
+  }
+
   function isNameAdmin(name) {
-    return ADMIN_NAMES.some(a => a.toLowerCase() === (name || "").trim().toLowerCase());
+    if (!name) return false;
+    const target = name.trim().toLowerCase();
+    return getAdminList().some(a => (a || "").trim().toLowerCase() === target);
   }
 
   function isAdminSessionActive() {
@@ -1083,7 +1700,7 @@
     if (assignedSlot === individual) return true;
     if (assignedSlot.includes("&")) {
       const parts = assignedSlot.split("&").map(s => s.trim().toLowerCase());
-      return parts.includes(individual.toLowerCase());
+      return parts.includes((individual || "").toLowerCase());
     }
     return false;
   }
@@ -1120,46 +1737,221 @@
     }
   }
 
-  function getUpcomingWednesdays(count = 5) {
-    const dates = [];
-    const now = new Date();
-    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const day = d.getDay();
-    let diff = (3 - day + 7) % 7;
-    const firstWed = new Date(d);
-    firstWed.setDate(d.getDate() + diff);
-
-    for (let i = 0; i < count; i++) {
-      const w = new Date(firstWed);
-      w.setDate(firstWed.getDate() + (i * 7));
-      dates.push(w);
-    }
-    return dates;
-  }
-
-  function getUpcomingSundays(count = 5) {
-    const dates = [];
-    const now = new Date();
-    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const day = d.getDay();
-    let diff = (7 - day) % 7;
-    const firstSun = new Date(d);
-    firstSun.setDate(d.getDate() + diff);
-
-    for (let i = 0; i < count; i++) {
-      const s = new Date(firstSun);
-      s.setDate(firstSun.getDate() + (i * 7));
-      dates.push(s);
-    }
-    return dates;
-  }
-
   function getSectionData(sec = currentSection) {
     if (!state[sec]) state[sec] = structuredClone(STARTER_STATE[sec]);
     return state[sec];
   }
 
+  function formatDateKey(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  function getOrdinalSuffix(i) {
+    const j = i % 10, k = i % 100;
+    if (j === 1 && k !== 11) return "st";
+    if (j === 2 && k !== 12) return "nd";
+    if (j === 3 && k !== 13) return "rd";
+    return "th";
+  }
+
+  // 3-Mode Scheduling Engine: (1. Recurring Occurrence, 2. Time-Based Interval, 3. Specific Dates)
+  function getUpcomingTurns(sec = currentSection, count = 10) {
+    const secData = getSectionData(sec);
+    const sched = secData.scheduling || {
+      mode: sec === "milk" ? "timebased" : "recurring",
+      intervalDays: sec === "milk" ? 4 : 7,
+      anchorDate: "2026-11-04",
+      recurringRules: [],
+      dateOverrides: {}
+    };
+
+    const mode = sched.mode || (sec === "milk" ? "timebased" : "recurring");
+    const intervalDays = Math.max(1, parseInt(sched.intervalDays, 10) || (sec === "milk" ? 4 : 7));
+    const now = new Date();
+    const todayZero = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    let baseDate;
+    if (sched.anchorDate) {
+      const parts = String(sched.anchorDate).split("-").map(Number);
+      baseDate = new Date(parts[0], parts[1] - 1, parts[2]);
+      if (isNaN(baseDate.getTime())) baseDate = new Date(todayZero);
+    } else {
+      baseDate = new Date(todayZero);
+    }
+
+    const order = (secData.order && secData.order.length > 0) ? secData.order : ["None"];
+    const startIdx = secData.nextIndex || 0;
+    const rules = Array.isArray(sched.recurringRules) 
+      ? sched.recurringRules 
+      : Object.values(sched.recurringRules || {});
+    const overrides = sched.dateOverrides || {};
+    const turns = [];
+
+    // ==========================================
+    // MODE 1: RECURRING OCCURRENCE RULES
+    // ==========================================
+    if (mode === "recurring" && rules.length > 0) {
+      const collected = [];
+      const startYr = todayZero.getFullYear();
+      const startMo = todayZero.getMonth();
+
+      // Look ahead up to 6 months for day_of_month rules
+      for (let mOffset = 0; mOffset < 6 && collected.length < count * 3; mOffset++) {
+        const yr = startYr;
+        const mo = startMo + mOffset;
+        const daysInMonth = new Date(yr, mo + 1, 0).getDate();
+
+        rules.forEach(r => {
+          if (r.type === "day_of_month") {
+            const d = Math.min(Number(r.day), daysInMonth);
+            const rDate = new Date(yr, mo, d);
+            if (rDate.getTime() >= todayZero.getTime() - 86400000) {
+              collected.push({
+                date: rDate,
+                person: r.person,
+                source: "rule_month",
+                ruleDetail: `Every ${r.day}${getOrdinalSuffix(r.day)} of month`
+              });
+            }
+          }
+        });
+      }
+
+      // Look ahead up to 12 weeks for day_of_week rules
+      rules.filter(r => r.type === "day_of_week").forEach(r => {
+        const targetDay = Number(r.dayOfWeek);
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        for (let w = 0; w < 12; w++) {
+          const cur = new Date(todayZero.getTime() + (w * 7 * 86400000));
+          const diff = (targetDay - cur.getDay() + 7) % 7;
+          const rDate = new Date(cur.getTime() + (diff * 86400000));
+          if (rDate.getTime() >= todayZero.getTime() - 86400000) {
+            collected.push({
+              date: rDate,
+              person: r.person,
+              source: "rule_week",
+              ruleDetail: `Every ${dayNames[targetDay]}`
+            });
+          }
+        }
+      });
+
+      collected.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+      // Deduplicate occurrences on the same date
+      const seenDates = new Set();
+      const deduped = [];
+      collected.forEach(item => {
+        const k = formatDateKey(item.date);
+        if (!seenDates.has(k)) {
+          seenDates.add(k);
+          deduped.push(item);
+        }
+      });
+
+      deduped.slice(0, count).forEach((item, i) => {
+        const dateKey = formatDateKey(item.date);
+        const isOverride = !!overrides[dateKey];
+        const assignedPerson = isOverride ? overrides[dateKey] : item.person;
+        const source = isOverride ? "override" : item.source;
+        const ruleDetail = isOverride ? "Admin Override" : item.ruleDetail;
+        const nextDate = (i < deduped.length - 1) ? deduped[i + 1].date : new Date(item.date.getTime() + (intervalDays * 86400000));
+
+        turns.push({
+          index: i,
+          orderSlotIndex: (startIdx + i) % order.length,
+          defaultPerson: item.person,
+          person: assignedPerson,
+          date: item.date,
+          endDate: nextDate,
+          dateKey,
+          dayOfMonth: item.date.getDate(),
+          dayOfWeek: item.date.getDay(),
+          source,
+          ruleDetail,
+          isActive: i === 0
+        });
+      });
+    }
+
+    // ==========================================
+    // MODE 2 (TIME-BASED) & MODE 3 (SPECIFIC DATES) & FALLBACK
+    // ==========================================
+    if (turns.length === 0) {
+      if (sec === "garbage" && mode !== "specific") {
+        const day = baseDate.getDay();
+        const diff = (3 - day + 7) % 7;
+        baseDate.setDate(baseDate.getDate() + diff);
+      } else if (sec === "cleaning" && mode !== "specific") {
+        const day = baseDate.getDay();
+        const diff = (7 - day) % 7;
+        baseDate.setDate(baseDate.getDate() + diff);
+      }
+
+      for (let i = 0; i < count; i++) {
+        const turnDate = new Date(baseDate.getTime() + (i * intervalDays * 86400000));
+        const nextTurnDate = new Date(baseDate.getTime() + ((i + 1) * intervalDays * 86400000));
+        const dateKey = formatDateKey(turnDate);
+        const dayOfMonth = turnDate.getDate();
+        const dayOfWeek = turnDate.getDay();
+
+        const defaultPerson = order[(startIdx + i) % order.length];
+        let assignedPerson = defaultPerson;
+        let source = "rotation";
+        let ruleDetail = `Every ${intervalDays} days`;
+
+        // 1. Specific Date Override (Highest priority)
+        if (overrides[dateKey]) {
+          assignedPerson = overrides[dateKey];
+          source = "override";
+          ruleDetail = mode === "specific" ? "Specific Date Assignment" : "Admin Override";
+        }
+        // 2. Matching recurring rule
+        else if (rules.length > 0) {
+          const monthRule = rules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
+          if (monthRule) {
+            assignedPerson = monthRule.person;
+            source = "rule_month";
+            ruleDetail = `Rule: Every ${monthRule.day}${getOrdinalSuffix(monthRule.day)}`;
+          } else {
+            const weekRule = rules.find(r => r.type === "day_of_week" && Number(r.dayOfWeek) === dayOfWeek);
+            if (weekRule) {
+              assignedPerson = weekRule.person;
+              source = "rule_week";
+              const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+              ruleDetail = `Rule: Every ${dayNames[dayOfWeek]}`;
+            }
+          }
+        }
+
+        turns.push({
+          index: i,
+          orderSlotIndex: (startIdx + i) % order.length,
+          defaultPerson,
+          person: assignedPerson,
+          date: turnDate,
+          endDate: nextTurnDate,
+          dateKey,
+          dayOfMonth,
+          dayOfWeek,
+          source,
+          ruleDetail,
+          isActive: i === 0
+        });
+      }
+    }
+
+    return turns;
+  }
+
   function getCurrentSlot(sec = currentSection) {
+    const turns = getUpcomingTurns(sec, 1);
+    if (turns.length > 0 && turns[0].person) {
+      return turns[0].person;
+    }
     const d = getSectionData(sec);
     if (!d.order || d.order.length === 0) return "None";
     return d.order[d.nextIndex % d.order.length];
@@ -1169,6 +1961,15 @@
     if (!s) return structuredClone(STARTER_STATE);
     const res = { ...structuredClone(STARTER_STATE), ...s };
     
+    // People and Admins
+    if (!Array.isArray(res.people) || res.people.length === 0) {
+      res.people = [...DEFAULT_PEOPLE];
+    }
+    if (!Array.isArray(res.admins) || res.admins.length === 0) {
+      res.admins = [...DEFAULT_ADMINS];
+    }
+
+    // Handle legacy order array if present
     if (Array.isArray(s.order) && !s.milk) {
       res.milk = {
         order: s.order,
@@ -1177,13 +1978,43 @@
         cycleSeen: s.cycleSeen || []
       };
     }
-    if (!res.milk || !Array.isArray(res.milk.order)) res.milk = structuredClone(STARTER_STATE.milk);
-    if (!res.cleaning || !Array.isArray(res.cleaning.order)) res.cleaning = structuredClone(STARTER_STATE.cleaning);
-    if (!res.garbage || !Array.isArray(res.garbage.order)) res.garbage = structuredClone(STARTER_STATE.garbage);
+
+    ["milk", "cleaning", "garbage"].forEach(sec => {
+      if (!res[sec] || !Array.isArray(res[sec].order)) {
+        res[sec] = structuredClone(STARTER_STATE[sec]);
+      }
+      if (!res[sec].scheduling) {
+        res[sec].scheduling = structuredClone(STARTER_STATE[sec].scheduling);
+      } else {
+        if (!res[sec].scheduling.mode) {
+          res[sec].scheduling.mode = sec === "milk" ? "timebased" : "recurring";
+        }
+        if (!res[sec].scheduling.intervalDays) {
+          res[sec].scheduling.intervalDays = sec === "milk" ? 4 : 7;
+        }
+        if (!res[sec].scheduling.anchorDate) {
+          res[sec].scheduling.anchorDate = "2026-11-04";
+        }
+        if (!Array.isArray(res[sec].scheduling.recurringRules)) {
+          if (res[sec].scheduling.recurringRules && typeof res[sec].scheduling.recurringRules === "object") {
+            res[sec].scheduling.recurringRules = Object.values(res[sec].scheduling.recurringRules);
+          } else {
+            res[sec].scheduling.recurringRules = sec === "milk" ? [
+              { id: "rule-milk-8", type: "day_of_month", day: 8, person: "Satnam" }
+            ] : [];
+          }
+        }
+        if (!res[sec].scheduling.dateOverrides || typeof res[sec].scheduling.dateOverrides !== "object") {
+          res[sec].scheduling.dateOverrides = {};
+        }
+      }
+    });
+
     res.emails = s.emails || {};
     res.requests = s.requests || {};
     res.history = Array.isArray(s.history) ? s.history : [];
     res.automation = s.automation || { webhookUrl: "" };
+    res.version = s.version || 3;
     return res;
   }
 
@@ -1221,6 +2052,15 @@
   }
 
   function persist(mutator, successMsg) {
+    // 1. Immediately mutate local state and render for instant (0ms) visual update
+    try {
+      mutator(state);
+      render();
+    } catch (err) {
+      console.error("Local state mutation error:", err);
+    }
+
+    // 2. Persist to Firebase Realtime Database in background
     if (isConnected && dbRef) {
       runTransaction(dbRef, current => {
         const s = normalizeState(current);
@@ -1229,13 +2069,10 @@
       }).then(res => {
         if (res.committed && successMsg) showToast(successMsg);
       }).catch(err => {
+        console.error("Database write error:", err);
         showToast("Database write error: " + err.message, "⚠️");
       });
     } else {
-      const s = normalizeState(state);
-      mutator(s);
-      state = s;
-      render();
       if (successMsg) showToast(successMsg);
     }
   }
@@ -1258,7 +2095,7 @@
     persist(s => {
       const secData = s[sec];
       if (!secData || !secData.order.length) return;
-      const current = secData.order[secData.nextIndex % secData.order.length];
+      const current = person || getCurrentSlot(sec);
 
       if (!secData.cycleSeen) secData.cycleSeen = [];
       if (!secData.cycleSeen.includes(current)) secData.cycleSeen.push(current);
@@ -1276,11 +2113,16 @@
       } else {
         secData.nextIndex = (secData.nextIndex + 1) % secData.order.length;
       }
-      newNextSlot = secData.order[secData.nextIndex % secData.order.length];
+
+      // Move anchorDate to today so next interval starts now
+      if (secData.scheduling) {
+        secData.scheduling.anchorDate = new Date().toISOString().split("T")[0];
+      }
+
       s.version = (s.version || 0) + 1;
     }, `${person}'s turn marked ${type === "skipped" ? "skipped" : "done"}!`);
 
-    // If turn was skipped, send email alert to the new next person and admins
+    newNextSlot = getCurrentSlot(sec);
     if (type === "skipped" && newNextSlot) {
       notifyTurnSkipped(sec, person, newNextSlot, reason);
     }
@@ -1304,7 +2146,7 @@
 
   function getAdminEmails() {
     const list = [];
-    ADMIN_NAMES.forEach(adm => {
+    getAdminList().forEach(adm => {
       if (state.emails?.[adm] && !list.includes(state.emails[adm])) {
         list.push(state.emails[adm]);
       }
@@ -1410,10 +2252,21 @@
     $("userEmailDisplay").textContent = `📧 ${val}`;
   });
 
-  // Admin Password Modal Handlers
+  // Admin Password Verification Handlers
   function promptAdminPassword(targetAdminName) {
     pendingAdminTarget = targetAdminName;
+    pendingAdminAction = null;
     $("adminTargetName").textContent = targetAdminName;
+    $("adminPasswordInput").value = "";
+    $("adminAuthError").style.display = "none";
+    $("adminAuthModal").classList.add("open");
+    setTimeout(() => $("adminPasswordInput").focus(), 100);
+  }
+
+  function promptAdminPasswordForAction(actionName, callback) {
+    pendingAdminTarget = currentUser;
+    pendingAdminAction = callback;
+    $("adminTargetName").textContent = `${currentUser} (Admin Authorization Required)`;
     $("adminPasswordInput").value = "";
     $("adminAuthError").style.display = "none";
     $("adminAuthModal").classList.add("open");
@@ -1423,12 +2276,12 @@
   function closeAdminPasswordModal() {
     $("adminAuthModal").classList.remove("open");
     pendingAdminTarget = null;
+    pendingAdminAction = null;
   }
 
   $("adminAuthCancel").addEventListener("click", () => {
     closeAdminPasswordModal();
-    // Revert user select to previous non-admin user
-    $("currentUserSelect").value = previousUser;
+    updateUserDropdown();
   });
 
   $("adminAuthConfirm").addEventListener("click", verifyAdminPassword);
@@ -1440,13 +2293,16 @@
     const entered = $("adminPasswordInput").value;
     if (entered === ADMIN_PASSWORD) {
       sessionStorage.setItem("admin_authenticated", "true");
-      currentUser = pendingAdminTarget;
-      previousUser = currentUser;
-      localStorage.setItem("household_user", currentUser);
+      if (pendingAdminTarget && isNameAdmin(pendingAdminTarget)) {
+        currentUser = pendingAdminTarget;
+        previousUser = currentUser;
+        localStorage.setItem("household_user", currentUser);
+      }
+      const cb = pendingAdminAction;
       closeAdminPasswordModal();
-      showToast(`⭐ Admin privileges unlocked for ${currentUser}!`, "🔓");
+      showToast(`⭐ Admin privileges unlocked!`, "🔓");
       render();
-      checkEmailPresence(currentUser);
+      if (cb) cb();
     } else {
       $("adminAuthError").style.display = "block";
       $("adminPasswordInput").select();
@@ -1455,22 +2311,657 @@
 
   $("lockAdminBtn").addEventListener("click", () => {
     sessionStorage.removeItem("admin_authenticated");
-    currentUser = "Raghav";
-    previousUser = "Raghav";
-    $("currentUserSelect").value = "Raghav";
-    localStorage.setItem("household_user", "Raghav");
+    const people = getPeopleList();
+    const firstNonAdmin = people.find(p => !isNameAdmin(p)) || people[0] || "Raghav";
+    currentUser = firstNonAdmin;
+    previousUser = currentUser;
+    localStorage.setItem("household_user", currentUser);
     showToast("Admin session locked.", "🔒");
     render();
-    checkEmailPresence("Raghav");
+    checkEmailPresence(currentUser);
+  });
+
+  // Dynamic User Dropdown Linked to Database People List
+  function updateUserDropdown() {
+    const userSelect = $("currentUserSelect");
+    const people = getPeopleList();
+    
+    let html = people.map(name => {
+      const adminMark = isNameAdmin(name) ? '🔒' : '';
+      return `<option value="${escapeHtml(name)}">${escapeHtml(name)} ${adminMark}</option>`;
+    }).join("");
+
+    html += `<option value="__add_person__">➕ Add New Person…</option>`;
+    userSelect.innerHTML = html;
+
+    if (people.includes(currentUser)) {
+      userSelect.value = currentUser;
+    } else if (people.length > 0) {
+      currentUser = people[0];
+      userSelect.value = currentUser;
+    }
+    
+    $("userAvatar").textContent = (currentUser || "R").charAt(0).toUpperCase();
+
+    // Quick add button in header
+    const isUserAdmin = isAdminSessionActive();
+    if ($("headerAddPersonBtn")) {
+      $("headerAddPersonBtn").style.display = isUserAdmin ? "inline-flex" : "none";
+    }
+  }
+
+  // ==========================================
+  // 👥 PEOPLE MANAGEMENT (Admin Controlled)
+  // ==========================================
+  function openAddPersonModal() {
+    $("memberModalTitle").textContent = "👥 Add Household Member";
+    $("memberModalDesc").textContent = "Add a roommate to the database. They will appear in the main dropdown and can be scheduled for turns.";
+    $("memberEditOriginalName").value = "";
+    $("memberNameInput").value = "";
+    $("memberEmailModalInput").value = "";
+    $("memberIsAdminInput").checked = false;
+    $("memberDutyMilk").checked = true;
+    $("memberDutyCleaning").checked = true;
+    $("memberDutyGarbage").checked = true;
+    $("memberModal").classList.add("open");
+    setTimeout(() => $("memberNameInput").focus(), 100);
+  }
+
+  function openEditPersonModal(name) {
+    const isAdm = isNameAdmin(name);
+    const email = state.emails?.[name] || "";
+    const inMilk = (state.milk?.order || []).includes(name);
+    const inCleaning = (state.cleaning?.order || []).includes(name);
+    const inGarbage = (state.garbage?.order || []).includes(name);
+
+    $("memberModalTitle").textContent = `✏️ Edit Household Member: ${name}`;
+    $("memberModalDesc").textContent = "Update name, email, admin status, or duty participation.";
+    $("memberEditOriginalName").value = name;
+    $("memberNameInput").value = name;
+    $("memberEmailModalInput").value = email;
+    $("memberIsAdminInput").checked = isAdm;
+    $("memberDutyMilk").checked = inMilk;
+    $("memberDutyCleaning").checked = inCleaning;
+    $("memberDutyGarbage").checked = inGarbage;
+    $("memberModal").classList.add("open");
+    setTimeout(() => $("memberNameInput").focus(), 100);
+  }
+
+  function closeMemberModal() {
+    $("memberModal").classList.remove("open");
+  }
+
+  $("memberModalCancel").addEventListener("click", closeMemberModal);
+
+  function saveMemberFromModal() {
+    const originalName = $("memberEditOriginalName").value.trim();
+    const newName = $("memberNameInput").value.trim();
+    const email = $("memberEmailModalInput").value.trim();
+    const isAdmin = $("memberIsAdminInput").checked;
+    const inMilk = $("memberDutyMilk").checked;
+    const inCleaning = $("memberDutyCleaning").checked;
+    const inGarbage = $("memberDutyGarbage").checked;
+
+    if (!newName) {
+      alert("Please enter a valid member name.");
+      return;
+    }
+
+    persist(s => {
+      s.people = Array.isArray(s.people) ? s.people : [...DEFAULT_PEOPLE];
+      s.admins = Array.isArray(s.admins) ? s.admins : [...DEFAULT_ADMINS];
+      s.emails = s.emails || {};
+
+      if (originalName) {
+        // Editing existing member
+        const idx = s.people.indexOf(originalName);
+        if (idx !== -1) {
+          s.people[idx] = newName;
+        }
+
+        // Emails
+        if (s.emails[originalName] !== undefined && originalName !== newName) {
+          delete s.emails[originalName];
+        }
+        if (email) s.emails[newName] = email;
+        else delete s.emails[newName];
+
+        // Admin status
+        s.admins = s.admins.filter(a => a.toLowerCase() !== originalName.toLowerCase());
+        if (isAdmin) s.admins.push(newName);
+
+        // Update duties (Milk)
+        s.milk = s.milk || { order: [] };
+        s.milk.order = s.milk.order.map(p => p === originalName ? newName : p);
+        if (inMilk && !s.milk.order.includes(newName)) s.milk.order.push(newName);
+        if (!inMilk) s.milk.order = s.milk.order.filter(p => p !== newName);
+
+        // Update duties (Cleaning)
+        s.cleaning = s.cleaning || { order: [] };
+        s.cleaning.order = s.cleaning.order.map(p => p === originalName ? newName : p);
+        if (inCleaning && !s.cleaning.order.includes(newName)) s.cleaning.order.push(newName);
+        if (!inCleaning) s.cleaning.order = s.cleaning.order.filter(p => p !== newName);
+
+        // Update duties (Garbage)
+        s.garbage = s.garbage || { order: [] };
+        s.garbage.order = s.garbage.order.map(p => p === originalName ? newName : p);
+        if (inGarbage && !s.garbage.order.includes(newName)) s.garbage.order.push(newName);
+        if (!inGarbage) s.garbage.order = s.garbage.order.filter(p => p !== newName);
+
+        // Update recurring rules referencing old name
+        ["milk", "cleaning", "garbage"].forEach(sec => {
+          if (s[sec]?.scheduling?.recurringRules) {
+            s[sec].scheduling.recurringRules.forEach(r => {
+              if (r.person === originalName) r.person = newName;
+            });
+          }
+          if (s[sec]?.scheduling?.dateOverrides) {
+            Object.keys(s[sec].scheduling.dateOverrides).forEach(k => {
+              if (s[sec].scheduling.dateOverrides[k] === originalName) s[sec].scheduling.dateOverrides[k] = newName;
+            });
+          }
+        });
+
+        if (currentUser === originalName) {
+          currentUser = newName;
+          localStorage.setItem("household_user", currentUser);
+        }
+
+        addHistory(s, "general", "member-updated", currentUser, `Admin updated profile for ${newName}.`);
+      } else {
+        // Adding new member
+        if (!s.people.includes(newName)) {
+          s.people.push(newName);
+        }
+        if (email) s.emails[newName] = email;
+        if (isAdmin && !s.admins.includes(newName)) s.admins.push(newName);
+
+        if (inMilk && s.milk && !s.milk.order.includes(newName)) s.milk.order.push(newName);
+        if (inCleaning && s.cleaning && !s.cleaning.order.includes(newName)) s.cleaning.order.push(newName);
+        if (inGarbage && s.garbage && !s.garbage.order.includes(newName)) s.garbage.order.push(newName);
+
+        addHistory(s, "general", "member-added", currentUser, `Admin added ${newName} to household.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, originalName ? `Updated ${newName}!` : `Added ${newName} to household!`);
+
+    closeMemberModal();
+  }
+
+  $("memberModalSave").addEventListener("click", saveMemberFromModal);
+  if ($("headerAddPersonBtn")) $("headerAddPersonBtn").addEventListener("click", openAddPersonModal);
+  if ($("adminAddNewMemberBtn")) $("adminAddNewMemberBtn").addEventListener("click", openAddPersonModal);
+
+  function deleteMember(name) {
+    if (!confirm(`Are you sure you want to remove ${name} from the household list and all schedules?`)) return;
+
+    persist(s => {
+      s.people = (s.people || []).filter(p => p !== name);
+      s.admins = (s.admins || []).filter(a => a.toLowerCase() !== name.toLowerCase());
+      if (s.emails) delete s.emails[name];
+
+      ["milk", "cleaning", "garbage"].forEach(sec => {
+        if (s[sec]?.order) {
+          s[sec].order = s[sec].order.filter(p => p !== name);
+          s[sec].nextIndex = s[sec].nextIndex % Math.max(1, s[sec].order.length);
+        }
+        if (s[sec]?.scheduling?.recurringRules) {
+          s[sec].scheduling.recurringRules = s[sec].scheduling.recurringRules.filter(r => r.person !== name);
+        }
+        if (s[sec]?.scheduling?.dateOverrides) {
+          Object.keys(s[sec].scheduling.dateOverrides).forEach(k => {
+            if (s[sec].scheduling.dateOverrides[k] === name) delete s[sec].scheduling.dateOverrides[k];
+          });
+        }
+      });
+
+      if (currentUser === name) {
+        currentUser = s.people[0] || "Raghav";
+        localStorage.setItem("household_user", currentUser);
+      }
+
+      addHistory(s, "general", "member-removed", currentUser, `Admin removed ${name} from household.`);
+      s.version = (s.version || 0) + 1;
+    }, `Removed ${name} from household.`);
+  }
+
+  function toggleAdminPrivilege(name) {
+    persist(s => {
+      s.admins = Array.isArray(s.admins) ? s.admins : [...DEFAULT_ADMINS];
+      const isAdm = s.admins.some(a => a.toLowerCase() === name.toLowerCase());
+      if (isAdm) {
+        s.admins = s.admins.filter(a => a.toLowerCase() !== name.toLowerCase());
+        addHistory(s, "general", "admin-revoked", currentUser, `Admin privileges removed for ${name}.`);
+      } else {
+        s.admins.push(name);
+        addHistory(s, "general", "admin-granted", currentUser, `Admin privileges granted to ${name}.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, `Admin role updated for ${name}!`);
+  }
+
+  // ==========================================
+  // 📅 MASTER SCHEDULING & OCCURRENCE ENGINE
+  // ==========================================
+  function openChangeTurnModal(dateKey, currentPerson, index, dayOfMonth) {
+    if (!isAdminSessionActive()) {
+      promptAdminPasswordForAction("change_turn", () => openChangeTurnModal(dateKey, currentPerson, index, dayOfMonth));
+      return;
+    }
+
+    const people = getPeopleList();
+    $("changeTurnNewPersonSelect").innerHTML = people.map(p => `
+      <option value="${escapeHtml(p)}" ${p === currentPerson ? 'selected' : ''}>${escapeHtml(p)}</option>
+    `).join("");
+
+    $("changeTurnDateKey").value = dateKey;
+    $("changeTurnIndex").value = index;
+    $("changeTurnCurrentPerson").value = currentPerson;
+
+    const parts = dateKey.split("-").map(Number);
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    const dateFormatted = d.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+
+    $("changeTurnDisplayInfo").innerHTML = `<strong>${escapeHtml(dateFormatted)}</strong> · Current Turn: <span style="color:#059669;">${escapeHtml(currentPerson)}</span>`;
+    $("scopeDateOnlyLabel").textContent = `Assigns ${escapeHtml(dateFormatted)} specifically in cloud database.`;
+    $("scopeRecurringMonthTitle").textContent = `Recurring every ${dayOfMonth}th of the month`;
+
+    $("scopeDateOnly").checked = true;
+    $("changeTurnModal").classList.add("open");
+  }
+
+  function closeChangeTurnModal() {
+    $("changeTurnModal").classList.remove("open");
+  }
+
+  $("changeTurnCancel").addEventListener("click", closeChangeTurnModal);
+
+  function saveTurnChangeFromModal() {
+    const dateKey = $("changeTurnDateKey").value;
+    const currentPerson = $("changeTurnCurrentPerson").value;
+    const newPerson = $("changeTurnNewPersonSelect").value;
+    const scope = document.querySelector('input[name="turnChangeScope"]:checked')?.value || "date_override";
+
+    if (!newPerson) return;
+
+    persist(s => {
+      const secData = s[currentSection];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+
+      if (scope === "date_override") {
+        secData.scheduling.dateOverrides = secData.scheduling.dateOverrides || {};
+        secData.scheduling.dateOverrides[dateKey] = newPerson;
+        addHistory(s, currentSection, "schedule-override", currentUser, `Admin assigned ${currentSection} turn on ${dateKey} to ${newPerson}.`);
+      } else if (scope === "recurring_month") {
+        const parts = dateKey.split("-").map(Number);
+        const dayOfMonth = parts[2];
+        secData.scheduling.recurringRules = Array.isArray(secData.scheduling.recurringRules) ? secData.scheduling.recurringRules : [];
+        
+        // Remove existing month rule for this day if any
+        secData.scheduling.recurringRules = secData.scheduling.recurringRules.filter(r => !(r.type === "day_of_month" && Number(r.day) === dayOfMonth));
+        secData.scheduling.recurringRules.push({
+          id: "rule-" + Date.now(),
+          type: "day_of_month",
+          day: dayOfMonth,
+          person: newPerson
+        });
+        addHistory(s, currentSection, "recurring-rule", currentUser, `Admin set rule: Every ${dayOfMonth}th of the month assigned to ${newPerson}.`);
+      } else if (scope === "swap_rotation") {
+        const a = secData.order.indexOf(currentPerson);
+        const b = secData.order.indexOf(newPerson);
+        if (a !== -1 && b !== -1) {
+          [secData.order[a], secData.order[b]] = [secData.order[b], secData.order[a]];
+        }
+        addHistory(s, currentSection, "rotation-swap", currentUser, `Admin swapped ${currentPerson} and ${newPerson} in rotation.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, `Schedule updated for ${newPerson}!`);
+
+    closeChangeTurnModal();
+  }
+
+  $("changeTurnSave").addEventListener("click", saveTurnChangeFromModal);
+
+  function revertTurnOverride(dateKey) {
+    persist(s => {
+      const secData = s[currentSection];
+      if (secData?.scheduling?.dateOverrides?.[dateKey]) {
+        delete secData.scheduling.dateOverrides[dateKey];
+        addHistory(s, currentSection, "override-cleared", currentUser, `Cleared override for ${dateKey}.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, "Date override cleared, reverted to default rotation.");
+  }
+
+  // Schedule Settings & 3-Mode Controller
+  function setAdminScheduleMode(mode) {
+    activeAdminScheduleMode = mode || "recurring";
+    ["recurring", "timebased", "specific"].forEach(m => {
+      const btn = $("modeBtn" + m.charAt(0).toUpperCase() + m.slice(1));
+      const panel = $("modePanel" + m.charAt(0).toUpperCase() + m.slice(1));
+      if (btn) btn.classList.toggle("active", m === activeAdminScheduleMode);
+      if (panel) panel.style.display = m === activeAdminScheduleMode ? "block" : "none";
+    });
+  }
+
+  function setModalScheduleMode(mode) {
+    activeModalScheduleMode = mode || "recurring";
+    ["recurring", "timebased", "specific"].forEach(m => {
+      const btn = $("modalModeBtn" + m.charAt(0).toUpperCase() + m.slice(1));
+      const panel = $("modalModePanel" + m.charAt(0).toUpperCase() + m.slice(1));
+      if (btn) btn.classList.toggle("active", m === activeModalScheduleMode);
+      if (panel) panel.style.display = m === activeModalScheduleMode ? "block" : "none";
+    });
+  }
+
+  // Schedule Settings Modal (Quick Bar trigger)
+  function openScheduleSettingsModal() {
+    const secData = getSectionData(currentSection);
+    const sched = secData.scheduling || { 
+      mode: currentSection === "milk" ? "timebased" : "recurring",
+      intervalDays: currentSection === "milk" ? 4 : 7, 
+      anchorDate: "2026-11-04" 
+    };
+
+    const secTitle = currentSection === "milk" ? "Milk Turn" : currentSection === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    if ($("modalSchedHeading")) {
+      $("modalSchedHeading").textContent = `⚙️ ${secTitle} Schedule & Occurrence Rules`;
+    }
+
+    const mode = sched.mode || (currentSection === "milk" ? "timebased" : "recurring");
+    setModalScheduleMode(mode);
+
+    $("modalIntervalDays").value = sched.intervalDays || (currentSection === "milk" ? 4 : 7);
+    $("modalAnchorDate").value = sched.anchorDate || "2026-11-04";
+
+    // Day of Month dropdown 1..31
+    let dayOptions = "";
+    for (let d = 1; d <= 31; d++) {
+      dayOptions += `<option value="${d}" ${d === 8 ? 'selected' : ''}>${d}${getOrdinalSuffix(d)} of month</option>`;
+    }
+    $("modalRuleDayOfMonth").innerHTML = dayOptions;
+
+    const people = getPeopleList();
+    const peopleOptions = people.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    $("modalRulePerson").innerHTML = peopleOptions;
+    $("modalOverridePerson").innerHTML = peopleOptions;
+
+    renderModalRulesAndOverrides();
+    $("scheduleSettingsModal").classList.add("open");
+  }
+
+  function renderModalRulesAndOverrides() {
+    const secData = getSectionData(currentSection);
+    const sched = secData.scheduling || {};
+
+    const rules = Array.isArray(sched.recurringRules) ? sched.recurringRules : Object.values(sched.recurringRules || {});
+    if (rules.length === 0) {
+      $("modalRecurringRulesList").innerHTML = `<div style="font-size:12px; color:var(--ink-muted); font-style:italic;">No recurring rules active.</div>`;
+    } else {
+      $("modalRecurringRulesList").innerHTML = rules.map(r => {
+        const desc = r.type === "day_of_month" ? `Every ${r.day}${getOrdinalSuffix(r.day)} of month` : `Every ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][r.dayOfWeek]}`;
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid var(--card-border); font-size:12px;">
+            <span><strong>${escapeHtml(r.person)}</strong> &middot; <span style="color:#059669; font-weight:700;">${desc}</span></span>
+            <button class="revert-turn-btn" data-delete-rule="${escapeHtml(r.id)}" style="font-size:10px; padding:2px 6px;">🗑️ Delete</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    const overrides = Object.entries(sched.dateOverrides || {});
+    if (overrides.length === 0) {
+      $("modalOverridesList").innerHTML = `<div style="font-size:12px; color:var(--ink-muted); font-style:italic;">No date overrides active.</div>`;
+    } else {
+      $("modalOverridesList").innerHTML = overrides.map(([dKey, person]) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid var(--card-border); font-size:12px;">
+          <span><strong>${escapeHtml(person)}</strong> on <code style="background:#f1f5f9; padding:2px 4px; border-radius:4px;">${dKey}</code></span>
+          <button class="revert-turn-btn" data-clear-override="${escapeHtml(dKey)}" style="font-size:10px; padding:2px 6px;">✕ Clear</button>
+        </div>
+      `).join("");
+    }
+  }
+
+  function saveAndApplySchedule(sec, mode) {
+    if (!isAdminSessionActive()) {
+      promptAdminPasswordForAction("save_schedule", () => saveAndApplySchedule(sec, mode));
+      return;
+    }
+
+    const isFromAdmin = $("adminSchedSectionSelect") && $("adminSchedSectionSelect").value === sec;
+    const intervalDays = parseInt(
+      (isFromAdmin ? $("adminIntervalInput")?.value : $("modalIntervalDays")?.value) || 
+      state[sec]?.scheduling?.intervalDays || 
+      (sec === "milk" ? 4 : 7), 
+      10
+    );
+    const anchorDate = (
+      (isFromAdmin ? $("adminAnchorDateInput")?.value : $("modalAnchorDate")?.value) || 
+      state[sec]?.scheduling?.anchorDate || 
+      new Date().toISOString().slice(0, 10)
+    );
+
+    const chosenMode = mode || "recurring";
+
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.mode = chosenMode;
+      secData.scheduling.intervalDays = Math.max(1, intervalDays);
+      secData.scheduling.anchorDate = anchorDate;
+      secData.scheduling.recurringRules = Array.isArray(secData.scheduling.recurringRules) ? secData.scheduling.recurringRules : [];
+      secData.scheduling.dateOverrides = secData.scheduling.dateOverrides || {};
+
+      const modeName = chosenMode === "recurring" ? "Recurring Occurrence" : chosenMode === "timebased" ? "Time-Based Cadence" : "Specific Calendar Dates";
+      const secLabel = sec === "milk" ? "Milk" : sec === "cleaning" ? "Cleaning" : "Garbage";
+      addHistory(s, sec, "schedule-applied", currentUser, `Admin saved and applied ${modeName} schedule for ${secLabel}.`);
+      s.version = (s.version || 0) + 1;
+    }, `✓ Applied ${chosenMode.toUpperCase()} schedule to ${sec === "milk" ? "Milk" : sec === "cleaning" ? "Cleaning" : "Garbage"} duties!`);
+
+    $("scheduleSettingsModal")?.classList.remove("open");
+
+    // Immediately switch duty and navigate to Duties Queue page so the user sees the updated duty schedule
+    currentSection = sec;
+    switchSection(sec);
+    switchSubTab("queue");
+    render();
+  }
+
+  $("scheduleSettingsModalClose").addEventListener("click", () => {
+    $("scheduleSettingsModal").classList.remove("open");
+  });
+
+  $("modalApplyScheduleBtn").addEventListener("click", () => {
+    saveAndApplySchedule(currentSection, activeModalScheduleMode);
+  });
+
+  $("adminApplyScheduleBtn").addEventListener("click", () => {
+    const sec = $("adminSchedSectionSelect")?.value || currentSection;
+    saveAndApplySchedule(sec, activeAdminScheduleMode);
+  });
+
+  // Mode Selection Tabs Event Listeners
+  $("modeBtnRecurring").addEventListener("click", () => setAdminScheduleMode("recurring"));
+  $("modeBtnTimebased").addEventListener("click", () => setAdminScheduleMode("timebased"));
+  $("modeBtnSpecific").addEventListener("click", () => setAdminScheduleMode("specific"));
+
+  $("modalModeBtnRecurring").addEventListener("click", () => setModalScheduleMode("recurring"));
+  $("modalModeBtnTimebased").addEventListener("click", () => setModalScheduleMode("timebased"));
+  $("modalModeBtnSpecific").addEventListener("click", () => setModalScheduleMode("specific"));
+
+  $("openSchedSettingsBtn").addEventListener("click", () => {
+    if (!isAdminSessionActive()) {
+      promptAdminPasswordForAction("sched_settings", openScheduleSettingsModal);
+    } else {
+      openScheduleSettingsModal();
+    }
+  });
+
+  $("openDateOverrideBtn").addEventListener("click", () => {
+    if (!isAdminSessionActive()) {
+      promptAdminPasswordForAction("date_override", openScheduleSettingsModal);
+    } else {
+      openScheduleSettingsModal();
+    }
+  });
+
+  // Modal rule type switcher
+  $("modalRuleType").addEventListener("change", () => {
+    const isMonth = $("modalRuleType").value === "day_of_month";
+    $("modalDayOfMonthField").style.display = isMonth ? "block" : "none";
+    $("modalDayOfWeekField").style.display = isMonth ? "none" : "block";
+  });
+
+  // Modal quick cadence chips
+  document.querySelectorAll("[data-cadence-val]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const val = parseInt(btn.dataset.cadenceVal, 10);
+      $("modalIntervalDays").value = val;
+      saveCadence(currentSection, val, $("modalAnchorDate").value);
+    });
+  });
+
+  $("modalAddRuleBtn").addEventListener("click", () => {
+    const type = $("modalRuleType").value;
+    const dayVal = type === "day_of_month" ? $("modalRuleDayOfMonth").value : $("modalRuleDayOfWeek").value;
+    const person = $("modalRulePerson").value;
+    addRecurringRule(currentSection, type, dayVal, person);
+    setTimeout(renderModalRulesAndOverrides, 50);
+  });
+
+  $("modalAddOverrideBtn").addEventListener("click", () => {
+    const dateVal = $("modalOverrideDate").value;
+    const person = $("modalOverridePerson").value;
+    if (!dateVal || !person) {
+      alert("Please select a date and person.");
+      return;
+    }
+    setDateOverride(currentSection, dateVal, person);
+    $("modalOverrideDate").value = "";
+    setTimeout(renderModalRulesAndOverrides, 50);
+  });
+
+  function saveCadence(sec, intervalDays, anchorDate) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.mode = "timebased";
+      secData.scheduling.intervalDays = Math.max(1, parseInt(intervalDays, 10) || 4);
+      if (anchorDate) secData.scheduling.anchorDate = anchorDate;
+      addHistory(s, sec, "cadence-updated", currentUser, `Admin set ${sec} turn interval to ${secData.scheduling.intervalDays} days.`);
+      s.version = (s.version || 0) + 1;
+    }, `Cadence updated to ${intervalDays} days!`);
+  }
+
+  function addRecurringRule(sec, type, dayVal, person) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.mode = "recurring";
+      secData.scheduling.recurringRules = Array.isArray(secData.scheduling.recurringRules) ? secData.scheduling.recurringRules : [];
+      
+      const numVal = parseInt(dayVal, 10);
+      // Remove any duplicate rule for this exact day
+      secData.scheduling.recurringRules = secData.scheduling.recurringRules.filter(r => !(r.type === type && (type === "day_of_month" ? r.day === numVal : r.dayOfWeek === numVal)));
+      
+      secData.scheduling.recurringRules.push({
+        id: "rule-" + Date.now(),
+        type: type,
+        day: numVal,
+        dayOfWeek: numVal,
+        person: person
+      });
+
+      const label = type === "day_of_month" ? `every ${numVal}${getOrdinalSuffix(numVal)} of month` : `every ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][numVal]}`;
+      addHistory(s, sec, "rule-added", currentUser, `Admin set recurring rule: ${label} -> ${person}.`);
+      s.version = (s.version || 0) + 1;
+    }, `Added recurring rule for ${person} and enabled Recurring mode!`);
+  }
+
+  function deleteRecurringRule(sec, ruleId) {
+    persist(s => {
+      const secData = s[sec];
+      if (secData?.scheduling?.recurringRules) {
+        secData.scheduling.recurringRules = secData.scheduling.recurringRules.filter(r => r.id !== ruleId);
+        addHistory(s, sec, "rule-removed", currentUser, `Admin removed recurring rule.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, "Recurring rule removed!");
+  }
+
+  function setDateOverride(sec, dateKey, person) {
+    persist(s => {
+      const secData = s[sec];
+      if (!secData) return;
+      secData.scheduling = secData.scheduling || {};
+      secData.scheduling.dateOverrides = secData.scheduling.dateOverrides || {};
+      secData.scheduling.dateOverrides[dateKey] = person;
+      addHistory(s, sec, "date-override", currentUser, `Admin assigned ${sec} on ${dateKey} to ${person}.`);
+      s.version = (s.version || 0) + 1;
+    }, `Assigned ${person} to ${dateKey}!`);
+  }
+
+  function clearDateOverride(sec, dateKey) {
+    persist(s => {
+      const secData = s[sec];
+      if (secData?.scheduling?.dateOverrides?.[dateKey]) {
+        delete secData.scheduling.dateOverrides[dateKey];
+        addHistory(s, sec, "override-cleared", currentUser, `Cleared override on ${dateKey}.`);
+      }
+      s.version = (s.version || 0) + 1;
+    }, "Date override cleared!");
+  }
+
+  // Admin Scheduling Card Handlers
+  $("adminSchedSectionSelect").addEventListener("change", renderAdminPanel);
+
+  $("adminRuleTypeSelect").addEventListener("change", () => {
+    const isMonth = $("adminRuleTypeSelect").value === "day_of_month";
+    $("adminDayOfMonthField").style.display = isMonth ? "block" : "none";
+    $("adminDayOfWeekField").style.display = isMonth ? "none" : "block";
+  });
+
+  document.querySelectorAll("[data-admin-cadence]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sec = $("adminSchedSectionSelect").value;
+      const val = parseInt(btn.dataset.adminCadence, 10);
+      $("adminIntervalInput").value = val;
+      saveCadence(sec, val, $("adminAnchorDateInput").value);
+    });
+  });
+
+  $("adminAddRuleBtn").addEventListener("click", () => {
+    const sec = $("adminSchedSectionSelect").value;
+    const type = $("adminRuleTypeSelect").value;
+    const dayVal = type === "day_of_month" ? $("adminRuleDayOfMonth").value : $("adminRuleDayOfWeek").value;
+    const person = $("adminRulePersonSelect").value;
+    addRecurringRule(sec, type, dayVal, person);
+  });
+
+  $("adminSaveDateOverrideBtn").addEventListener("click", () => {
+    const sec = $("adminSchedSectionSelect").value;
+    const dateVal = $("adminCustomOverrideDate").value;
+    const person = $("adminCustomOverridePerson").value;
+    if (!dateVal || !person) {
+      alert("Please select a date and person.");
+      return;
+    }
+    setDateOverride(sec, dateVal, person);
+    $("adminCustomOverrideDate").value = "";
   });
 
   // UI Render
   function render() {
-    $("userAvatar").textContent = currentUser.charAt(0).toUpperCase();
+    updateUserDropdown();
+
     const isUserAdmin = isAdminSessionActive();
     $("adminBadge").style.display = isUserAdmin ? "inline-flex" : "none";
     
-    // Admin tab is ONLY visible if Satnam or Saurab WITH validated password
+    // Admin tab is ONLY visible if admin authenticated
     $("adminTabBtn").style.display = isUserAdmin ? "block" : "none";
     if (!isUserAdmin && $("subpanel-admin").classList.contains("active")) {
       switchSubTab("queue");
@@ -1485,28 +2976,30 @@
     const hero = $("heroCard");
     hero.className = `hero-card ${currentSection}-theme`;
 
+    const sched = secData.scheduling || { intervalDays: 4 };
+
     if (currentSection === "milk") {
       $("heroPill").textContent = "🥛 Milk Turn Active";
       $("heroPersonName").textContent = activeSlot;
-      $("heroSubCaption").textContent = `Sequential rotation · Cycle ${secData.cycle || 1}`;
+      $("heroSubCaption").textContent = `${sched.intervalDays || 4}-day rotation cadence &middot; Cycle ${secData.cycle || 1}`;
       $("heroHighlightIcon").textContent = "📊";
       $("heroHighlightText").textContent = `Cycle Progress: ${secData.cycleSeen?.length || 0} of ${secData.order.length} accounted for`;
       $("cleaningNotice").style.display = "none";
     } else if (currentSection === "cleaning") {
-      const nextSundays = getUpcomingSundays(1);
-      const sunDate = nextSundays[0].toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const turns = getUpcomingTurns("cleaning", 1);
+      const sunDate = turns[0] ? turns[0].date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "Sunday";
       $("heroPill").textContent = "🧹 Cleaning Duty";
       $("heroPersonName").textContent = activeSlot;
-      $("heroSubCaption").textContent = `Weekly cleaning · Scheduled for this Sunday (${sunDate})`;
+      $("heroSubCaption").textContent = `Weekly cleaning &middot; Scheduled for this Sunday (${sunDate})`;
       $("heroHighlightIcon").textContent = "⏰";
       $("heroHighlightText").textContent = `Reminder sent 2 days before (Friday)`;
       $("cleaningNotice").style.display = "block";
     } else if (currentSection === "garbage") {
-      const nextWeds = getUpcomingWednesdays(1);
-      const wedDate = nextWeds[0].toLocaleDateString("en-US", { weekday: 'short', month: "short", day: "numeric" });
+      const turns = getUpcomingTurns("garbage", 1);
+      const wedDate = turns[0] ? turns[0].date.toLocaleDateString("en-US", { weekday: 'short', month: "short", day: "numeric" }) : "Wednesday";
       $("heroPill").textContent = "🗑️ Garbage Day";
       $("heroPersonName").textContent = activeSlot;
-      $("heroSubCaption").textContent = `Collection every Wednesday · Next: ${wedDate}`;
+      $("heroSubCaption").textContent = `Collection every Wednesday &middot; Next: ${wedDate}`;
       $("heroHighlightIcon").textContent = "🚛";
       $("heroHighlightText").textContent = `2-Day advance reminder sent on Monday`;
       $("cleaningNotice").style.display = "none";
@@ -1530,63 +3023,104 @@
 
   function renderQueue(secData) {
     $("queueHeading").textContent = currentSection === "milk" 
-      ? "Milk Rotation Queue" 
+      ? "Milk Rotation Schedule" 
       : currentSection === "cleaning" 
       ? "Cleaning Duty Schedule" 
       : "Garbage Day Schedule";
 
     const isUserAdmin = isAdminSessionActive();
+    const sched = secData.scheduling || { intervalDays: currentSection === "milk" ? 4 : 7, mode: "timebased" };
+    const mode = sched.mode || (currentSection === "milk" ? "timebased" : "recurring");
+    const rules = Array.isArray(sched.recurringRules) ? sched.recurringRules : Object.values(sched.recurringRules || {});
+    const overrideCount = Object.keys(sched.dateOverrides || {}).length;
+
+    // Update cadence pill to reflect active scheduling mode
+    if (mode === "recurring") {
+      $("cadenceIcon").textContent = "📌";
+      const ruleSummaries = rules.slice(0, 2).map(r => r.type === "day_of_month" ? `${r.day}${getOrdinalSuffix(r.day)}: ${r.person}` : `${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][r.dayOfWeek]}: ${r.person}`);
+      const extra = rules.length > 2 ? ` (+${rules.length - 2} more)` : "";
+      $("cadenceText").textContent = rules.length > 0 
+        ? `Recurring Mode: ${ruleSummaries.join(", ")}${extra}` 
+        : `Recurring Mode: 0 rules set (Click Cadence & Rules to add)`;
+    } else if (mode === "specific") {
+      $("cadenceIcon").textContent = "📅";
+      $("cadenceText").textContent = `Specific Dates Mode: ${overrideCount} custom assignment${overrideCount === 1 ? '' : 's'}`;
+    } else {
+      $("cadenceIcon").textContent = "⏱️";
+      $("cadenceText").textContent = `Time-Based Cadence: Every ${sched.intervalDays || (currentSection === "milk" ? 4 : 7)} days`;
+    }
+
+    if ($("scheduleAdminActions")) {
+      $("scheduleAdminActions").style.display = isUserAdmin ? "flex" : "none";
+    }
+
     if (isUserAdmin) {
       $("queueMeta").innerHTML = `${secData.order.length} Members &middot; <span style="color:var(--cleaning-primary); font-weight:700;">Drag ☰ or use ▲▼ to reorder</span>`;
     } else {
       $("queueMeta").textContent = `${secData.order.length} Members`;
     }
 
-    const upcomingWednesdays = currentSection === "garbage" ? getUpcomingWednesdays(secData.order.length) : null;
-    const upcomingSundays = currentSection === "cleaning" ? getUpcomingSundays(secData.order.length) : null;
+    const turnsCount = Math.max(secData.order.length, 8);
+    const turns = getUpcomingTurns(currentSection, turnsCount);
 
-    $("queueContainer").innerHTML = secData.order.map((slotName, i) => {
-      const isCurrent = i === (secData.nextIndex % secData.order.length);
-      const isAccounted = secData.cycleSeen?.includes(slotName);
+    $("queueContainer").innerHTML = turns.map((turn, i) => {
+      const isCurrent = turn.isActive;
       
       let dateTag = "";
-      if (upcomingWednesdays) {
-        const d = upcomingWednesdays[i % upcomingWednesdays.length];
-        dateTag = `Wed, ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-      } else if (upcomingSundays) {
-        const d = upcomingSundays[i % upcomingSundays.length];
-        dateTag = `Sun, ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      if (currentSection === "milk") {
+        const startStr = turn.date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+        const endStr = turn.endDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+        dateTag = isCurrent ? `${startStr} – ${endStr} (Active)` : `${startStr} – ${endStr}`;
+      } else {
+        dateTag = turn.date.toLocaleDateString("en-US", { weekday: 'short', month: "short", day: "numeric" });
       }
 
       let badgeHtml = "";
       if (isCurrent) {
         badgeHtml = `<span class="badge active">Up Next</span>`;
-      } else if (dateTag) {
-        badgeHtml = `<span class="badge upcoming">${dateTag}</span>`;
-      } else if (isAccounted) {
-        badgeHtml = `<span class="badge done">Accounted</span>`;
+      } else if (turn.source === "override") {
+        badgeHtml = `<span class="badge override-tag">⚡ Override</span>`;
+      } else if (turn.source.startsWith("rule")) {
+        badgeHtml = `<span class="badge rule-tag">📌 ${escapeHtml(turn.ruleDetail)}</span>`;
       } else {
         badgeHtml = `<span class="badge">In Queue</span>`;
       }
 
-      const adminControlsHtml = isUserAdmin ? `
-        <div class="admin-reorder-btns">
-          <button type="button" class="reorder-btn" data-reorder-action="up" data-index="${i}" title="Move Up" ${i === 0 ? "disabled" : ""}>▲</button>
-          <button type="button" class="reorder-btn" data-reorder-action="down" data-index="${i}" title="Move Down" ${i === secData.order.length - 1 ? "disabled" : ""}>▼</button>
-        </div>
-      ` : "";
+      // Admin control buttons for every turn card
+      let adminControlsHtml = "";
+      if (isUserAdmin) {
+        const canRevert = turn.source === "override";
+        adminControlsHtml = `
+          <div class="turn-controls">
+            <button type="button" class="change-turn-btn" 
+              data-change-date="${turn.dateKey}" 
+              data-current-person="${escapeHtml(turn.person)}" 
+              data-turn-index="${i}" 
+              data-day-of-month="${turn.dayOfMonth}"
+              title="Change who does this turn">⇄ Change</button>
+            ${canRevert ? `<button type="button" class="revert-turn-btn" data-revert-date="${turn.dateKey}" title="Revert to rotation">✕ Revert</button>` : ''}
+            <div class="admin-reorder-btns" style="margin-left:4px;">
+              <button type="button" class="reorder-btn" data-reorder-action="up" data-index="${turn.orderSlotIndex}" title="Move Up in Rotation" ${turn.orderSlotIndex === 0 ? "disabled" : ""}>▲</button>
+              <button type="button" class="reorder-btn" data-reorder-action="down" data-index="${turn.orderSlotIndex}" title="Move Down in Rotation" ${turn.orderSlotIndex === secData.order.length - 1 ? "disabled" : ""}>▼</button>
+            </div>
+          </div>
+        `;
+      }
 
       const dragHandleHtml = isUserAdmin ? `<span class="drag-handle" title="Drag to reorder sequence">☰</span>` : "";
 
       return `
         <div class="queue-item ${isCurrent ? "current" : ""} ${isUserAdmin ? "draggable" : ""}" 
-             ${isUserAdmin ? `draggable="true" data-drag-index="${i}"` : ""}>
+             ${isUserAdmin ? `draggable="true" data-drag-index="${turn.orderSlotIndex}"` : ""}>
           <div class="queue-item-left">
             ${dragHandleHtml}
             <div class="queue-num">${i + 1}</div>
             <div>
-              <div class="queue-title">${escapeHtml(slotName)}</div>
-              ${dateTag ? `<div class="queue-sub">${escapeHtml(dateTag)}</div>` : ''}
+              <div class="queue-title">
+                ${escapeHtml(turn.person)}
+                ${turn.person !== turn.defaultPerson ? `<span style="font-size:11px; color:var(--ink-muted); font-weight:400; margin-left:6px;">(was ${escapeHtml(turn.defaultPerson)})</span>` : ''}
+              </div>
+              <div class="queue-sub">${escapeHtml(dateTag)}</div>
             </div>
           </div>
           <div style="display:flex; align-items:center;">
@@ -1709,17 +3243,124 @@
   }
 
   function renderAdminPanel() {
-    const secData = getSectionData(currentSection);
-    
-    $("adminDbVersion").textContent = `v${state.version || 2} (${state.history?.length || 0} events in DB)`;
-    $("adminPersonSelect").innerHTML = secData.order.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
-    $("adminPersonSelect").value = getCurrentSlot(currentSection);
+    const selectedAdminSec = $("adminSchedSectionSelect")?.value || currentSection;
+    const secData = getSectionData(selectedAdminSec);
+    const sched = secData.scheduling || { 
+      mode: selectedAdminSec === "milk" ? "timebased" : "recurring",
+      intervalDays: selectedAdminSec === "milk" ? 4 : 7, 
+      anchorDate: "2026-11-04" 
+    };
+    const people = getPeopleList();
 
-    $("adminRemoveMemberSelect").innerHTML = secData.order.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    const activeMode = sched.mode || (selectedAdminSec === "milk" ? "timebased" : "recurring");
+    setAdminScheduleMode(activeMode);
+
+    const secTitle = selectedAdminSec === "milk" ? "Milk Turn" : selectedAdminSec === "cleaning" ? "Cleaning Duty" : "Garbage Day";
+    document.querySelectorAll(".active-sec-label").forEach(el => el.textContent = secTitle);
+    if ($("adminApplySectionName")) {
+      $("adminApplySectionName").textContent = secTitle;
+    }
+    
+    $("adminDbVersion").textContent = `v${state.version || 3} (${state.history?.length || 0} events in DB)`;
+    
+    // Quick Jump active turn
+    $("adminPersonSelect").innerHTML = secData.order.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    $("adminPersonSelect").value = getCurrentSlot(selectedAdminSec);
+
+    // Master Scheduling Inputs
+    $("adminIntervalInput").value = sched.intervalDays || (selectedAdminSec === "milk" ? 4 : 7);
+    $("adminAnchorDateInput").value = sched.anchorDate || "2026-11-04";
+
+    // Day of Month 1..31
+    let dayOptions = "";
+    for (let d = 1; d <= 31; d++) {
+      dayOptions += `<option value="${d}" ${d === 8 ? 'selected' : ''}>${d}${getOrdinalSuffix(d)} of month</option>`;
+    }
+    $("adminRuleDayOfMonth").innerHTML = dayOptions;
+
+    // People options
+    const peopleOptions = people.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+    $("adminRulePersonSelect").innerHTML = peopleOptions;
+    $("adminCustomOverridePerson").innerHTML = peopleOptions;
+
+    // Recurring Rules List
+    const rules = Array.isArray(sched.recurringRules) ? sched.recurringRules : Object.values(sched.recurringRules || {});
+    if (rules.length === 0) {
+      $("adminRecurringRulesList").innerHTML = `<div style="font-size:12px; color:var(--ink-muted); font-style:italic;">No recurring rules set for this section.</div>`;
+    } else {
+      $("adminRecurringRulesList").innerHTML = rules.map(r => {
+        const desc = r.type === "day_of_month" ? `Every ${r.day}${getOrdinalSuffix(r.day)} of month` : `Every ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][r.dayOfWeek]}`;
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:8px 12px; border-radius:var(--radius-sm); border:1px solid var(--card-border); font-size:13px;">
+            <span><strong>${escapeHtml(r.person)}</strong> &middot; <span style="color:#059669; font-weight:700;">${desc}</span></span>
+            <button class="revert-turn-btn" data-delete-rule="${escapeHtml(r.id)}" style="font-size:11px; padding:4px 8px;">🗑️ Delete Rule</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Date Overrides List
+    const overrides = Object.entries(sched.dateOverrides || {});
+    if (overrides.length === 0) {
+      $("adminDateOverridesList").innerHTML = `<div style="font-size:12px; color:var(--ink-muted); font-style:italic;">No custom date overrides set for this section.</div>`;
+    } else {
+      $("adminDateOverridesList").innerHTML = overrides.map(([dKey, person]) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:8px 12px; border-radius:var(--radius-sm); border:1px solid var(--card-border); font-size:13px;">
+          <span><strong>${escapeHtml(person)}</strong> assigned to <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px;">${dKey}</code></span>
+          <button class="revert-turn-btn" data-clear-override="${escapeHtml(dKey)}" style="font-size:11px; padding:4px 8px;">✕ Clear Override</button>
+        </div>
+      `).join("");
+    }
+
+    // Master People Management List
+    $("adminPeopleListContainer").innerHTML = people.map(name => {
+      const isAdm = isNameAdmin(name);
+      const email = state.emails?.[name] || "";
+      const inMilk = (state.milk?.order || []).includes(name);
+      const inCleaning = (state.cleaning?.order || []).includes(name);
+      const inGarbage = (state.garbage?.order || []).includes(name);
+
+      return `
+        <div class="people-card-row">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="avatar-bubble" style="width:36px; height:36px; font-size:14px;">${name.charAt(0).toUpperCase()}</div>
+            <div>
+              <div style="font-weight:700; font-size:14px; display:flex; align-items:center; gap:6px;">
+                ${escapeHtml(name)}
+                ${isAdm ? `<span class="admin-role-badge">⭐ Admin</span>` : `<span style="font-size:11px; color:var(--ink-muted);">Roommate</span>`}
+              </div>
+              <div style="font-size:12px; color:var(--ink-muted);">
+                ${email ? `📧 ${escapeHtml(email)}` : `<span style="font-style:italic; color:#94a3b8;">No email registered</span>`}
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <div style="display:flex; gap:4px; margin-right:6px;">
+              ${inMilk ? `<span class="duty-badge">🥛 Milk</span>` : ''}
+              ${inCleaning ? `<span class="duty-badge">🧹 Cleaning</span>` : ''}
+              ${inGarbage ? `<span class="duty-badge">🗑️ Garbage</span>` : ''}
+            </div>
+
+            <button class="hero-btn-glass" style="padding:4px 8px; font-size:11px; background:#e2e8f0; color:#0f172a;" data-toggle-admin="${escapeHtml(name)}">
+              ${isAdm ? 'Revoke Admin' : 'Make Admin'}
+            </button>
+            <button class="hero-btn-glass" style="padding:4px 8px; font-size:11px; background:#0f172a; color:#fff;" data-edit-person="${escapeHtml(name)}">
+              ✏️ Edit
+            </button>
+            <button class="hero-btn-glass" style="padding:4px 8px; font-size:11px; background:#fee2e2; color:#ef4444;" data-delete-person="${escapeHtml(name)}">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
     $("adminWebhookUrl").value = state.automation?.webhookUrl || "";
 
+    // Email Directory Table
     const tableBody = $("adminEmailTableBody");
-    tableBody.innerHTML = ALL_INDIVIDUALS.map(name => {
+    tableBody.innerHTML = people.map(name => {
       const email = state.emails?.[name] || "";
       return `
         <tr>
@@ -1828,7 +3469,7 @@
     );
   });
 
-  // Admin Actions
+  // Admin Quick Set Active Turn
   $("adminSetNextBtn").addEventListener("click", () => {
     const sec = $("adminSectionSelect").value;
     const targetPerson = $("adminPersonSelect").value;
@@ -1837,35 +3478,12 @@
       const idx = secData.order.indexOf(targetPerson);
       if (idx !== -1) {
         secData.nextIndex = idx;
-        addHistory(s, sec, "admin-override", currentUser, `Admin set ${targetPerson} as active turn.`);
       }
+      if (secData.scheduling) {
+        secData.scheduling.anchorDate = new Date().toISOString().split("T")[0];
+      }
+      addHistory(s, sec, "admin-override", currentUser, `Admin set ${targetPerson} as active turn.`);
     }, `Active turn set to ${targetPerson}!`);
-  });
-
-  $("adminAddMemberBtn").addEventListener("click", () => {
-    const newName = $("adminNewMemberName").value.trim();
-    if (!newName) return;
-    persist(s => {
-      const secData = s[currentSection];
-      if (!secData.order.includes(newName)) {
-        secData.order.push(newName);
-        addHistory(s, currentSection, "member-added", currentUser, `Added ${newName} to ${currentSection}.`);
-      }
-    }, `Added ${newName} to ${currentSection}!`);
-    $("adminNewMemberName").value = "";
-  });
-
-  $("adminRemoveMemberBtn").addEventListener("click", () => {
-    const toRemove = $("adminRemoveMemberSelect").value;
-    if (!toRemove) return;
-    if (confirm(`Are you sure you want to remove ${toRemove} from ${currentSection}?`)) {
-      persist(s => {
-        const secData = s[currentSection];
-        secData.order = secData.order.filter(p => p !== toRemove);
-        secData.nextIndex = secData.nextIndex % Math.max(1, secData.order.length);
-        addHistory(s, currentSection, "member-removed", currentUser, `Removed ${toRemove} from ${currentSection}.`);
-      }, `Removed ${toRemove}!`);
-    }
   });
 
   $("adminSaveWebhookBtn").addEventListener("click", () => {
@@ -1952,6 +3570,70 @@
       return;
     }
 
+    // Change Turn button on schedule row
+    const changeTurnBtn = e.target.closest("[data-change-date]");
+    if (changeTurnBtn) {
+      const dateKey = changeTurnBtn.dataset.changeDate;
+      const currentPerson = changeTurnBtn.dataset.currentPerson;
+      const turnIndex = parseInt(changeTurnBtn.dataset.turnIndex, 10);
+      const dayOfMonth = parseInt(changeTurnBtn.dataset.dayOfMonth, 10);
+      openChangeTurnModal(dateKey, currentPerson, turnIndex, dayOfMonth);
+      return;
+    }
+
+    // Revert date override button
+    const revertBtn = e.target.closest("[data-revert-date]");
+    if (revertBtn) {
+      const dateKey = revertBtn.dataset.revertDate;
+      revertTurnOverride(dateKey);
+      return;
+    }
+
+    // Delete Recurring Rule button
+    const delRuleBtn = e.target.closest("[data-delete-rule]");
+    if (delRuleBtn) {
+      const ruleId = delRuleBtn.dataset.deleteRule;
+      const sec = $("adminSchedSectionSelect")?.value || currentSection;
+      deleteRecurringRule(sec, ruleId);
+      setTimeout(renderModalRulesAndOverrides, 50);
+      return;
+    }
+
+    // Clear Date Override button
+    const clearOvBtn = e.target.closest("[data-clear-override]");
+    if (clearOvBtn) {
+      const dateKey = clearOvBtn.dataset.clearOverride;
+      const sec = $("adminSchedSectionSelect")?.value || currentSection;
+      clearDateOverride(sec, dateKey);
+      setTimeout(renderModalRulesAndOverrides, 50);
+      return;
+    }
+
+    // People Manager Edit button
+    const editPersonBtn = e.target.closest("[data-edit-person]");
+    if (editPersonBtn) {
+      const name = editPersonBtn.dataset.editPerson;
+      openEditPersonModal(name);
+      return;
+    }
+
+    // People Manager Delete button
+    const delPersonBtn = e.target.closest("[data-delete-person]");
+    if (delPersonBtn) {
+      const name = delPersonBtn.dataset.deletePerson;
+      deleteMember(name);
+      return;
+    }
+
+    // People Manager Toggle Admin
+    const toggleAdminBtn = e.target.closest("[data-toggle-admin]");
+    if (toggleAdminBtn) {
+      const name = toggleAdminBtn.dataset.toggleAdmin;
+      toggleAdminPrivilege(name);
+      return;
+    }
+
+    // Exchange actions
     const reqBtn = e.target.closest("[data-request-action]");
     if (reqBtn) {
       const id = reqBtn.dataset.id;
@@ -1980,6 +3662,7 @@
       return;
     }
 
+    // Edit email from table
     const editEmailName = e.target.closest("[data-admin-edit-email]")?.dataset.adminEditEmail;
     if (editEmailName) {
       const curr = state.emails?.[editEmailName] || "";
@@ -1993,6 +3676,7 @@
       return;
     }
 
+    // Clear email from table
     const clearEmailName = e.target.closest("[data-admin-clear-email]")?.dataset.adminClearEmail;
     if (clearEmailName) {
       if (confirm(`Remove email for ${clearEmailName}?`)) {
@@ -2025,19 +3709,27 @@
     btn.addEventListener("click", () => switchSubTab(btn.dataset.subtab));
   });
 
-  // User Selection with Admin Password Protection
+  // User Selection with Dynamic List & Admin Password Protection
   const userSelect = $("currentUserSelect");
-  userSelect.innerHTML = ALL_INDIVIDUALS.map(name => `<option value="${name}">${name} ${isNameAdmin(name) ? '🔒' : ''}</option>`).join("");
   
   // If previously selected user was admin, check if session is still valid
   if (isNameAdmin(currentUser) && sessionStorage.getItem("admin_authenticated") !== "true") {
     currentUser = "Raghav";
     previousUser = "Raghav";
   }
-  userSelect.value = currentUser;
 
   userSelect.addEventListener("change", () => {
     const selected = userSelect.value;
+    if (selected === "__add_person__") {
+      userSelect.value = currentUser;
+      if (isAdminSessionActive()) {
+        openAddPersonModal();
+      } else {
+        promptAdminPasswordForAction("add_person", openAddPersonModal);
+      }
+      return;
+    }
+
     if (isNameAdmin(selected)) {
       if (sessionStorage.getItem("admin_authenticated") === "true") {
         currentUser = selected;

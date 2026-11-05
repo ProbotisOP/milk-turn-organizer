@@ -43,6 +43,47 @@ function sendDailyReminders() {
   if (dayOfWeek === 5) {
     handleCleaningReminder(data);
   }
+
+  // 3. MILK TURN: Check if someone has a turn in 2 days (e.g. 8th or interval)
+  handleMilkReminder(data);
+}
+
+/**
+ * Handle Milk Turn Reminder (2-day advance check)
+ */
+function handleMilkReminder(data) {
+  const milk = data.milk || {};
+  const emails = data.emails || {};
+  const order = milk.order || [];
+  const sched = milk.scheduling || {};
+  if (order.length === 0) return;
+
+  // In 2 days date
+  const inTwoDays = new Date();
+  inTwoDays.setDate(inTwoDays.getDate() + 2);
+  const y = inTwoDays.getFullYear();
+  const m = String(inTwoDays.getMonth() + 1).padStart(2, '0');
+  const d = String(inTwoDays.getDate()).padStart(2, '0');
+  const dateKey = `${y}-${m}-${d}`;
+  const dayOfMonth = inTwoDays.getDate();
+
+  let targetPerson = null;
+  if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
+    targetPerson = sched.dateOverrides[dateKey];
+  } else if (Array.isArray(sched.recurringRules)) {
+    const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
+    if (monthRule) targetPerson = monthRule.person;
+  }
+
+  if (targetPerson) {
+    const targetEmails = getEmailsForPerson(targetPerson, emails);
+    if (targetEmails.length > 0) {
+      const dateStr = inTwoDays.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
+      const subject = `[4042] [Milk Turn] Household Reminder: Your turn to buy Milk is on ${dateStr}`;
+      const body = `Hi ${targetPerson},\n\nFriendly reminder: You are scheduled for the Milk Turn in 2 days on ${dateStr}!\n\nPlease pick up milk for the household and mark it as completed on the web app when done.\n\nThanks!\nHousehold Organizer (Satnam)`;
+      sendToAll(targetEmails, subject, body);
+    }
+  }
 }
 
 /**
@@ -53,17 +94,31 @@ function handleGarbageReminder(data) {
   const emails = data.emails || {};
   const order = garbage.order || [];
   const nextIndex = garbage.nextIndex || 0;
+  const sched = garbage.scheduling || {};
 
   if (order.length === 0) return;
-  const person = order[nextIndex % order.length];
-  const targetEmails = getEmailsForPerson(person, emails);
 
+  const nextWed = getNextDayOfWeek(3); // 3 = Wednesday
+  const y = nextWed.getFullYear();
+  const m = String(nextWed.getMonth() + 1).padStart(2, '0');
+  const d = String(nextWed.getDate()).padStart(2, '0');
+  const dateKey = `${y}-${m}-${d}`;
+  const dayOfMonth = nextWed.getDate();
+
+  let person = order[nextIndex % order.length];
+  if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
+    person = sched.dateOverrides[dateKey];
+  } else if (Array.isArray(sched.recurringRules)) {
+    const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
+    if (monthRule) person = monthRule.person;
+  }
+
+  const targetEmails = getEmailsForPerson(person, emails);
   if (targetEmails.length === 0) {
     Logger.log("No email found for Garbage Duty person: " + person);
     return;
   }
 
-  const nextWed = getNextDayOfWeek(3); // 3 = Wednesday
   const dateStr = nextWed.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
   const subject = "[4042] [Garbage Day] Household Reminder: Your turn is this Wednesday (" + dateStr + ")";
@@ -93,17 +148,31 @@ function handleCleaningReminder(data) {
   const emails = data.emails || {};
   const order = cleaning.order || [];
   const nextIndex = cleaning.nextIndex || 0;
+  const sched = cleaning.scheduling || {};
 
   if (order.length === 0) return;
-  const person = order[nextIndex % order.length];
-  const targetEmails = getEmailsForPerson(person, emails);
 
+  const nextSun = getNextDayOfWeek(0); // 0 = Sunday
+  const y = nextSun.getFullYear();
+  const m = String(nextSun.getMonth() + 1).padStart(2, '0');
+  const d = String(nextSun.getDate()).padStart(2, '0');
+  const dateKey = `${y}-${m}-${d}`;
+  const dayOfMonth = nextSun.getDate();
+
+  let person = order[nextIndex % order.length];
+  if (sched.dateOverrides && sched.dateOverrides[dateKey]) {
+    person = sched.dateOverrides[dateKey];
+  } else if (Array.isArray(sched.recurringRules)) {
+    const monthRule = sched.recurringRules.find(r => r.type === "day_of_month" && Number(r.day) === dayOfMonth);
+    if (monthRule) person = monthRule.person;
+  }
+
+  const targetEmails = getEmailsForPerson(person, emails);
   if (targetEmails.length === 0) {
     Logger.log("No email found for Cleaning Duty person: " + person);
     return;
   }
 
-  const nextSun = getNextDayOfWeek(0); // 0 = Sunday
   const dateStr = nextSun.toLocaleDateString("en-US", { weekday: 'long', month: 'short', day: 'numeric' });
 
   const subject = "[4042] [Cleaning Duty] Household Reminder: Your turn is this Sunday (" + dateStr + ")";
